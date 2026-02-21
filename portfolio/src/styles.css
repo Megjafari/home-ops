@@ -783,7 +783,31 @@ h1, h2, h3, h4 {
 .cta-button { font-size: 12px !important; }
 p, li, span, .about-text, .about-page-bio,
 .about-detail-block li, .note-date, .project-tag,
-.social-link, .contact-sub { font-size: 13px !important; }
+.social-link, .contact-sub { font-size: 15px !important; }
 
 .mobile-menu a { font-size: 16px !important; }
-.hero p { font-size: 26px !important; }
+
+
+@media (max-width: 768px) {
+  .project-image { 
+    min-height: 200px !important;
+    overflow: hidden;
+  }
+  .project-image > div {
+    transform: scale(0.75);
+    transform-origin: top left;
+    width: 133% !important;
+  }
+}
+.about-grid {
+  display: grid;
+}
+
+@media (max-width: 768px) {
+  .about-grid {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+}
+.hero p { font-size: 30px !important; }
+
