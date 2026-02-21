@@ -745,3 +745,8 @@ h1, h2, h3, h4 {
   .about-details-grid { grid-template-columns: 1fr; gap: 32px; }
   .footer-inner { flex-direction: column; gap: 20px; text-align: center; }
 }
+
+
+@media (max-width: 768px) {
+  .desktop-only { display: none; }
+}
