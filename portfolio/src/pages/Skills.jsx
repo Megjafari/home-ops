@@ -23,7 +23,7 @@ export default function Skills() {
     <main className="page-enter" style={{ paddingTop: "calc(var(--nav-height) + 80px)", paddingBottom: "100px" }}>
       <div className="container">
         <p className="section-label">.skills</p>
-        <h1 className="page-title">skills</h1>
+        
 
 <style>{`
   @keyframes marquee {

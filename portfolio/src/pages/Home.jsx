@@ -22,7 +22,7 @@ export default function Home() {
     <main className="page-enter">
       {/* HERO */}
 <section className="hero">
-  <div className="container">
+  <div className="container" style={{ width: "100%" }}>
     <h1 className="hero-headline">
       Meghdad Jafari
     </h1>

@@ -58,7 +58,7 @@ export default function ProjectItem({ project, index }) {
             <span key={tag} className="project-tag">{tag}</span>
           ))}
         </div>
-        <div className="project-link-row" style={{ marginTop: "24px" }}>
+        <div className="project-link-row desktop-only" style={{ marginTop: "24px" }}>
           <span>view on github</span>
           <span className="project-arrow">↗</span>
         </div>
@@ -66,6 +66,10 @@ export default function ProjectItem({ project, index }) {
       <div className="project-image" style={{ overflow: "visible", background: "transparent", borderRadius: 0 }}>
         <ProjectVisual project={project} />
       </div>
+              <div className="project-link-row mobile-only" style={{ marginTop: "16px" }}>
+          <span>view on github</span>
+          <span className="project-arrow">↗</span>
+        </div>
     </a>
   );
 }

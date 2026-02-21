@@ -370,7 +370,7 @@ h1, h2, h3, h4 {
 .project-image {
   overflow: hidden;
   border-radius: 12px;
-  aspect-ratio: 4/3;
+  
   background: var(--surface);
 }
 
@@ -779,8 +779,8 @@ h1, h2, h3, h4 {
   .contact-email { font-size: 14px !important; }
 }
 
-.cta-headline { font-size: 12px !important; }
-.cta-button { font-size: 12px !important; }
+.cta-headline { font-size: 15px !important; }
+.cta-button { font-size: 10px !important; }
 p, li, span, .about-text, .about-page-bio,
 .about-detail-block li, .note-date, .project-tag,
 .social-link, .contact-sub { font-size: 15px !important; }
@@ -798,6 +798,16 @@ p, li, span, .about-text, .about-page-bio,
     transform-origin: top left;
     width: 133% !important;
   }
+  .project-image {
+  width: 100% !important;
+  overflow: hidden !important;
+}
+
+.project-image > div {
+  width: 100% !important;
+  transform: none !important;
+  min-height: 280px !important;
+}
 }
 .about-grid {
   display: grid;
@@ -808,6 +818,20 @@ p, li, span, .about-text, .about-page-bio,
     display: flex !important;
     flex-direction: column !important;
   }
+  .project-item {
+  overflow: hidden !important;
+}
+.project-image > div {
+  transform: none !important;
+  width: 100% !important;
+}
+
 }
 .hero p { font-size: 30px !important; }
 
+.mobile-only { display: none; }
+
+@media (max-width: 768px) {
+  .mobile-only { display: flex; }
+  .desktop-only { display: none !important; }
+}
