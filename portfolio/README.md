@@ -1,68 +1,107 @@
-# Nitro Portfolio — React
+# Meghdad Jafari — Portfolio
 
-A React implementation of the Nitro Framer template.
+Personal portfolio built with React. Inspired by the Nitro Framer template.
 
-## Setup
+**Live:** [meghdadjafari.dev](https://meghdadjafari.dev)
+
+---
+
+## Stack
+
+- React 18
+- React Router v6
+- CSS (custom, no framework)
+- Deployed on Vercel
+
+---
+
+## Run locally
 
 ```bash
 npm install
 npm start
 ```
 
-## Customize
+---
 
-All your content lives in **one file**: `src/data/index.js`
+## Content
 
-Edit that file to update:
-- Your name, handle, email
-- Your projects (title, category, tags, images, links)
-- Your bio and about text
-- Your social links
-- Your blog notes
+All content lives in one file: `src/data/index.js`
 
-### Adding project images
+Edit that file to update name, bio, projects, skills, social links and email.
 
-1. Put your images in `public/images/`
-2. In `src/data/index.js`, update the `image` field:
-   ```js
-   image: "/images/my-project.jpg"
-   ```
-
-### Adding your photo
-
-Same process — put it in `public/images/` and update `about.image`:
-```js
-about: {
-  image: "/images/profile.jpg",
-  ...
-}
-```
+---
 
 ## Pages
 
-- `/` — Home with hero, projects, about preview, notes preview, CTA
-- `/projects` — All projects
-- `/about` — About page with skills, experience, contact
-- `/notes` — Blog / notes grid
-- `/contact` — Contact page
+- `/` — Home
+- `/projects` — Projects with backend architecture visuals
+- `/about` — About + languages
+- `/skills` — Skills grouped by category + logo loop
+- `/contact` — Contact
+
+---
+
+## Project visuals
+
+Each project uses a visual type instead of a screenshot — set in `src/data/index.js`:
+
+```js
+visual: "architecture"  // layered architecture diagram
+visual: "flow"          // system flow (e.g. auth register/login)
+visual: "code"          // code snippet preview
+```
+
+---
+
+## CV files
+
+Place your CV PDFs in `public/`:
+
+```
+public/cv-english.pdf
+public/cv-swedish.pdf
+```
+
+They are linked in the navbar CV dropdown.
+
+---
+
+## Profile photo
+
+Place your photo in `public/images/profile.jpg` and update `src/data/index.js`:
+
+```js
+about: {
+  image: "/images/profile.jpg",
+}
+```
+
+---
 
 ## Structure
 
 ```
 src/
-  data/index.js        ← EDIT THIS — all your content
+  data/index.js             ← all content lives here
   components/
-    Nav.jsx
+    Nav.jsx                 ← navbar, icons, CV dropdown
     Footer.jsx
     ProjectItem.jsx
+    ProjectVisuals.jsx      ← architecture / flow / code visuals
   pages/
     Home.jsx
     Projects.jsx
     About.jsx
-    Notes.jsx
+    Skills.jsx
     Contact.jsx
     NotFound.jsx
-  styles.css           ← all CSS (dark theme, responsive)
-  App.jsx              ← router setup
-  index.js             ← entry point
+  styles.css
+  App.jsx
+  index.js
+public/
+  cv-english.pdf
+  cv-swedish.pdf
+  images/
+    profile.jpg
 ```
