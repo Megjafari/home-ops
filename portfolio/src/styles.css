@@ -174,8 +174,8 @@ h1, h2, h3, h4 {
   position: fixed;
   inset: 0;
   background: rgba(10, 10, 10, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   z-index: 99;
   flex-direction: column;
   justify-content: center;
@@ -749,4 +749,5 @@ h1, h2, h3, h4 {
 
 @media (max-width: 768px) {
   .desktop-only { display: none; }
+  .nav-hamburger { display: flex; }
 }
