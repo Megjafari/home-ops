@@ -748,6 +748,42 @@ h1, h2, h3, h4 {
 
 
 @media (max-width: 768px) {
-  .desktop-only { display: none; }
+  .desktop-only { display: none !important; }
   .nav-hamburger { display: flex; }
 }
+
+@media (max-width: 768px) {
+  .hero-headline {
+    font-size: 36px;
+  }
+}
+@media (max-width: 768px) {
+  .hero {
+    padding-top: calc(var(--nav-height) + 40px);
+    padding-bottom: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-page-title { font-size: 32px; }
+  .about-page-bio { font-size: 16px; }
+}
+
+@media (max-width: 768px) {
+  h1, .hero-headline, .page-title, .about-page-title { font-size: 26px !important; }
+  h2, .project-title, .cta-headline { font-size: 22px !important; }
+  h3, .note-title { font-size: 16px !important; }
+  p, li, .about-page-bio, .about-text { font-size: 12px !important; }
+  .section-label { font-size: 11px !important; }
+  .contact-title { font-size: 26px !important; }
+  .contact-email { font-size: 14px !important; }
+}
+
+.cta-headline { font-size: 12px !important; }
+.cta-button { font-size: 12px !important; }
+p, li, span, .about-text, .about-page-bio,
+.about-detail-block li, .note-date, .project-tag,
+.social-link, .contact-sub { font-size: 13px !important; }
+
+.mobile-menu a { font-size: 16px !important; }
+.hero p { font-size: 26px !important; }
