@@ -131,7 +131,7 @@ color: "var(--text-muted)", fontFamily: "var(--mono)", fontSize: "12px"
 </div>
           <button
             className="nav-hamburger"
-            onClick={() => setMenuOpen(true)}
+            onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Open menu"
           >
             <span />
@@ -149,9 +149,6 @@ transition: "width 0.6s cubic-bezier(0.25, 0.1, 0.25, 1)"
 }} />
       {/* Mobile menu */}
       <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
-<button className="mobile-close" onClick={() => setMenuOpen(false)} style={{ zIndex: 110, position: "absolute", top: "24px", right: "32px" }}>
-  close
-</button>
         <Link to="/" onClick={() => setMenuOpen(false)} style={{ fontFamily: "var(--mono)", fontSize: "24px", color: "var(--text-muted)" }}>
           {siteData.handle}
         </Link>
