@@ -9,7 +9,7 @@ export function ArchitectureVisual({ data }) {
 
   return (
     <div style={{
-      width: "100%", height: "100%", padding: "28px",
+      width: "100%", height: "auto", padding: "16px",
       display: "flex", flexDirection: "column", gap: "10px",
       justifyContent: "center", fontFamily: "var(--mono)",
     }}>
@@ -58,7 +58,7 @@ export function ArchitectureVisual({ data }) {
       <div style={{ height: "1px", background: "var(--border)", margin: "4px 0" }} />
 
       {/* Endpoints */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "6px" }}>
         {data.endpoints.map((ep) => {
           const method = ep.split(" ")[0];
           const path = ep.split(" ").slice(1).join(" ");
@@ -102,7 +102,7 @@ export function FlowVisual({ data }) {
   const steps = data.register;
   return (
     <div style={{
-      width: "100%", height: "100%", padding: "28px",
+      width: "100%", height: "auto", padding: "16px",
       display: "flex", flexDirection: "column", gap: "16px",
       justifyContent: "center", fontFamily: "var(--mono)",
     }}>
