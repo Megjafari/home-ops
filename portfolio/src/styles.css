@@ -173,7 +173,9 @@ h1, h2, h3, h4 {
   display: none;
   position: fixed;
   inset: 0;
-  background: var(--bg);
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   z-index: 99;
   flex-direction: column;
   justify-content: center;

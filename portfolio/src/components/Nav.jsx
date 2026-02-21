@@ -5,6 +5,16 @@ import { siteData } from "../data";
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+useEffect(() => {
+  const onScroll = () => {
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    setScrollProgress((window.scrollY / total) * 100);
+  };
+  window.addEventListener("scroll", onScroll);
+  return () => window.removeEventListener("scroll", onScroll);
+}, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -55,7 +65,7 @@ export default function Nav() {
 </li>
           </ul>
           {/* Right side icons */}
-<div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+<div style={{ display: "flex", alignItems: "center", gap: "16px" }} className="desktop-only">
   
   {/* GitHub */}
   <a href={siteData.social.github} target="_blank" rel="noreferrer"
@@ -131,11 +141,17 @@ color: "var(--text-muted)", fontFamily: "var(--mono)", fontSize: "12px"
         </div>
       </nav>
 
+<div style={{
+  position: "fixed", top: "var(--nav-height)", left: 0,
+  width: `${scrollProgress}%`, height: "1px",
+  background: "var(--text-primary)", zIndex: 101,
+transition: "width 0.6s cubic-bezier(0.25, 0.1, 0.25, 1)"
+}} />
       {/* Mobile menu */}
       <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
-        <button className="mobile-close" onClick={() => setMenuOpen(false)}>
-          close
-        </button>
+<button className="mobile-close" onClick={() => setMenuOpen(false)} style={{ zIndex: 110, position: "absolute", top: "24px", right: "32px" }}>
+  close
+</button>
         <Link to="/" onClick={() => setMenuOpen(false)} style={{ fontFamily: "var(--mono)", fontSize: "24px", color: "var(--text-muted)" }}>
           {siteData.handle}
         </Link>
