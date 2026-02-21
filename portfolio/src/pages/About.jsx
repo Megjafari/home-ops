@@ -17,8 +17,11 @@ export default function About() {
               <p className="section-label" style={{ marginBottom: "24px" }}>.about</p>
               <h1 className="about-page-title">{siteData.name}</h1>
               <p className="about-page-bio">{siteData.about.description}</p>
-              <p style={{ marginTop: "20px", fontFamily: "var(--mono)", fontSize: "13px", color: "var(--text-muted)" }}>
-  Languages: Swedish (fluent) · English (professional) · Farsi (native)
+<p style={{ marginTop: "20px", fontFamily: "var(--mono)", fontSize: "13px", color: "var(--text-muted)", lineHeight: 2 }}>
+  Languages:<br />
+  Swedish — fluent<br />
+  English — fluent<br />
+  Farsi — native
 </p>
             </div>
             <div className="about-image" style={{ marginTop: "60px" }}>
