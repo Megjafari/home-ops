@@ -14,7 +14,7 @@ export default function Home() {
         setRoleIndex((i) => (i + 1) % siteData.roles.length);
         setVisible(true);
       }, 300);
-    }, 4000);
+    }, 3500);
     return () => clearInterval(interval);
   }, []);
 
