@@ -5,9 +5,8 @@ export default function About() {
     <main className="about-page page-enter">
       <div className="container">
         <div className="about-page-hero">
-          <div
-            style={{
-              display: "grid",
+<div className="about-grid" style={{
+              
               gridTemplateColumns: "1fr 1fr",
               gap: "60px",
               alignItems: "start",

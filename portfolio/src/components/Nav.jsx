@@ -37,7 +37,7 @@ useEffect(() => {
     <>
       <nav className={`nav ${scrolled ? "scrolled" : ""}`}>
         <div className="nav-inner">
-          <Link to="/" className="nav-logo">{siteData.handle}</Link>
+          <Link to="/" className="nav-logo" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>{siteData.handle}</Link>
           <ul className="nav-links">
             {links.map((l) => (
               <li key={l.to}>

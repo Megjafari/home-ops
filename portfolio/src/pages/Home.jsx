@@ -26,20 +26,22 @@ export default function Home() {
     <h1 className="hero-headline">
       Meghdad Jafari
     </h1>
-    <p
-      style={{
-        opacity: visible ? 1 : 0,
-        transition: "opacity 0.3s ease",
-        fontSize: "clamp(36px, 6vw, 72px)",
-        fontWeight: 300,
-        color: "var(--text-secondary)",
-        marginTop: "8px",
-        lineHeight: 1.1,
-      }}
-    >
-      {siteData.roles[roleIndex]}
-    </p>
-  </div>
+  <p
+    style={{
+      position: "absolute",
+      opacity: visible ? 1 : 0,
+      transition: "opacity 0.3s ease",
+      fontSize: "72px",
+      fontWeight: 300,
+      color: "var(--text-secondary)",
+      lineHeight: 1.1,
+      
+      margin: 0
+    }}
+  >
+    {siteData.roles[roleIndex]}
+  </p>
+</div>
 </section>
 
       {/* PROJECTS */}
@@ -63,13 +65,7 @@ export default function Home() {
                 about me <span>→</span>
               </Link>
             </div>
-            <div className="about-image">
-              {siteData.about.image ? (
-                <img src={siteData.about.image} alt={siteData.name} />
-              ) : (
-                <div className="image-placeholder">your photo here</div>
-              )}
-            </div>
+
           </div>
         </div>
       </section>
