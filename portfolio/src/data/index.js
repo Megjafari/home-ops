@@ -45,6 +45,29 @@ image: "/images/profile.jpg",
       },
     },
     {
+      id: "megflix",
+      category: "Fullstack Application",
+      title: "MegFlix",
+      description:
+        "A fullstack movie review platform where users can browse trending movies, build a personal watchlist, and leave reviews. Built with ASP.NET Core Web API backend connected to a React frontend, integrated with the TMDB API for real-time movie data. Deployed with Docker on Render with a PostgreSQL database on Supabase.",
+      visual: "architecture",
+      tags: ["ASP.NET Core", "C#", "PostgreSQL", "React", "Docker", "Supabase", "TMDB API", "Render", "Vercel"],
+      link: "https://github.com/Megjafari/MovieLibraryApi",
+      demo: "https://megflix.vercel.app",
+      arch: {
+        layers: ["React Frontend (Vercel)", "ASP.NET Core Web API (Render)", "Entity Framework Core", "PostgreSQL (Supabase)"],
+        entities: ["Movie", "Review"],
+        endpoints: [
+          "GET /api/movies",
+          "POST /api/movies",
+          "PUT /api/movies/{id}",
+          "DELETE /api/movies/{id}",
+          "GET /api/reviews",
+          "POST /api/reviews",
+        ],
+      },
+    },
+    {
       id: "todo-api",
       
       category: "REST API",
@@ -71,6 +94,9 @@ image: "/images/profile.jpg",
     "SQL & Relational Databases",
     "Clean Architecture & Dependency Injection",
     "REST API Design",
+    "React & Vite",
+    "PostgreSQL",
+    "Docker",
   
   ],
 };
