@@ -9,7 +9,7 @@ export const siteData = {
 roles: [
   "Building reliable Web APIs with C# and .NET.",
   "Designing clean backend architecture and data flow.",
-  "Creating scalable and maintainable backend systems.",
+  "Creating fullstack applications from database to deployment.",
 ],
   email: "megberserker@gmail.com",
   footer: ".meg",
@@ -21,13 +21,36 @@ roles: [
 
   about: {
     bio:
-  "Backend-focused developer specializing in C# and .NET, passionate about building reliable Web APIs and well-structured backend systems using clean architecture, dependency injection, and solid SQL data handling.",
+  "Backend developer specializing in C# and .NET, with growing fullstack experience using React. Passionate about building reliable Web APIs, clean architecture, and scalable systems. From database to deployment.",
   description:
-  "I’m a backend-focused developer specializing in C# and .NET, passionate about building reliable and well-structured systems. I work mainly with ASP.NET Core Web APIs, SQL databases, and clean architecture principles such as layered design and dependency injection. I enjoy solving real backend challenges like authentication, data handling, and creating scalable APIs. Currently studying Backend & Cloud Development at NBI/Handelsakademin and seeking an internship (LIA) for Autumn 2026.",
+  "I'm a backend-focused developer specializing in C# and .NET, with growing fullstack experience using React. I work mainly with ASP.NET Core Web APIs, SQL databases, and clean architecture principles like layered design and dependency injection. I enjoy solving real backend challenges like authentication, data handling, and building scalable APIs that go all the way from database to deployment. Currently studying Backend and Cloud Development at NBI/Handelsakademin and seeking an internship (LIA) for Autumn 2026.",
 image: "/images/profile.jpg",
   },
 
   projects: [
+        {
+      id: "megflix",
+      category: "Fullstack Application",
+      title: "MegFlix",
+      description:
+        "A fullstack Netflix-inspired library for movies, series and anime. Users can register, log in, build personal watchlists and leave reviews. Built with ASP.NET Core Web API and React, powered by TMDB and Jikan APIs for real content data. Features full JWT authentication, user-specific data, and clean layered backend architecture. Deployed with backend on Render and frontend on Vercel.",
+      visual: "architecture",
+      tags: ["ASP.NET Core", "C#", "PostgreSQL", "React", "Docker", "Supabase", "TMDB API", "Render", "Vercel"],
+      link: "https://github.com/Megjafari/MegFlixAPI",
+      demo: "https://megflix.meghdadjafari.dev",
+      arch: {
+        layers: ["React Frontend (Vercel)", "ASP.NET Core Web API (Render)", "Entity Framework Core", "PostgreSQL (Supabase)"],
+        entities: ["Movie", "Review"],
+        endpoints: [
+          "GET /api/movies",
+          "POST /api/movies",
+          "PUT /api/movies/{id}",
+          "DELETE /api/movies/{id}",
+          "GET /api/reviews",
+          "POST /api/reviews",
+        ],
+      },
+    },
     {
       id: "auth-api",
       
@@ -44,29 +67,7 @@ image: "/images/profile.jpg",
         login: ["Client", "POST /login", "Find User", "Verify Hash", "Issue JWT", "200 + Token"],
       },
     },
-    {
-      id: "megflix",
-      category: "Fullstack Application",
-      title: "MegFlix",
-      description:
-        "A fullstack movie review platform where users can browse trending movies, build a personal watchlist, and leave reviews. Built with ASP.NET Core Web API backend connected to a React frontend, integrated with the TMDB API for real-time movie data. Deployed with Docker on Render with a PostgreSQL database on Supabase.",
-      visual: "architecture",
-      tags: ["ASP.NET Core", "C#", "PostgreSQL", "React", "Docker", "Supabase", "TMDB API", "Render", "Vercel"],
-      link: "https://github.com/Megjafari/MovieLibraryApi",
-      demo: "https://megflix.vercel.app",
-      arch: {
-        layers: ["React Frontend (Vercel)", "ASP.NET Core Web API (Render)", "Entity Framework Core", "PostgreSQL (Supabase)"],
-        entities: ["Movie", "Review"],
-        endpoints: [
-          "GET /api/movies",
-          "POST /api/movies",
-          "PUT /api/movies/{id}",
-          "DELETE /api/movies/{id}",
-          "GET /api/reviews",
-          "POST /api/reviews",
-        ],
-      },
-    },
+
     {
       id: "todo-api",
       
@@ -94,9 +95,6 @@ image: "/images/profile.jpg",
     "SQL & Relational Databases",
     "Clean Architecture & Dependency Injection",
     "REST API Design",
-    "React & Vite",
-    "PostgreSQL",
-    "Docker",
   
   ],
 };

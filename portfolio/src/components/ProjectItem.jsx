@@ -36,12 +36,10 @@ function ProjectVisual({ project }) {
 
 export default function ProjectItem({ project, index }) {
   return (
-    <a
-      href={project.link}
+    <div
       className="project-item"
-      target={project.link !== "#" ? "_blank" : undefined}
-      rel="noreferrer"
-      style={{ animationDelay: `${index * 0.1}s`, textDecoration: "none" }}
+      style={{ animationDelay: `${index * 0.1}s`, textDecoration: "none", cursor: "pointer" }}
+      onClick={() => project.link && project.link !== "#" && window.open(project.link, "_blank")}
     >
       <div className="project-info">
         <div className="project-meta">
@@ -58,18 +56,24 @@ export default function ProjectItem({ project, index }) {
             <span key={tag} className="project-tag">{tag}</span>
           ))}
         </div>
-        <div className="project-link-row desktop-only" style={{ marginTop: "24px" }}>
-          <span>view on github</span>
-          <span className="project-arrow">↗</span>
+        <div className="project-link-row" style={{ marginTop: "24px", display: "flex", gap: "20px" }}>
+          <span>view on github ↗</span>
+          {project.demo && (
+            <a
+              href={project.demo}
+              target="_blank"
+              rel="noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              style={{ color: "var(--text-muted)", textDecoration: "none" }}
+            >
+              live demo ↗
+            </a>
+          )}
         </div>
       </div>
       <div className="project-image" style={{ overflow: "visible", background: "transparent", borderRadius: 0 }}>
         <ProjectVisual project={project} />
       </div>
-              <div className="project-link-row mobile-only" style={{ marginTop: "16px" }}>
-          <span>view on github</span>
-          <span className="project-arrow">↗</span>
-        </div>
-    </a>
+    </div>
   );
 }

@@ -76,7 +76,10 @@ export default function Home() {
         <div className="container">
           <p className="cta-label">.backend developer</p>
           <h2 className="cta-headline">
-            I design and build reliable backend systems and scalable Web APIs using C# and .NET. Currently studying Backend & Cloud Development and seeking an internship (LIA) for Autumn 2026.
+            I design and build reliable backend systems and scalable Web APIs 
+            using C# and .NET, with growing fullstack experience using React. 
+            Currently studying Backend & Cloud Development and seeking an 
+            internship (LIA) for Autumn 2026.
           </h2>
           <a href={`mailto:${siteData.email}`} className="cta-button">
             contact me <span>→</span>

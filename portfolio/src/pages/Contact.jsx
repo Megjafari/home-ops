@@ -27,7 +27,10 @@ export default function Contact() {
         <p className="section-label">.say hello</p>
         <h1 className="contact-title">let's work<br />together</h1>
         <p className="contact-sub">
-          I'm currently studying Backend & Cloud Development and seeking an internship (LIA) for Autumn 2026. I'm eager to contribute to real development projects, learn from experienced teams, and continue growing as a backend developer. Feel free to reach out below or email me directly.
+          I'm currently studying Backend & Cloud Development and seeking an 
+          internship (LIA) for Autumn 2026. I'm eager to contribute to real 
+          development projects, learn from experienced teams, and continue 
+          growing as a developer. Feel free to reach out below or email me directly.
         </p>
         <a href={`mailto:${siteData.email}`} className="contact-email">
           {siteData.email}

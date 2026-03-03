@@ -145,7 +145,7 @@ color: "var(--text-muted)", fontFamily: "var(--mono)", fontSize: "12px"
   position: "fixed", top: "var(--nav-height)", left: 0,
   width: `${scrollProgress}%`, height: "1px",
   background: "var(--text-primary)", zIndex: 101,
-transition: "width 0.6s cubic-bezier(0.25, 0.1, 0.25, 1)"
+
 }} />
       {/* Mobile menu */}
       <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
