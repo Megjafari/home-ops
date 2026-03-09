@@ -31,6 +31,7 @@ image: "/images/profile.jpg",
         {
       id: "megflix",
       category: "Fullstack Application",
+      year: "2026",
       title: "MegFlix",
       description:
         "A fullstack Netflix-inspired library for movies, series and anime. Users can register, log in, build personal watchlists and leave reviews. Built with ASP.NET Core Web API and React, powered by TMDB and Jikan APIs for real content data. Features full JWT authentication, user-specific data, and clean layered backend architecture. Deployed with backend on Render and frontend on Vercel.",
@@ -51,10 +52,41 @@ image: "/images/profile.jpg",
         ],
       },
     },
+
+    
+        {
+      id: "shiptrack",
+      category: "Fullstack Dashboard",
+      year: "2026",
+      title: "ShipTrack",
+      description:
+        "Shipment tracking system built to simulate how logistics platforms manage shipment flows, carriers, and delivery statuses. Inspired by companies like Centiro. Features filtering by status, search, carrier recommendation logic based on weight, and tracking event history. In-memory mock data with 27 realistic shipments.",
+      visual: "architecture",
+      tags: ["ASP.NET Core", "C#", "React", "TypeScript", "Docker", "Render", "Vercel"],
+      link: "https://github.com/Megjafari/shiptrack-api",
+      demo: "https://shiptrack.meghdadjafari.dev",
+      arch: {
+        layers: [
+          "React / TypeScript Frontend (Vercel)",
+          "ASP.NET Core Web API (Render)",
+          "Controller-based REST API",
+          "In-memory mock data",
+        ],
+        entities: ["Shipment", "TrackingEvent", "Carrier"],
+        endpoints: [
+          "GET /api/shipments",
+          "GET /api/shipments/{id}",
+          "POST /api/shipments",
+          "GET /api/shipments/stats",
+        ],
+      },
+    },
+
     {
       id: "auth-api",
       
       category: "Authentication API",
+      year: "2025",
       title: "Auth API",
       description:
         "Secure authentication API designed to handle user registration and login with password hashing and JWT-ready architecture. Built with a clear layered structure to ensure maintainability and scalability.",
@@ -72,6 +104,7 @@ image: "/images/profile.jpg",
       id: "todo-api",
       
       category: "REST API",
+      year: "2026",
       title: "Todo API",
       description:
         "RESTful task management API with full CRUD functionality, designed using a layered architecture to ensure clean data flow, maintainability, and scalable backend structure.",
