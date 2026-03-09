@@ -879,3 +879,9 @@ p, li, span, .about-text, .about-page-bio,
     z-index: unset;
   }
 }
+
+@media (max-width: 768px) {
+  .tagline-bar {
+    display: none;
+  }
+}

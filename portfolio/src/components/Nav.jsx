@@ -50,19 +50,7 @@ useEffect(() => {
               </li>
             ))}
 
-            <li style={{ display: "flex", alignItems: "center", gap: "7px" }}>
-  <span style={{
-    width: "6px", height: "6px", borderRadius: "50%",
-    background: "#4ade80", display: "inline-block",
-    animation: "pulse 2s infinite", flexShrink: 0
-  }} />
-  <span style={{
-    fontFamily: "var(--mono)", fontSize: "12px",
-    color: "var(--text-secondary)"
-  }}>
-    {siteData.tagline}
-  </span>
-</li>
+
           </ul>
           {/* Right side icons */}
 <div style={{ display: "flex", alignItems: "center", gap: "16px" }} className="desktop-only">

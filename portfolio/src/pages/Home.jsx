@@ -20,6 +20,28 @@ export default function Home() {
 
   return (
     <main className="page-enter">
+
+    {/* TAGLINE */}
+      <div className="tagline-bar" style={{
+        paddingTop: "calc(var(--nav-height) + 12px)",
+        paddingBottom: "12px",
+        paddingRight: "438px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "flex-end",
+      }}>  
+      <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
+      <span style={{
+        width: "6px", height: "6px", borderRadius: "50%",
+        background: "#4ade80", display: "inline-block",
+        animation: "pulse 2s infinite"
+      }} />
+      <span style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--text-muted)" }}>
+        {siteData.tagline}
+      </span>
+    </div>
+  </div>
+
       {/* HERO */}
 <section className="hero">
   <div className="container" style={{ width: "100%" }}>
