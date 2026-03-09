@@ -835,3 +835,47 @@ p, li, span, .about-text, .about-page-bio,
   .mobile-only { display: flex; }
   .desktop-only { display: none !important; }
 }
+
+
+/* Wrapper som är sticky — varje kort offsettas lite mer */
+.project-item-wrap {
+  position: sticky;
+  top: calc(60px + var(--i) * 20px);
+  z-index: calc(var(--i) + 1);
+  margin-bottom: 24px;
+}
+
+/* Kortet skalas ner något ju längre ner det hamnar i stacken */
+/* (detta är valfritt men ger ett snyggt djup-känsla) */
+.project-item-wrap .project-item {
+  transform-origin: top center;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.project-item-wrap .project-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5);
+}
+
+/* Se till att sections-containern har tillräcklig höjd för scroll */
+.projects-section,
+.projects-page {
+  padding-bottom: 120px;
+}
+
+/* Varje kort behöver en solid bakgrund så de täcker korten under */
+.project-item {
+  background: var(--bg, #0a0a0a); /* matchar din dark background */
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  padding: 40px;
+}
+
+/* Stäng av sticky på mobil */
+@media (max-width: 768px) {
+  .project-item-wrap {
+    position: relative;
+    top: unset;
+    z-index: unset;
+  }
+}
