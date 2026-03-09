@@ -22,14 +22,17 @@ export default function Home() {
     <main className="page-enter">
 
     {/* TAGLINE */}
-      <div className="tagline-bar" style={{
-        paddingTop: "calc(var(--nav-height) + 12px)",
-        paddingBottom: "12px",
-        paddingRight: "438px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "flex-end",
-      }}>  
+    <div className="tagline-bar" style={{
+      paddingTop: "calc(var(--nav-height) + 12px)",
+      paddingBottom: "12px",
+      paddingRight: "32px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "flex-end",
+      maxWidth: "var(--max-width)",
+      margin: "0 auto",
+      width: "100%",
+    }}> 
       <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
       <span style={{
         width: "6px", height: "6px", borderRadius: "50%",

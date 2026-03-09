@@ -7,6 +7,8 @@ export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
+  const [cvOpen, setCvOpen] = useState(false);
+
 useEffect(() => {
   const onScroll = () => {
     const total = document.documentElement.scrollHeight - window.innerHeight;
@@ -86,12 +88,12 @@ useEffect(() => {
       fontFamily: "var(--mono)", fontSize: "12px", color: "var(--text-secondary)",
 background: "none", border: "none", padding: "0",
 cursor: "pointer", transition: "all 0.2s",
-color: "var(--text-muted)", fontFamily: "var(--mono)", fontSize: "12px"
+color: "var(--text-muted)", fontFamily: "var(--mono)", fontSize: "16px"
     }}>
-      cv ↓
+      CV ↓
     </button>
     <div className="cv-dropdown" style={{
-      display: "none", position: "absolute", top: "calc(100% + 2px)", right: 0,
+      display: "none", position: "absolute", top: "100%", right: 0,
       background: "#111", border: "1px solid var(--border)", borderRadius: "8px",
       flexDirection: "column", overflow: "hidden", minWidth: "160px", zIndex: 200
     }}>
@@ -102,7 +104,7 @@ color: "var(--text-muted)", fontFamily: "var(--mono)", fontSize: "12px"
         onMouseEnter={e => e.target.style.background = "rgba(255,255,255,0.05)"}
         onMouseLeave={e => e.target.style.background = "transparent"}
       >
-        English ↓
+        English
       </a>
       <a href="/cv-swedish.pdf" download style={{
         fontFamily: "var(--mono)", fontSize: "12px", color: "var(--text-secondary)",
@@ -111,7 +113,7 @@ color: "var(--text-muted)", fontFamily: "var(--mono)", fontSize: "12px"
         onMouseEnter={e => e.target.style.background = "rgba(255,255,255,0.05)"}
         onMouseLeave={e => e.target.style.background = "transparent"}
       >
-        Svenska ↓
+        Svenska
       </a>
     </div>
   </div>
@@ -145,6 +147,25 @@ color: "var(--text-muted)", fontFamily: "var(--mono)", fontSize: "12px"
             {l.label}
           </NavLink>
         ))}
+        
+      <div>
+        <button
+          onClick={() => setCvOpen(!cvOpen)}
+          style={{ fontFamily: "var(--mono)", fontSize: "16px", color: "var(--text-muted)", background: "none", border: "none", cursor: "pointer" }}
+        >
+          cv 
+        </button>
+        {cvOpen && (
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginTop: "16px", alignItems: "center" }}>
+            <a href="/cv-english.pdf" download onClick={() => setMenuOpen(false)} style={{ fontFamily: "var(--mono)", fontSize: "13px", color: "#4e4b4b9d" }}>
+            english
+          </a>
+          <a href="/cv-swedish.pdf" download onClick={() => setMenuOpen(false)} style={{ fontFamily: "var(--mono)", fontSize: "13px", color: "#4e4b4b9d" }}>
+            svenska
+          </a>
+          </div>
+        )}
+      </div>
       </div>
     </>
   );
