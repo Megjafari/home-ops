@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 const sections = [
   { title: "Backend", items: ["C# / .NET", "ASP.NET Core Web API", "REST API Design", "Dependency Injection", "Service Layer Pattern", "Swagger / OpenAPI", " JWT Authentication"] },
   { title: "Data", items: ["SQL & Relational Databases", "Entity Framework Core", "Data Modeling", "JSON Data Handling", "PostgreSQL"] },
-  { title: "Frontend", items: ["HTML / CSS", "JavaScript", "API Integration (fetch / REST)", "React", "Vite"] },
+  { title: "Frontend", items: ["HTML / CSS", "JavaScript", "API Integration (fetch / REST)", "React", "Vite", "TypeScript"] },
   { title: "Tools", items: ["Git & GitHub", "Version Control", "Debugging & Troubleshooting", "Clean Code Principles"] },
   { title: "Cloud & Deployment", items: ["Vercel", "Render", "Supabase", "Docker"] },
 ];
@@ -16,12 +16,15 @@ const techStrip = [
   { name: "SQL Server",   src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-plain.svg" },
   { name: "Git",          src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
   { name: "GitHub",       src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" },
-  { name: "Azure",        src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg" },
+  //{ name: "Azure",        src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg" },
   { name: "JavaScript",   src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
   { name: "React",      src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
   { name: "PostgreSQL", src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
   { name: "Docker",     src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
   { name: "Vercel",     src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vercel/vercel-original.svg" },
+  { name: "TypeScript", src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
+  { name: "Vite",       src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vite/vite-original.svg" },
+  { name: "Supabase",   src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg" },
 ];
 
 export default function Skills() {

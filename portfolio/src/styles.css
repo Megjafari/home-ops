@@ -871,17 +871,14 @@ p, li, span, .about-text, .about-page-bio,
   padding: 40px;
 }
 
-/* Stäng av sticky på mobil */
 @media (max-width: 768px) {
-  .project-item-wrap {
-    position: relative;
-    top: unset;
-    z-index: unset;
+  .project-image {
+    display: none;
   }
 }
 
 @media (max-width: 768px) {
-  .tagline-bar {
-    display: none;
+  .tagline-bar span {
+    font-size: 10px !important;
   }
 }
