@@ -28,39 +28,37 @@ image: "/images/profile.jpg",
   },
 
   projects: [
+
         {
-      id: "megflix",
+      id: "liahub",
       category: "Fullstack Application",
       year: "2026",
-      title: "MegFlix",
+      title: "LIAHub",
       description:
-        "A fullstack Netflix-inspired library for movies, series and anime. Users can register, log in, build personal watchlists and leave reviews. Built with ASP.NET Core Web API and React, powered by TMDB and Jikan APIs for real content data. Features full JWT authentication, user-specific data, and clean layered backend architecture. Deployed with backend on Render and frontend on Vercel.",
+        "Fullstack job and internship discovery platform for Swedish YH tech students. Provides real-time listings, smart filtering, application tracking, and a mobile-first UI. Built solo with ASP.NET Core Web API and React (TypeScript + Tailwind). Deployed on Railway and Vercel.",
       visual: "architecture",
-      tags: ["ASP.NET Core", "C#", "PostgreSQL", "React", "Docker", "Supabase", "TMDB API", "Render", "Vercel"],
-      link: "https://github.com/Megjafari/MegFlixAPI",
-      demo: "https://megflix.meghdadjafari.dev",
+      tags: ["ASP.NET Core", "C#", "React", "TypeScript", "Tailwind CSS", "Railway", "Vercel"],
+      link: "https://github.com/Megjafari/liahub-backend",
+      demo: "https://liahub.meghdadjafari.dev",
       arch: {
-        layers: ["React Frontend (Vercel)", "ASP.NET Core Web API (Render)", "Entity Framework Core", "PostgreSQL (Supabase)"],
-        entities: ["Movie", "Review"],
+        layers: ["React / TypeScript Frontend (Vercel)", "ASP.NET Core Web API (Railway)", "Entity Framework Core", "PostgreSQL"],
+        entities: ["JobListing", "User", "Notification"],
         endpoints: [
-          "GET /api/movies",
-          "POST /api/movies",
-          "PUT /api/movies/{id}",
-          "DELETE /api/movies/{id}",
-          "GET /api/reviews",
-          "POST /api/reviews",
+          "GET /api/jobs",
+          "GET /api/jobs/{id}",
+          "POST /api/jobs",
+          "GET /api/notifications",
         ],
       },
     },
-
-    
+  
         {
       id: "shiptrack",
       category: "Fullstack Dashboard",
       year: "2026",
       title: "ShipTrack",
       description:
-        "Shipment tracking system built to simulate how logistics platforms manage shipment flows, carriers, and delivery statuses. Inspired by companies like Centiro. Features filtering by status, search, carrier recommendation logic based on weight, and tracking event history. In-memory mock data with 27 realistic shipments.",
+        "Shipment tracking system simulating how logistics platforms manage shipment flows, carriers, and delivery statuses. Inspired by platforms used by logistics companies like Centiro. Features status filtering, shipment search, carrier recommendation logic based on weight, and detailed tracking event history.",
       visual: "architecture",
       tags: ["ASP.NET Core", "C#", "React", "TypeScript", "Docker", "Render", "Vercel"],
       link: "https://github.com/Megjafari/shiptrack-api",
@@ -82,6 +80,31 @@ image: "/images/profile.jpg",
       },
     },
 
+            {
+      id: "megflix",
+      category: "Fullstack Application",
+      year: "2026",
+      title: "MegFlix",
+      description:
+        "Fullstack streaming-style platform for discovering movies, series, and anime. Users can create accounts, manage personal watchlists, and leave reviews. Built with ASP.NET Core Web API and React, integrating TMDB and Jikan APIs for live data. Includes JWT authentication, user-specific data handling, and a clean layered backend architecture. Deployed on Render and Vercel.",
+      visual: "architecture",
+      tags: ["ASP.NET Core", "C#", "PostgreSQL", "React", "Docker", "Supabase", "TMDB API", "Render", "Vercel"],
+      link: "https://github.com/Megjafari/MegFlixAPI",
+      demo: "https://megflix.meghdadjafari.dev",
+      arch: {
+        layers: ["React Frontend (Vercel)", "ASP.NET Core Web API (Render)", "Entity Framework Core", "PostgreSQL (Supabase)"],
+        entities: ["Movie", "Review"],
+        endpoints: [
+          "GET /api/movies",
+          "POST /api/movies",
+          "PUT /api/movies/{id}",
+          "DELETE /api/movies/{id}",
+          "GET /api/reviews",
+          "POST /api/reviews",
+        ],
+      },
+    },
+
     {
       id: "auth-api",
       
@@ -89,7 +112,7 @@ image: "/images/profile.jpg",
       year: "2025",
       title: "Auth API",
       description:
-        "Secure authentication API designed to handle user registration and login with password hashing and JWT-ready architecture. Built with a clear layered structure to ensure maintainability and scalability.",
+        "Secure authentication API supporting user registration and login with password hashing and JWT-based authentication. Designed with a clean layered architecture to ensure maintainability, separation of concerns, and scalability.",
       visual: "flow", // system flow visualization
       tags: ["ASP.NET Core", "C#", "SQL", "JWT", "Password Hashing"],
       link: "https://github.com/Megjafari/Auth-API",
@@ -97,25 +120,6 @@ image: "/images/profile.jpg",
       flow: {
         register: ["Client", "POST /register", "Validate Input", "Hash Password", "Save to DB", "200 OK"],
         login: ["Client", "POST /login", "Find User", "Verify Hash", "Issue JWT", "200 + Token"],
-      },
-    },
-
-    {
-      id: "todo-api",
-      
-      category: "REST API",
-      year: "2026",
-      title: "Todo API",
-      description:
-        "RESTful task management API with full CRUD functionality, designed using a layered architecture to ensure clean data flow, maintainability, and scalable backend structure.",
-      visual: "architecture", // architecture | code | flow
-      tags: ["ASP.NET Core", "C#", "Entity Framework", "SQL", "Swagger"],
-      link: "https://github.com/Megjafari/TodoAPIApp",
-      // Architecture diagram data
-      arch: {
-        layers: ["Client / Swagger UI", "Controllers", "Services", "Data Access"],
-        entities: ["TodoItem", "TodoContext"],
-        endpoints: ["GET /api/todos", "POST /api/todos", "PUT /api/todos/{id}", "DELETE /api/todos/{id}"],
       },
     },
     
