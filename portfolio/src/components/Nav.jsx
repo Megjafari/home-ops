@@ -106,7 +106,7 @@ color: "var(--text-muted)", fontFamily: "var(--mono)", fontSize: "16px"
       >
         English
       </a>
-      <a href="/cv-swedish.pdf" download style={{
+      <a href="/cv-svenska.pdf" download style={{
         fontFamily: "var(--mono)", fontSize: "12px", color: "var(--text-secondary)",
         padding: "12px 16px", borderTop: "1px solid var(--border)", transition: "background 0.15s"
       }}
@@ -160,7 +160,7 @@ color: "var(--text-muted)", fontFamily: "var(--mono)", fontSize: "16px"
             <a href="/cv-english.pdf" download onClick={() => setMenuOpen(false)} style={{ fontFamily: "var(--mono)", fontSize: "13px", color: "#4e4b4b9d" }}>
             english
           </a>
-          <a href="/cv-swedish.pdf" download onClick={() => setMenuOpen(false)} style={{ fontFamily: "var(--mono)", fontSize: "13px", color: "#4e4b4b9d" }}>
+          <a href="/cv-svenska.pdf" download onClick={() => setMenuOpen(false)} style={{ fontFamily: "var(--mono)", fontSize: "13px", color: "#4e4b4b9d" }}>
             svenska
           </a>
           </div>
