@@ -781,7 +781,7 @@ h1, h2, h3, h4 {
 
 .cta-headline { font-size: 15px !important; }
 .cta-button { font-size: 10px !important; }
-p, li, span, .about-text, .about-page-bio,
+p, li, .about-text, .about-page-bio,
 .about-detail-block li, .note-date, .project-tag,
 .social-link, .contact-sub { font-size: 15px !important; }
 
@@ -881,4 +881,13 @@ p, li, span, .about-text, .about-page-bio,
   .tagline-bar span {
     font-size: 10px !important;
   }
+}
+.hero-role,
+.hero-role span {
+  font-size: clamp(36px, 6vw, 72px);
+  font-weight: 300;
+  color: var(--text-secondary);
+  line-height: 1.1;
+  margin: 0;
+  display: block;
 }
