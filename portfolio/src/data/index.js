@@ -51,6 +51,30 @@ image: "/images/profile.jpg",
         ],
       },
     },
+
+    {
+    id: "kaizen",
+    category: "Fullstack PWA",
+    year: "2026",
+    title: "Kaizen",
+    description:
+      "Fullstack fitness tracking PWA built as a solo school project. Users can log workouts, track weight history, and monitor progress over time. Built with ASP.NET Core Web API and React (TypeScript + Tailwind), with Auth0 authentication and PWA support for installability. Deployed on Railway and Vercel.",
+    visual: "architecture",
+    tags: ["ASP.NET Core", "C#", "React", "TypeScript", "Tailwind CSS", "Auth0", "PWA", "Railway", "Vercel"],
+    link: "https://github.com/Megjafari/kaizen-API",
+    demo: "https://kaizen.meghdadjafari.dev",
+    arch: {
+      layers: ["React / TypeScript PWA (Vercel)", "ASP.NET Core Web API (Railway)", "Entity Framework Core", "PostgreSQL"],
+      entities: ["Workout", "WeightEntry", "User"],
+      endpoints: [
+        "GET /api/workouts",
+        "POST /api/workouts",
+        "DELETE /api/workouts/{id}",
+        "GET /api/weight",
+        "POST /api/weight",
+      ],
+    },
+  },
   
         {
       id: "shiptrack",
@@ -80,30 +104,30 @@ image: "/images/profile.jpg",
       },
     },
 
-            {
-      id: "megflix",
-      category: "Fullstack Application",
-      year: "2026",
-      title: "MegFlix",
-      description:
-        "Fullstack streaming-style platform for discovering movies, series, and anime. Users can create accounts, manage personal watchlists, and leave reviews. Built with ASP.NET Core Web API and React, integrating TMDB and Jikan APIs for live data. Includes JWT authentication, user-specific data handling, and a clean layered backend architecture. Deployed on Render and Vercel.",
-      visual: "architecture",
-      tags: ["ASP.NET Core", "C#", "PostgreSQL", "React", "Docker", "Supabase", "TMDB API", "Render", "Vercel"],
-      link: "https://github.com/Megjafari/MegFlixAPI",
-      demo: "https://megflix.meghdadjafari.dev",
-      arch: {
-        layers: ["React Frontend (Vercel)", "ASP.NET Core Web API (Render)", "Entity Framework Core", "PostgreSQL (Supabase)"],
-        entities: ["Movie", "Review"],
-        endpoints: [
-          "GET /api/movies",
-          "POST /api/movies",
-          "PUT /api/movies/{id}",
-          "DELETE /api/movies/{id}",
-          "GET /api/reviews",
-          "POST /api/reviews",
-        ],
+{
+        id: "megflix",
+        category: "Fullstack Application",
+        year: "2026",
+        title: "MegFlix",
+        description:
+          "Fullstack streaming-style platform for discovering movies, series, and anime. Users can sign in with Google or email, manage personal watchlists, and leave reviews. Built with ASP.NET Core Web API and React, integrating TMDB and Jikan APIs for live data. Includes Supabase Auth, user-specific data handling, and a clean layered backend architecture. Deployed on Railway and Vercel.",
+        visual: "architecture",
+        tags: ["ASP.NET Core", "C#", "PostgreSQL", "React", "Docker", "Supabase", "TMDB API", "Railway", "Vercel"],
+        link: "https://github.com/Megjafari/MegFlixAPI",
+        demo: "https://megflix.meghdadjafari.dev",
+        arch: {
+          layers: ["React Frontend (Vercel)", "ASP.NET Core Web API (Railway)", "Entity Framework Core", "PostgreSQL (Supabase)"],
+          entities: ["Movie", "Review", "WatchList"],
+          endpoints: [
+            "GET /api/movies",
+            "POST /api/movies",
+            "GET /api/reviews",
+            "POST /api/reviews",
+            "GET /api/watchlist",
+            "POST /api/watchlist/{movieId}",
+          ],
+        },
       },
-    },
 
     {
       id: "auth-api",
