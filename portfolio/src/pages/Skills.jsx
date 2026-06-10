@@ -5,7 +5,7 @@ const sections = [
   { title: "Data", items: ["SQL & Relational Databases", "Entity Framework Core", "Data Modeling", "JSON Data Handling", "PostgreSQL"] },
   { title: "Frontend", items: ["HTML / CSS", "JavaScript", "API Integration (fetch / REST)", "React", "Vite", "TypeScript"] },
   { title: "Tools", items: ["Git & GitHub", "Version Control", "Debugging & Troubleshooting", "Clean Code Principles", "Tailwind CSS", "Auth0", "Linux"] },
-  { title: "Cloud & Deployment", items: ["Vercel", "Render", "Railway", "Supabase", "Docker"] },
+  { title: "Cloud & Deployment", items: ["Vercel", "Coolify", "Render", "Railway", "Supabase", "Docker"] },
 ];
 
 
@@ -26,6 +26,7 @@ const techStrip = [
   { name: "Vite",       src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vite/vite-original.svg" },
   { name: "Supabase",   src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg" },
   { name: "Railway", src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/railway/railway-original.svg" },
+  { name: "Coolify", src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/coolify/coolify-original.svg" },
   { name: "Linux", src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" },
 ];
 
