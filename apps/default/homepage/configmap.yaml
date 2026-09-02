@@ -7,8 +7,12 @@ data:
   services.yaml: |
     - Infrastructure:
         - ArgoCD:
-            href: http://192.168.8.100:30944
+            href: https://192.168.8.100:30944
             description: GitOps
+    - Media:
+        - Immich:
+            href: http://192.168.8.100:31011
+            description: Photo backup
   settings.yaml: |
     title: HomeOps
   bookmarks.yaml: ""
