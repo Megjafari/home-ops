@@ -7,7 +7,7 @@ data:
   services.yaml: |
     - Infrastructure:
         - ArgoCD:
-            href: http://192.168.8.100:8080
+            href: http://192.168.8.100:30944
             description: GitOps
   settings.yaml: |
     title: HomeOps
