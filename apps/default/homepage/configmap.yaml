@@ -9,10 +9,41 @@ data:
         - ArgoCD:
             href: https://192.168.8.100:30944
             description: GitOps
+            icon: argo-cd.png
     - Media:
         - Immich:
             href: http://192.168.8.100:31011
             description: Photo backup
+            icon: immich.png
+        - Jellyfin:
+            href: http://192.168.8.100:31117
+            description: Media server
+            icon: jellyfin.png
+        - qBittorrent:
+            href: http://192.168.8.100:30671
+            description: Torrent client
+            icon: qbittorrent.png
+        - Sonarr:
+            href: http://192.168.8.100:31807
+            description: TV shows
+            icon: sonarr.png
+        - Radarr:
+            href: http://192.168.8.100:30219
+            description: Movies
+            icon: radarr.png
+        - Prowlarr:
+            href: http://192.168.8.100:30138
+            description: Indexer manager
+            icon: prowlarr.png
+    - Monitoring:
+        - Grafana:
+            href: http://192.168.8.100:31793
+            description: Dashboards
+            icon: grafana.png
+        - Prometheus:
+            href: http://192.168.8.100:30112
+            description: Metrics database
+            icon: prometheus.png
   settings.yaml: |
     title: HomeOps
   bookmarks.yaml: ""
