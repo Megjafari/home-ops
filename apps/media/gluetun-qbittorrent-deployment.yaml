@@ -47,6 +47,17 @@ spec:
           value: "Europe/Stockholm"
         - name: WEBUI_PORT
           value: "8080"
+        lifecycle:
+          postStart:
+            exec:
+              command:
+              - sh
+              - -c
+              - |
+                sleep 5
+                grep -q "HostHeaderValidation" /config/qBittorrent/qBittorrent.conf || echo 'WebUI\HostHeaderValidation=false' >> /config/qBittorrent/qBittorrent.conf
+                grep -q "AuthSubnetWhitelistEnabled" /config/qBittorrent/qBittorrent.conf || echo 'WebUI\AuthSubnetWhitelistEnabled=true' >> /config/qBittorrent/qBittorrent.conf
+                grep -q "AuthSubnetWhitelist=" /config/qBittorrent/qBittorrent.conf || echo 'WebUI\AuthSubnetWhitelist=192.168.8.0/24, 10.244.0.0/16' >> /config/qBittorrent/qBittorrent.conf
         volumeMounts:
         - name: config
           mountPath: /config
