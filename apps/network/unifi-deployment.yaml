@@ -23,6 +23,12 @@ spec:
           value: "1000"
         - name: TZ
           value: "Europe/Stockholm"
+        - name: MONGO_HOST
+          value: "mongo.network.svc.cluster.local"
+        - name: MONGO_PORT
+          value: "27017"
+        - name: MONGO_DBNAME
+          value: "unifi"
         ports:
         - containerPort: 8443
           name: https-ui
