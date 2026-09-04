@@ -16,6 +16,14 @@ spec:
       containers:
       - name: mongo
         image: mongo:7
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: "unifi"
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongo-credentials
+              key: MONGO_PASSWORD
         ports:
         - containerPort: 27017
         volumeMounts:
