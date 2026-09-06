@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: navidrome
+  namespace: media
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: navidrome
+  template:
+    metadata:
+      labels:
+        app: navidrome
+    spec:
+      containers:
+      - name: navidrome
+        image: deluan/navidrome:latest
+        env:
+        - name: ND_MUSICFOLDER
+          value: "/music"
+        ports:
+        - containerPort: 4533
+        volumeMounts:
+        - name: config
+          mountPath: /data
+        - name: music
+          mountPath: /music
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: navidrome-config-pvc
+      - name: music
+        persistentVolumeClaim:
+          claimName: navidrome-music-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: navidrome
+  namespace: media
+spec:
+  type: NodePort
+  selector:
+    app: navidrome
+  ports:
+  - port: 4533
+    targetPort: 4533
