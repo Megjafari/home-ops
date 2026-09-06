@@ -4,44 +4,44 @@ metadata:
   name: homepage-config
   namespace: default
 data:
-  services.yaml: |
+    services.yaml: |
     - Infrastructure:
         - ArgoCD:
-            href: https://192.168.8.100:30944
+            href: https://192.168.1.8:31471
             description: GitOps
             icon: argo-cd.png
     - Media:
         - Immich:
-            href: http://192.168.8.100:31011
+            href: http://192.168.1.8:31364
             description: Photo backup
             icon: immich.png
         - Jellyfin:
-            href: http://192.168.8.100:31117
+            href: http://192.168.1.8:31225
             description: Media server
             icon: jellyfin.png
         - qBittorrent:
-            href: http://192.168.8.100:30671
+            href: http://192.168.1.8:30876
             description: Torrent client
             icon: qbittorrent.png
         - Sonarr:
-            href: http://192.168.8.100:31807
+            href: http://192.168.1.8:32491
             description: TV shows
             icon: sonarr.png
         - Radarr:
-            href: http://192.168.8.100:30219
+            href: http://192.168.1.8:32644
             description: Movies
             icon: radarr.png
         - Prowlarr:
-            href: http://192.168.8.100:30138
+            href: http://192.168.1.8:31144
             description: Indexer manager
             icon: prowlarr.png
     - Monitoring:
         - Grafana:
-            href: http://192.168.8.100:31793
+            href: http://192.168.1.8:31396
             description: Dashboards
             icon: grafana.png
         - Prometheus:
-            href: http://192.168.8.100:30112
+            href: http://192.168.1.8:32578
             description: Metrics database
             icon: prometheus.png
   settings.yaml: |
