@@ -4,12 +4,24 @@ metadata:
   name: homepage-config
   namespace: default
 data:
-    services.yaml: |
+  services.yaml: |
     - Infrastructure:
         - ArgoCD:
             href: https://192.168.1.8:31471
             description: GitOps
             icon: argo-cd.png
+        - OPNsense:
+            href: https://192.168.1.1
+            description: Router / Firewall
+            icon: opnsense.png
+        - Zyxel Switch:
+            href: https://192.168.1.118
+            description: Managed switch
+            icon: zyxel.png
+        - UniFi:
+            href: https://192.168.1.9:8443
+            description: Network controller
+            icon: unifi-network.png
     - Media:
         - Immich:
             href: http://192.168.1.8:31364
