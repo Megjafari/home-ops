@@ -22,6 +22,18 @@ data:
             href: https://192.168.1.9:8443
             description: Network controller
             icon: unifi-network.png
+        - Vaultwarden:
+            href: http://192.168.1.8:31919
+            description: Password manager
+            icon: vaultwarden.png
+        - Home Assistant:
+            href: http://192.168.1.9:8123
+            description: Home automation
+            icon: home-assistant.png
+        - Nextcloud:
+            href: http://192.168.1.8:31222
+            description: File sync
+            icon: nextcloud.png
     - Media:
         - Immich:
             href: http://192.168.1.8:31364
@@ -64,6 +76,10 @@ data:
             href: http://192.168.1.8:32578
             description: Metrics database
             icon: prometheus.png
+        - Uptime Kuma:
+            href: http://192.168.1.8:32422
+            description: Status monitoring
+            icon: uptime-kuma.png
   settings.yaml: |
     title: HomeOps
   bookmarks.yaml: ""
