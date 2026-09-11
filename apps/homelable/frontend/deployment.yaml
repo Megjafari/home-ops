@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homelable-frontend
+  namespace: homelable
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: homelable-frontend
+  template:
+    metadata:
+      labels:
+        app: homelable-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: ghcr.io/pouzor/homelable-frontend:latest
+          ports:
+            - containerPort: 80
