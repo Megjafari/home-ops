@@ -34,6 +34,10 @@ spec:
             secretKeyRef:
               name: mullvad-credentials
               key: WIREGUARD_ADDRESSES
+        - name: DOT
+          value: "off"
+        - name: DNS_ADDRESS
+          value: "1.1.1.1"
         ports:
         - containerPort: 8080
       - name: qbittorrent
@@ -57,7 +61,7 @@ spec:
                 sleep 5
                 grep -q "HostHeaderValidation" /config/qBittorrent/qBittorrent.conf || echo 'WebUI\HostHeaderValidation=false' >> /config/qBittorrent/qBittorrent.conf
                 grep -q "AuthSubnetWhitelistEnabled" /config/qBittorrent/qBittorrent.conf || echo 'WebUI\AuthSubnetWhitelistEnabled=true' >> /config/qBittorrent/qBittorrent.conf
-                grep -q "AuthSubnetWhitelist=" /config/qBittorrent/qBittorrent.conf || echo 'WebUI\AuthSubnetWhitelist=192.168.8.0/24, 10.244.0.0/16' >> /config/qBittorrent/qBittorrent.conf
+                grep -q "AuthSubnetWhitelist=" /config/qBittorrent/qBittorrent.conf || echo 'WebUI\AuthSubnetWhitelist=192.168.1.0/24, 10.244.0.0/16' >> /config/qBittorrent/qBittorrent.conf
         volumeMounts:
         - name: config
           mountPath: /config
