@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: homelable-data
+  name: homelable-backend-pvc
   namespace: homelable
 spec:
-  accessModes: ["ReadWriteOnce"]
+  accessModes: [ReadWriteOnce]
   storageClassName: nfs-storage
   resources:
     requests:
