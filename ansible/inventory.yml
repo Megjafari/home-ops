@@ -1,0 +1,11 @@
+control_plane:
+  hosts:
+    nuke:
+      ansible_host: 192.168.1.8
+      ansible_python_interpreter: /usr/bin/python3.13
+
+workers:
+  hosts:
+    tank:
+      ansible_host: 192.168.1.9
+      ansible_python_interpreter: /usr/bin/python3.13
