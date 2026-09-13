@@ -1,0 +1,11 @@
+- name: Baseline packages on all nodes
+  hosts: all
+  become: false
+  tasks:
+    - name: Ensure htop and curl are installed
+      apt:
+        name:
+          - htop
+          - curl
+        state: present
+        update_cache: true
