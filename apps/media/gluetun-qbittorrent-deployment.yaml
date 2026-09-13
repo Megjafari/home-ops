@@ -38,6 +38,12 @@ spec:
           value: "off"
         - name: DNS_ADDRESS
           value: "1.1.1.1"
+        - name: BLOCK_MALICIOUS
+          value: "off"
+        - name: BLOCK_ADS
+          value: "off"
+        - name: BLOCK_SURVEILLANCE
+          value: "off"
         ports:
         - containerPort: 8080
       - name: qbittorrent
