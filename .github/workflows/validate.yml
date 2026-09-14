@@ -1,0 +1,54 @@
+name: Validate manifests
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  yaml-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Lint YAML
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          file_or_dir: apps/
+          config_data: |
+            extends: default
+            rules:
+              line-length: disable
+              document-start: disable
+              indentation: disable
+              new-line-at-end-of-file: disable
+
+  kubeconform:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate Kubernetes manifests
+        run: |
+          docker run --rm -v "$PWD:/workspace" -w /workspace ghcr.io/yannh/kubeconform:latest \
+            -summary -ignore-missing-schemas -kubernetes-version 1.31.0 \
+            $(find apps -name "*.yaml")
+
+  secret-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Scan for leaked secrets
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
