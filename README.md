@@ -3,4 +3,4 @@
 
 ## Network Architecture
 
-![Network Diagram](docs/diagrams/network.svg)
+![Network Diagram](docs/diagrams/network-diagram.png)
