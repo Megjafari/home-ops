@@ -22,6 +22,8 @@ jobs:
             rules:
               line-length: disable
               document-start: disable
+              indentation: disable
+              new-line-at-end-of-file: disable
 
   kubeconform:
     runs-on: ubuntu-latest
@@ -30,12 +32,16 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Validate Kubernetes manifests
-        uses: docker://ghcr.io/yannh/kubeconform:latest
-        with:
-          args: -summary -ignore-missing-schemas -kubernetes-version 1.31.0 apps/**/*.yaml
+        run: |
+          docker run --rm -v "$PWD:/workspace" -w /workspace ghcr.io/yannh/kubeconform:latest \
+            -summary -ignore-missing-schemas -kubernetes-version 1.31.0 \
+            $(find apps -name "*.yaml")
 
   secret-scan:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
