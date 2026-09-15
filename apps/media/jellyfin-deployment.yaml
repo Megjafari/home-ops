@@ -14,7 +14,7 @@ spec:
         app: jellyfin
     spec:
       nodeSelector:
-        kubernetes.io/hostname: nas
+        kubernetes.io/hostname: tank
       containers:
       - name: jellyfin
         image: jellyfin/jellyfin:latest

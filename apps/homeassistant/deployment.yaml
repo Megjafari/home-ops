@@ -16,7 +16,7 @@ spec:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
       nodeSelector:
-        kubernetes.io/hostname: nas
+        kubernetes.io/hostname: tank
       containers:
       - name: homeassistant
         image: ghcr.io/home-assistant/home-assistant:stable
