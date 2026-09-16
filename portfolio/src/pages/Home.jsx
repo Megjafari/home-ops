@@ -82,12 +82,13 @@ export default function Home() {
       {/* CTA */}
       <section className="cta-section">
         <div className="container">
-          <p className="cta-label">.backend developer</p>
+          <p className="cta-label">.backend & cloud developer</p>
           <h2 className="cta-headline">
-            I design and build reliable backend systems and scalable Web APIs 
-            using C# and .NET, with growing fullstack experience using React. 
-            Currently studying Backend & Cloud Development and seeking an 
-            internship (LIA) for Autumn 2026.
+            I build reliable backend systems and fullstack applications using C# and
+            .NET, with hands-on experience in Docker, Kubernetes, GitOps and
+            self-hosted infrastructure. Currently studying Backend & Cloud
+            Development and seeking an internship (LIA 2) within DevOps, Cloud,
+            Platform Engineering, or backend development.
           </h2>
           <a href={`mailto:${siteData.email}`} className="cta-button">
             contact me <span>→</span>
