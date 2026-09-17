@@ -41,7 +41,7 @@ spec:
         - name: DOT
           value: "off"
         - name: DNS_ADDRESS
-          value: "1.1.1.1"
+          value: "8.8.8.8"
         - name: BLOCK_MALICIOUS
           value: "off"
         - name: BLOCK_ADS
