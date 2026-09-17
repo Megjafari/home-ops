@@ -44,6 +44,8 @@ spec:
           value: "off"
         - name: BLOCK_SURVEILLANCE
           value: "off"
+        - name: VPN_MTU
+          value: "1280"
         ports:
         - containerPort: 8080
       - name: qbittorrent
