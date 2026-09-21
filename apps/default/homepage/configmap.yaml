@@ -10,6 +10,11 @@ data:
             href: https://192.168.1.8:31471
             description: GitOps
             icon: argo-cd.png
+        - Proxmox PVE:
+            href: https://192.168.1.50:8006
+            description: Virtualization
+            icon: proxmox.png
+    - Network:
         - OPNsense:
             href: https://192.168.1.1
             description: Router / Firewall
@@ -22,18 +27,6 @@ data:
             href: https://192.168.1.9:8443
             description: Network controller
             icon: unifi-network.png
-        - Vaultwarden:
-            href: http://192.168.1.8:31919
-            description: Password manager
-            icon: vaultwarden.png
-        - Home Assistant:
-            href: http://192.168.1.9:8123
-            description: Home automation
-            icon: home-assistant.png
-        - Nextcloud:
-            href: http://192.168.1.8:31222
-            description: File sync
-            icon: nextcloud.png
     - Media:
         - Immich:
             href: http://192.168.1.8:31364
@@ -67,6 +60,23 @@ data:
             href: http://192.168.1.8:31144
             description: Indexer manager
             icon: prowlarr.png
+    - Productivity:
+        - Vaultwarden:
+            href: http://192.168.1.8:31919
+            description: Password manager
+            icon: vaultwarden.png
+        - Nextcloud:
+            href: http://192.168.1.8:31222
+            description: File sync
+            icon: nextcloud.png
+        - Home Assistant:
+            href: http://192.168.1.9:8123
+            description: Home automation
+            icon: home-assistant.png
+        - Homelable:
+            href: http://192.168.1.8:30474
+            description: Network topology
+            icon: homelab.png
     - Monitoring:
         - Grafana:
             href: http://192.168.1.8:31396
@@ -80,7 +90,45 @@ data:
             href: http://192.168.1.8:32422
             description: Status monitoring
             icon: uptime-kuma.png
+  widgets.yaml: |
+    - datetime:
+        text_size: xl
+        format:
+          dateStyle: long
+          timeStyle: short
+          hourCycle: h23
+    - openmeteo:
+        label: Göteborg
+        latitude: 57.7089
+        longitude: 11.9746
+        timezone: Europe/Stockholm
+        units: metric
+        cache: 5
   settings.yaml: |
     title: HomeOps
+    theme: dark
+    color: slate
+    background:
+      image: https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80
+      blur: md
+      saturate: 75
+      brightness: 55
+      opacity: 60
+    cardBlur: md
+    layout:
+      Infrastructure:
+        style: row
+        columns: 2
+      Network:
+        style: row
+        columns: 3
+      Media:
+        style: row
+        columns: 4
+      Productivity:
+        style: row
+        columns: 4
+      Monitoring:
+        style: row
+        columns: 3
   bookmarks.yaml: ""
-  widgets.yaml: ""
