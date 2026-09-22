@@ -1,0 +1,16 @@
+# Domain used for public-facing services (Cloudflare Tunnel)
+domain: meghdadjafari.dev
+
+# Cluster node addresses (also defined in inventory.yml, kept here for reference in playbooks/templates)
+nuke_ip: 192.168.1.8
+tank_ip: 192.168.1.9
+ryu_ip: 192.168.1.10
+
+# Common apt packages installed on every node
+common_packages:
+  - curl
+  - git
+  - python3-pip
+
+# NVIDIA driver version pin (leave empty to always install latest)
+nvidia_driver_version: ""

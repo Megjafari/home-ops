@@ -1,0 +1,6 @@
+- name: Ensure commonly used tools are installed
+  apt:
+    name: "{{ common_packages }}"
+    state: present
+    update_cache: true
+  tags: [common]

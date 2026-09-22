@@ -1,0 +1,41 @@
+- name: Check if NVIDIA driver is already installed
+  command: which nvidia-smi
+  register: nvidia_check
+  changed_when: false
+  failed_when: false
+  tags: [gpu]
+
+- name: Add contrib and non-free components to apt sources
+  replace:
+    path: /etc/apt/sources.list
+    regexp: 'main non-free-firmware'
+    replace: 'main contrib non-free non-free-firmware'
+  when: nvidia_check.rc != 0
+  tags: [gpu]
+
+- name: Update apt cache
+  apt:
+    update_cache: true
+  when: nvidia_check.rc != 0
+  tags: [gpu]
+
+- name: Install NVIDIA driver and firmware
+  apt:
+    name:
+      - nvidia-driver
+      - firmware-misc-nonfree
+    state: present
+  register: nvidia_install
+  when: nvidia_check.rc != 0
+  tags: [gpu]
+
+- name: Rebuild NVIDIA kernel module for current kernel via DKMS
+  command: dkms autoinstall
+  when: nvidia_install is changed
+  tags: [gpu]
+
+- name: Warn that a reboot may be required
+  debug:
+    msg: "NVIDIA driver installed/updated. If nvidia-smi still fails, run 'dkms autoinstall' again or reboot."
+  when: nvidia_install is changed
+  tags: [gpu]

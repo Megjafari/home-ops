@@ -1,11 +1,17 @@
-- name: Baseline packages on all nodes
+- name: Baseline configuration for all nodes
   hosts: all
-  become: false
-  tasks:
-    - name: Ensure htop and curl are installed
-      apt:
-        name:
-          - htop
-          - curl
-        state: present
-        update_cache: true
+  become: true
+  roles:
+    - common
+
+- name: Kubernetes node prerequisites
+  hosts: control_plane:workers
+  become: true
+  roles:
+    - k8s-node-prereqs
+
+- name: GPU driver setup
+  hosts: gpu_nodes
+  become: true
+  roles:
+    - nvidia-gpu
