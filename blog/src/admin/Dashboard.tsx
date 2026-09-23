@@ -18,6 +18,7 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- fetch on mount is an accepted exception
     loadPosts();
   }, []);
 
