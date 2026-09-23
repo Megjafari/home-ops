@@ -36,3 +36,7 @@ body {
 .prose-content a {
   @apply text-cyan-400 underline underline-offset-2;
 }
+
+.prose-content img {
+  @apply rounded-lg border border-zinc-800 my-6 max-w-full;
+}
