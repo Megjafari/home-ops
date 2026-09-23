@@ -18,3 +18,9 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
 
   return res.json();
 }
+export async function publicFetch(path: string) {
+  const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5062";
+  const res = await fetch(`${API_BASE}${path}`);
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+  return res.json();
+}
