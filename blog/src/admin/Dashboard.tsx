@@ -1,4 +1,5 @@
 import { useAuth } from "../lib/auth";
+import PostEditor from "./PostEditor";
 
 export default function Dashboard() {
   const { logout } = useAuth();
@@ -11,7 +12,7 @@ export default function Dashboard() {
           Log out
         </button>
       </div>
-      <p>Post editor goes here.</p>
+      <PostEditor />
     </div>
   );
 }
