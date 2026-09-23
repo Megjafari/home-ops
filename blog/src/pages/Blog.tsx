@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { publicFetch } from "../lib/api";
-import { estimateReadingStats } from "../lib/readingTime";
 import type { PostListItem } from "../lib/types";
 
 export default function Blog() {
