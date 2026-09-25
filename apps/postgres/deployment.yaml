@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: postgres
-        image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvector0.8.0
+        image: ghcr.io/immich-app/postgres:17-vectorchord0.4.3-pgvector0.8.0
         ports:
         - containerPort: 5432
         envFrom:
