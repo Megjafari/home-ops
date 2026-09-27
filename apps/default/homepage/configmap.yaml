@@ -19,14 +19,14 @@ data:
             href: https://192.168.1.1
             description: Router / Firewall
             icon: opnsense.png
+        - Access Points:
+            href: http://192.168.10.101
+            description: Wireless APs
+            icon: mdi-access-point
         - Zyxel Switch:
-            href: https://192.168.1.118
+            href: https://192.168.1.174
             description: Managed switch
-            icon: zyxel.png
-        - UniFi:
-            href: https://192.168.1.9:8443
-            description: Network controller
-            icon: unifi-network.png
+            icon: mdi-switch
     - Media:
         - Immich:
             href: http://192.168.1.8:31364
@@ -76,7 +76,7 @@ data:
         - Homelable:
             href: http://192.168.1.8:30474
             description: Network topology
-            icon: homelab.png
+            icon: mdi-sitemap
     - Monitoring:
         - Grafana:
             href: http://192.168.1.8:31396
