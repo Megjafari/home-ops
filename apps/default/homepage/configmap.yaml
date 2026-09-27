@@ -77,6 +77,11 @@ data:
             href: http://192.168.1.8:30474
             description: Network topology
             icon: mdi-sitemap
+    - Development:
+        - Coolify:
+            href: http://192.168.1.60:8000
+            description: App deployments
+            icon: coolify.png
     - Monitoring:
         - Grafana:
             href: http://192.168.1.8:31396
@@ -126,6 +131,9 @@ data:
         style: row
         columns: 4
       Productivity:
+        style: row
+        columns: 4
+      Development:
         style: row
         columns: 4
       Monitoring:
