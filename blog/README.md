@@ -1,75 +1,54 @@
-# React + TypeScript + Vite
+# Homelab Journal (frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + TypeScript frontend for the Homelab Journal blog, built with Vite and Tailwind CSS 4. Posts are written in a Tiptap editor in the admin area.
 
-Currently, two official plugins are available:
+API: [Megjafari/HomelabBlog-API](https://github.com/Megjafari/HomelabBlog-API)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- Public: home page, post list with tag filter, search and "load more", post page with table of contents and reading time, About page, RSS link
+- Admin (`/admin`, JWT login): list, create, edit, delete, publish/unpublish posts, hero image and inline image upload
+- Post HTML is sanitized with DOMPurify before it is rendered
+- Admin pages and the editor are code-split, so visitors do not download them
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Run locally
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+The app expects the API on http://localhost:5062 in development. See [.env.example](.env.example).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Configuration
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Variable | Description |
+| --- | --- |
+| `VITE_API_BASE_URL` | API base URL. If unset, `http://localhost:5062` is used in development and the same origin in production builds. |
+
+## Scripts
+
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Start the dev server |
+| `npm run build` | Type-check and build to `dist/` |
+| `npm run lint` | ESLint |
+| `npm test` | Unit tests (Vitest) |
+
+## Project structure
 
 ```
+src/
+  pages/        public pages (Home, Blog, Post, About)
+  admin/        login, dashboard, post editor (lazy loaded)
+  components/   Nav
+  lib/          api client, auth, types, toc, reading time, slug helpers
+```
+
+## Docker
+
+```bash
+docker build --build-arg VITE_API_BASE_URL=https://blog-api.meghdadjafari.dev -t homelab-blog-web .
+```
+
+The image serves the build with nginx on port 80, with fallback to `index.html` for client-side routes and long-lived caching for hashed assets. `VITE_API_BASE_URL` is baked in at build time. Deployment steps (Coolify) are in the API repo: [docs/deploy.md](https://github.com/Megjafari/HomelabBlog-API/blob/main/docs/deploy.md).
