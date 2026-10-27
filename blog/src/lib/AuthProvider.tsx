@@ -1,4 +1,5 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import { UNAUTHORIZED_EVENT } from "./api";
 import { AuthContext } from "./auth";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -15,6 +16,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     sessionStorage.removeItem("token");
     setToken(null);
   };
+
+  // Expired or invalid token: drop it so RequireAuth sends us to the login page.
+  useEffect(() => {
+    const onUnauthorized = () => {
+      sessionStorage.removeItem("token");
+      setToken(null);
+    };
+    window.addEventListener(UNAUTHORIZED_EVENT, onUnauthorized);
+    return () => window.removeEventListener(UNAUTHORIZED_EVENT, onUnauthorized);
+  }, []);
 
   return (
     <AuthContext.Provider value={{ token, login, logout }}>
