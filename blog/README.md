@@ -45,4 +45,10 @@ src/
   lib/          api client, auth, types, toc, reading time, slug helpers
 ```
 
-A single-page app: when serving the build, route all paths to `index.html`.
+## Docker
+
+```bash
+docker build --build-arg VITE_API_BASE_URL=https://blog-api.meghdadjafari.dev -t homelab-blog-web .
+```
+
+The image serves the build with nginx on port 80, with fallback to `index.html` for client-side routes and long-lived caching for hashed assets. `VITE_API_BASE_URL` is baked in at build time. Deployment steps (Coolify) are in the API repo: [docs/deploy.md](https://github.com/Megjafari/HomelabBlog-API/blob/main/docs/deploy.md).
