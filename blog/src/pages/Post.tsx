@@ -59,7 +59,16 @@ export default function Post() {
           {post.tags.length > 0 && (
             <>
               <span>·</span>
-              <span>{post.tags.join(", ")}</span>
+              <span>
+                {post.tags.map((t, i) => (
+                  <span key={t}>
+                    {i > 0 && ", "}
+                    <Link to={`/blog?tag=${encodeURIComponent(t)}`} className="hover:text-cyan-400">
+                      {t}
+                    </Link>
+                  </span>
+                ))}
+              </span>
             </>
           )}
         </div>

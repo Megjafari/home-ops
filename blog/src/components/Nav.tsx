@@ -1,7 +1,22 @@
+import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { API_BASE } from "../lib/api";
+
+const RSS_URL = `${API_BASE}/api/rss`;
 
 export default function Nav() {
   const location = useLocation();
+
+  // Lets feed readers auto-discover the RSS feed.
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.rel = "alternate";
+    link.type = "application/rss+xml";
+    link.title = "Homelab Journal";
+    link.href = RSS_URL;
+    document.head.appendChild(link);
+    return () => link.remove();
+  }, []);
 
   const linkClass = (path: string) =>
     `text-sm font-mono ${
@@ -19,6 +34,9 @@ export default function Nav() {
         <div className="flex gap-5 ml-auto">
           <Link to="/blog" className={linkClass("/blog")}>Blog</Link>
           <Link to="/about" className={linkClass("/about")}>About</Link>
+          <a href={RSS_URL} className="text-sm font-mono text-zinc-500 hover:text-zinc-300 transition-colors">
+            RSS
+          </a>
         </div>
       </div>
     </nav>
