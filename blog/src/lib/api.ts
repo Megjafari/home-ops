@@ -1,4 +1,7 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5062";
+// Empty base means same-origin (API served behind the same ingress).
+export const API_BASE: string =
+  import.meta.env.VITE_API_BASE_URL ??
+  (import.meta.env.DEV ? "http://localhost:5062" : "");
 
 export async function apiFetch(path: string, options: RequestInit = {}) {
   const token = sessionStorage.getItem("token");

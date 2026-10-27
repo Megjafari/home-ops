@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../lib/auth";
+import { API_BASE } from "../lib/api";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -13,14 +14,22 @@ export default function Login() {
     e.preventDefault();
     setError("");
 
-    const res = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL}/api/auth/login`,
-      {
+    let res: Response;
+    try {
+      res = await fetch(`${API_BASE}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
-      }
-    );
+      });
+    } catch {
+      setError("Could not reach the server");
+      return;
+    }
+
+    if (res.status === 429) {
+      setError("Too many attempts, try again in a minute");
+      return;
+    }
 
     if (!res.ok) {
       setError("Wrong username or password");
