@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import DOMPurify from "dompurify";
 import { publicFetch } from "../lib/api";
 import { estimateReadingStats } from "../lib/readingTime";
 import { extractToc, type TocItem } from "../lib/toc";
@@ -21,7 +22,7 @@ export default function Post() {
         setPost(data);
         const { toc, htmlWithIds } = extractToc(data.content);
         setToc(toc);
-        setContentHtml(htmlWithIds);
+        setContentHtml(DOMPurify.sanitize(htmlWithIds));
       })
       .catch(() => setNotFound(true))
       .finally(() => setLoading(false));
@@ -62,6 +63,10 @@ export default function Post() {
             </>
           )}
         </div>
+
+        {post.heroImageUrl && (
+          <img src={post.heroImageUrl} alt="" className="w-full rounded mb-10" />
+        )}
 
         <div className="prose-content" dangerouslySetInnerHTML={{ __html: contentHtml }} />
       </article>

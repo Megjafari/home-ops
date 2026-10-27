@@ -9,12 +9,24 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const [posts, setPosts] = useState<PostDetail[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const loadPosts = () => {
     setLoading(true);
+    setError("");
     apiFetch("/api/admin/posts")
       .then(setPosts)
+      .catch((e: Error) => setError(e.message))
       .finally(() => setLoading(false));
+  };
+
+  const run = async (action: () => Promise<unknown>) => {
+    try {
+      await action();
+      loadPosts();
+    } catch (e) {
+      setError((e as Error).message);
+    }
   };
 
   useEffect(() => {
@@ -24,14 +36,12 @@ export default function Dashboard() {
 
   const handleDelete = async (id: string, title: string) => {
     if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;
-    await apiFetch(`/api/admin/posts/${id}`, { method: "DELETE" });
-    loadPosts();
+    await run(() => apiFetch(`/api/admin/posts/${id}`, { method: "DELETE" }));
   };
 
   const handleTogglePublish = async (post: PostDetail) => {
     const action = post.status === "Published" ? "unpublish" : "publish";
-    await apiFetch(`/api/admin/posts/${post.id}/${action}`, { method: "POST" });
-    loadPosts();
+    await run(() => apiFetch(`/api/admin/posts/${post.id}/${action}`, { method: "POST" }));
   };
 
   return (
@@ -53,9 +63,11 @@ export default function Dashboard() {
         </button>
       </div>
 
+      {error && <p className="text-red-600 mb-4">{error}</p>}
+
       {loading && <p className="text-gray-500">Loading...</p>}
 
-      {!loading && posts.length === 0 && (
+      {!loading && !error && posts.length === 0 && (
         <p className="text-gray-500">No posts yet.</p>
       )}
 
