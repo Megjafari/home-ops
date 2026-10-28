@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import DOMPurify from "dompurify";
 import { publicFetch } from "../lib/api";
 import { handleCodeCopyClick } from "../lib/codeCopy";
+import { formatDate, wasUpdatedAfterPublish } from "../lib/dates";
 import { estimateReadingStats } from "../lib/readingTime";
 import { extractToc, type TocItem } from "../lib/toc";
 import type { PostDetail } from "../lib/types";
@@ -94,8 +95,19 @@ export default function Post() {
         <div className="mb-10 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-fg-muted">
           {post.publishedAt && (
             <time dateTime={post.publishedAt} className="tabular-nums">
-              {new Date(post.publishedAt).toLocaleDateString("sv-SE")}
+              {formatDate(post.publishedAt)}
             </time>
+          )}
+          {wasUpdatedAfterPublish(post.publishedAt, post.updatedAt) && (
+            <>
+              <span aria-hidden="true">·</span>
+              <span>
+                Updated{" "}
+                <time dateTime={post.updatedAt} className="tabular-nums">
+                  {formatDate(post.updatedAt)}
+                </time>
+              </span>
+            </>
           )}
           <span aria-hidden="true">·</span>
           <span>{minutes} min read</span>

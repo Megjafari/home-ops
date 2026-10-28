@@ -11,6 +11,7 @@ export interface PostListItem {
 export interface PostDetail extends PostListItem {
   content: string;
   status: string;
+  updatedAt: string;
 }
 
 export interface Tag {
