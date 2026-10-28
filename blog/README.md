@@ -1,14 +1,14 @@
 # Homelab Journal (frontend)
 
-React + TypeScript frontend for the Homelab Journal blog, built with Vite and Tailwind CSS 4. Posts are written in a Tiptap editor in the admin area.
+React + TypeScript frontend for the Homelab Journal blog, built with Vite and Tailwind CSS 4. Posts are written in Markdown in the admin area.
 
 API: [Megjafari/HomelabBlog-API](https://github.com/Megjafari/HomelabBlog-API)
 
 ## Features
 
 - Public: home page, post list with tag filter, search and "load more", post page with table of contents and reading time, About page, RSS link
-- Admin (`/admin`, JWT login): list, create, edit, delete, publish/unpublish posts, hero image and inline image upload
-- Post HTML is sanitized with DOMPurify before it is rendered
+- Admin (`/admin`, JWT login): list, create, edit, delete, publish/unpublish posts. Posts are written in GitHub-flavoured Markdown with a Write/Preview toggle; images are uploaded by paste, drag and drop or the Image button and inserted at the cursor. A hero image can be set separately
+- Rendered post HTML is sanitized with DOMPurify. Code blocks get syntax highlighting (highlight.js); posts saved as HTML by the old editor still render
 - Admin pages and the editor are code-split, so visitors do not download them
 
 ## Run locally

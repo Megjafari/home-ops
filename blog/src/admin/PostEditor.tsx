@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { apiFetch } from "../lib/api";
 import { slugify } from "../lib/slug";
-import Editor from "./Editor";
+import MarkdownEditor from "./MarkdownEditor";
 
 export default function PostEditor() {
   const { id } = useParams();
@@ -108,7 +108,7 @@ export default function PostEditor() {
   }
 
   return (
-    <div className="p-8 max-w-2xl mx-auto flex flex-col gap-4">
+    <div className="p-8 max-w-3xl mx-auto flex flex-col gap-4">
       <button
         onClick={() => navigate("/admin")}
         className="text-sm text-gray-500 self-start"
@@ -167,7 +167,7 @@ export default function PostEditor() {
         )}
       </div>
 
-      <Editor content={content} onChange={setContent} />
+      <MarkdownEditor value={content} onChange={setContent} />
 
       <div className="flex gap-3">
         <button
