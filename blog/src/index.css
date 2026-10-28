@@ -3,98 +3,206 @@
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --color-bg: #09090b;
+  --color-surface: #111114;
+  --color-surface-2: #1a1a1f;
+  --color-line: #26262c;
+  --color-fg: #ededef;
+  --color-fg-muted: #8e8e98;
+  --color-accent: #8aa4ff;
+  --color-accent-fg: #09090b;
+  --color-danger: #f87171;
 }
 
-body {
-  @apply bg-zinc-950 text-zinc-100 font-sans;
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-bg text-fg font-sans antialiased;
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  ::selection {
+    background: rgb(138 164 255 / 0.3);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  button,
+  [role="button"] {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
-.prose-content h2 {
-  @apply text-2xl font-semibold mt-10 mb-4 text-zinc-100 scroll-mt-24;
-}
+@layer components {
+  .btn {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-line px-4 py-2 text-sm font-medium text-fg transition-colors hover:bg-surface-2 disabled:opacity-50 md:min-h-0;
+  }
 
-.prose-content h3 {
-  @apply text-xl font-semibold mt-8 mb-3 text-zinc-100 scroll-mt-24;
-}
+  .btn-primary {
+    @apply border-fg bg-fg text-bg hover:bg-fg/85;
+  }
 
-.prose-content p {
-  @apply text-zinc-300 leading-relaxed mb-4;
-}
+  .btn-danger {
+    @apply text-danger hover:border-danger/60 hover:bg-transparent;
+  }
 
-.prose-content pre {
-  @apply bg-zinc-900 border border-zinc-800 rounded-lg p-4 overflow-x-auto font-mono text-sm mb-6;
-}
+  .btn-sm {
+    @apply px-3 py-1 text-xs;
+  }
 
-.prose-content code {
-  @apply font-mono text-sm;
-}
+  .input {
+    @apply w-full rounded-md border border-line bg-surface px-3 py-2 text-sm text-fg placeholder:text-fg-muted/70 focus:border-fg-muted focus:outline-none;
+  }
 
-.prose-content ul {
-  @apply list-disc list-inside text-zinc-300 mb-4 space-y-1;
-}
+  .chip {
+    @apply min-h-9 rounded-full border border-line px-3 py-1 text-xs text-fg-muted transition-colors hover:border-fg-muted hover:text-fg md:min-h-0;
+  }
 
-.prose-content a {
-  @apply text-cyan-400 underline underline-offset-2;
-}
+  .chip-active {
+    @apply border-fg bg-fg text-bg hover:border-fg hover:text-bg;
+  }
 
-.prose-content img {
-  @apply rounded-lg border border-zinc-800 my-6 max-w-full;
+  .pill {
+    @apply rounded-full border border-line px-2.5 py-0.5 text-xs text-fg-muted;
+  }
+
+  .eyebrow {
+    @apply text-xs font-medium uppercase tracking-[0.14em] text-fg-muted;
+  }
 }
 
 /* Markdown content (GitHub-flavoured) */
+.prose-content {
+  @apply text-[1.0625rem] leading-[1.75] text-fg/90;
+  overflow-wrap: anywhere;
+}
+
 .prose-content h1 {
-  @apply text-3xl font-semibold mt-10 mb-4 text-zinc-100 scroll-mt-24;
+  @apply mt-12 mb-4 scroll-mt-24 text-3xl font-semibold tracking-tight text-fg;
+}
+
+.prose-content h2 {
+  @apply mt-14 mb-4 scroll-mt-24 text-2xl font-semibold tracking-tight text-fg;
+}
+
+.prose-content h3 {
+  @apply mt-9 mb-3 scroll-mt-24 text-xl font-semibold tracking-tight text-fg;
 }
 
 .prose-content h4 {
-  @apply text-lg font-semibold mt-6 mb-2 text-zinc-100;
+  @apply mt-6 mb-2 text-lg font-semibold text-fg;
+}
+
+.prose-content p {
+  @apply mb-5;
+}
+
+.prose-content strong {
+  @apply font-semibold text-fg;
+}
+
+.prose-content a {
+  @apply text-accent underline underline-offset-4 decoration-accent/30 transition-colors hover:decoration-accent;
+}
+
+.prose-content ul {
+  @apply mb-5 list-disc space-y-1.5 pl-6 marker:text-fg-muted;
 }
 
 .prose-content ol {
-  @apply list-decimal list-inside text-zinc-300 mb-4 space-y-1;
+  @apply mb-5 list-decimal space-y-1.5 pl-6 marker:text-fg-muted;
 }
 
 .prose-content li > ul,
 .prose-content li > ol {
-  @apply ml-5 mt-1;
-}
-
-.prose-content blockquote {
-  @apply border-l-4 border-zinc-700 pl-4 text-zinc-400 italic mb-4;
-}
-
-.prose-content hr {
-  @apply border-zinc-800 my-8;
-}
-
-.prose-content :not(pre) > code {
-  @apply bg-zinc-800 text-zinc-100 rounded px-1.5 py-0.5;
-}
-
-.prose-content pre code.hljs {
-  @apply p-0 bg-transparent;
-}
-
-.prose-content table {
-  @apply w-full border-collapse text-sm mb-6 block overflow-x-auto;
-}
-
-.prose-content th {
-  @apply border border-zinc-800 bg-zinc-900 px-3 py-2 text-left font-semibold;
-}
-
-.prose-content td {
-  @apply border border-zinc-800 px-3 py-2 text-zinc-300;
+  @apply mt-1.5 mb-0;
 }
 
 .prose-content li:has(> input[type="checkbox"]) {
   @apply list-none;
+  margin-left: -1.25rem;
 }
 
 .prose-content input[type="checkbox"] {
-  @apply mr-2 align-middle;
+  @apply mr-2 align-middle accent-[var(--color-accent)];
 }
 
-.prose-content strong {
-  @apply text-zinc-100 font-semibold;
+.prose-content blockquote {
+  @apply mb-5 border-l-2 border-line pl-4 text-fg-muted;
+}
+
+.prose-content hr {
+  @apply my-10 border-line;
+}
+
+.prose-content img {
+  @apply my-8 h-auto max-w-full rounded-lg border border-line;
+}
+
+.prose-content :not(pre) > code {
+  @apply rounded bg-surface-2 px-1.5 py-0.5 font-mono text-[0.875em] text-fg;
+}
+
+.prose-content pre {
+  @apply mb-0 overflow-x-auto p-4 font-mono text-sm leading-relaxed;
+}
+
+.prose-content pre code {
+  @apply font-mono text-sm;
+}
+
+.prose-content pre code.hljs {
+  @apply bg-transparent p-0;
+}
+
+/* Code blocks get a header with the language and a copy button */
+.prose-content .code-block {
+  @apply my-7 overflow-hidden rounded-lg border border-line bg-surface;
+}
+
+.prose-content .code-head {
+  @apply flex items-center justify-between border-b border-line bg-surface-2/60 px-4 py-1.5 font-mono text-xs text-fg-muted;
+}
+
+.prose-content .code-head button {
+  @apply -mr-2 min-h-8 rounded px-2 text-fg-muted transition-colors hover:text-accent;
+}
+
+/* A bare <pre> (no language header) keeps its own frame */
+.prose-content > pre {
+  @apply my-7 rounded-lg border border-line bg-surface;
+}
+
+.prose-content table {
+  @apply mb-6 block w-full overflow-x-auto border-collapse text-sm;
+}
+
+.prose-content th {
+  @apply border border-line bg-surface px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-fg-muted;
+}
+
+.prose-content td {
+  @apply border border-line px-3 py-2;
 }

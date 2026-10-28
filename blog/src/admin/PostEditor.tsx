@@ -104,50 +104,50 @@ export default function PostEditor() {
   };
 
   if (loading) {
-    return <div className="p-8 text-gray-500">Loading...</div>;
+    return <div className="p-8 text-sm text-fg-muted">Loading...</div>;
   }
 
   return (
-    <div className="p-8 max-w-3xl mx-auto flex flex-col gap-4">
+    <div className="mx-auto flex max-w-3xl flex-col gap-4 px-6 py-10">
       <button
         onClick={() => navigate("/admin")}
-        className="text-sm text-gray-500 self-start"
+        className="self-start text-sm text-fg-muted transition-colors hover:text-fg"
       >
-        ← Back to posts
+        ← All posts
       </button>
 
       <input
-        className="border p-2 rounded text-lg font-semibold"
+        className="input text-lg font-semibold"
         placeholder="Post title"
+        aria-label="Post title"
         value={title}
         onChange={(e) => handleTitleChange(e.target.value)}
       />
-      <p className="text-sm text-gray-500">/{slug}</p>
+      <p className="text-xs text-fg-muted">/blog/{slug}</p>
       <input
-        className="border p-2 rounded"
+        className="input"
         placeholder="Short excerpt"
+        aria-label="Short excerpt"
         value={excerpt}
         onChange={(e) => setExcerpt(e.target.value)}
       />
       <input
-        className="border p-2 rounded"
+        className="input"
         placeholder="Tags, comma separated (kubernetes, opnsense)"
+        aria-label="Tags"
         value={tags}
         onChange={(e) => setTags(e.target.value)}
       />
       <div className="flex flex-col gap-2">
         <div className="flex gap-2">
           <input
-            className="border p-2 rounded flex-1"
+            className="input flex-1"
             placeholder="Hero image URL (optional)"
+            aria-label="Hero image URL"
             value={heroImageUrl}
             onChange={(e) => setHeroImageUrl(e.target.value)}
           />
-          <button
-            type="button"
-            onClick={() => heroInputRef.current?.click()}
-            className="text-sm border px-3 py-1 rounded"
-          >
+          <button type="button" onClick={() => heroInputRef.current?.click()} className="btn btn-sm">
             Upload
           </button>
           <input
@@ -163,32 +163,34 @@ export default function PostEditor() {
           />
         </div>
         {heroImageUrl && (
-          <img src={heroImageUrl} alt="Hero preview" className="max-h-40 rounded self-start" />
+          <img
+            src={heroImageUrl}
+            alt="Hero preview"
+            className="max-h-40 self-start rounded border border-line"
+          />
         )}
       </div>
 
       <MarkdownEditor value={content} onChange={setContent} />
 
       <div className="flex gap-3">
-        <button
-          onClick={() => handleSave()}
-          disabled={status === "saving"}
-          className="border px-4 py-2 rounded disabled:opacity-50"
-        >
+        <button onClick={() => handleSave()} disabled={status === "saving"} className="btn">
           {published ? "Save changes" : "Save draft"}
         </button>
         <button
           onClick={() => handleSave(!published)}
           disabled={status === "saving"}
-          className="bg-black text-white px-4 py-2 rounded disabled:opacity-50"
+          className="btn btn-primary"
         >
           {published ? "Save & unpublish" : "Save & publish"}
         </button>
       </div>
 
-      {status === "saved" && <p className="text-green-600">Saved.</p>}
+      {status === "saved" && <p className="text-sm text-emerald-400">Saved.</p>}
       {status === "error" && (
-        <p className="text-red-600">{errorMessage || "Something went wrong."}</p>
+        <p role="alert" className="text-sm text-danger">
+          {errorMessage || "Something went wrong."}
+        </p>
       )}
     </div>
   );

@@ -42,23 +42,31 @@ export default function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-sm mx-auto mt-20 flex flex-col gap-4">
-      <h1 className="text-xl font-semibold">Admin login</h1>
+    <form onSubmit={handleSubmit} className="mx-auto mt-20 flex max-w-sm flex-col gap-4 px-6">
+      <h1 className="text-2xl font-semibold tracking-tight">Admin login</h1>
       <input
-        className="border p-2 rounded"
+        className="input"
         placeholder="Username"
+        aria-label="Username"
+        autoComplete="username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
       <input
-        className="border p-2 rounded"
+        className="input"
         placeholder="Password"
+        aria-label="Password"
         type="password"
+        autoComplete="current-password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      {error && <p className="text-red-600 text-sm">{error}</p>}
-      <button className="bg-black text-white p-2 rounded" type="submit">
+      {error && (
+        <p role="alert" className="text-sm text-danger">
+          {error}
+        </p>
+      )}
+      <button className="btn btn-primary" type="submit">
         Log in
       </button>
     </form>

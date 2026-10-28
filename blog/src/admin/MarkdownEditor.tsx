@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { apiFetch } from "../lib/api";
+import { handleCodeCopyClick } from "../lib/codeCopy";
 import { insertBlock, prefixLines, wrapSelection, type Edit } from "../lib/markdownEdit";
 
 interface MarkdownEditorProps {
@@ -150,14 +151,14 @@ export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps)
   };
 
   const tabClass = (active: boolean) =>
-    `px-4 py-2 text-sm -mb-px border-b-2 ${
-      active ? "border-cyan-400 text-zinc-100" : "border-transparent text-zinc-500 hover:text-zinc-300"
+    `-mb-px border-b-2 px-4 py-2 text-sm font-medium transition-colors ${
+      active ? "border-fg text-fg" : "border-transparent text-fg-muted hover:text-fg"
     }`;
 
   return (
     <div>
-      <div className="flex items-end justify-between border-b border-zinc-800">
-        <div className="flex">
+      <div className="flex items-end justify-between border-b border-line">
+        <div className="flex" role="tablist">
           <button
             type="button"
             className={tabClass(tab === "write")}
@@ -176,7 +177,7 @@ export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps)
             Preview
           </button>
         </div>
-        {uploading > 0 && <span className="text-xs text-zinc-500 pb-2">Uploading...</span>}
+        {uploading > 0 && <span className="pb-2 text-xs text-fg-muted">Uploading...</span>}
       </div>
 
       {tab === "write" ? (
@@ -188,7 +189,7 @@ export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps)
                 type="button"
                 title={item.title}
                 onClick={() => runToolbar(item.action)}
-                className={`text-sm border border-zinc-800 hover:border-zinc-600 px-2.5 py-1 rounded ${item.className ?? ""}`}
+                className={`btn btn-sm ${item.className ?? ""}`}
               >
                 {item.label}
               </button>
@@ -230,29 +231,37 @@ export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps)
             spellCheck
             placeholder="Write in Markdown. Paste or drop images to upload them."
             style={{ minHeight: MIN_HEIGHT }}
-            className="w-full bg-zinc-900 border border-zinc-800 rounded p-4 font-mono text-sm leading-relaxed resize-y focus:outline-none focus:border-zinc-600"
+            className="input resize-y p-4 font-mono leading-relaxed"
           />
-          <p className="text-xs text-zinc-500 mt-2">
+          <p className="mt-2 text-xs text-fg-muted">
             Markdown supported (tables, task lists, code blocks with syntax highlighting). Paste, drop or
             upload images; they are inserted where the cursor is.
           </p>
         </>
       ) : (
         <div
-          className="border border-zinc-800 rounded p-6 mt-2"
+          className="mt-2 rounded border border-line p-6"
           style={{ minHeight: MIN_HEIGHT }}
         >
           {previewHtml === null ? (
-            <p className="text-zinc-500">Loading preview...</p>
+            <p className="text-sm text-fg-muted">Loading preview...</p>
           ) : value.trim() === "" ? (
-            <p className="text-zinc-500">Nothing to preview.</p>
+            <p className="text-sm text-fg-muted">Nothing to preview.</p>
           ) : (
-            <div className="prose-content" dangerouslySetInnerHTML={{ __html: previewHtml }} />
+            <div
+              className="prose-content"
+              onClick={handleCodeCopyClick}
+              dangerouslySetInnerHTML={{ __html: previewHtml }}
+            />
           )}
         </div>
       )}
 
-      {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+      {error && (
+        <p role="alert" className="mt-2 text-sm text-danger">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

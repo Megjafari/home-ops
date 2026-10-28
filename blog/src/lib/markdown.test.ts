@@ -35,6 +35,15 @@ describe("renderMarkdown", () => {
     expect(shell).toContain("hljs-comment");
   });
 
+  it("wraps code blocks with a language label and a copy button", () => {
+    const html = renderMarkdown("```yaml\nname: blog\n```\n\n```\nplain\n```");
+
+    expect(html).toContain('class="code-block"');
+    expect(html).toContain("<span>yaml</span>");
+    expect(html).toContain("<span>text</span>");
+    expect(html.match(/data-copy/g)).toHaveLength(2);
+  });
+
   it("escapes code in unknown languages instead of interpreting it", () => {
     const html = renderMarkdown('```madeup\n<script>alert(1)</script>\n```');
 
