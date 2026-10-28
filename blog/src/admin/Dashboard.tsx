@@ -45,58 +45,57 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="p-8 max-w-3xl mx-auto">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-xl font-semibold">Admin</h1>
-        <button onClick={logout} className="text-sm underline">
-          Log out
-        </button>
+    <div className="mx-auto max-w-3xl px-6 py-12">
+      <div className="mb-10 flex items-center justify-between">
+        <div>
+          <p className="eyebrow mb-1">Admin</p>
+          <h1 className="text-2xl font-semibold tracking-tight">Posts</h1>
+        </div>
+        <div className="flex items-center gap-3">
+          <button onClick={() => navigate("/admin/new")} className="btn btn-primary btn-sm">
+            New post
+          </button>
+          <button onClick={logout} className="btn btn-sm">
+            Log out
+          </button>
+        </div>
       </div>
 
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-lg font-semibold">Posts</h2>
-        <button
-          onClick={() => navigate("/admin/new")}
-          className="bg-black text-white px-4 py-2 rounded text-sm"
-        >
-          New post
-        </button>
-      </div>
+      {error && (
+        <p role="alert" className="mb-4 text-sm text-danger">
+          {error}
+        </p>
+      )}
 
-      {error && <p className="text-red-600 mb-4">{error}</p>}
-
-      {loading && <p className="text-gray-500">Loading...</p>}
+      {loading && <p className="text-sm text-fg-muted">Loading...</p>}
 
       {!loading && !error && posts.length === 0 && (
-        <p className="text-gray-500">No posts yet.</p>
+        <p className="text-sm text-fg-muted">No posts yet.</p>
       )}
 
       <div className="flex flex-col gap-3">
         {posts.map((post) => (
-          <div key={post.id} className="border rounded p-4 flex justify-between items-center">
-            <div>
-              <p className="font-semibold">{post.title}</p>
-              <p className="text-sm text-gray-500">
-                {post.status} {post.tags.length > 0 && `· ${post.tags.join(", ")}`}
+          <div
+            key={post.id}
+            className="flex flex-col gap-3 rounded-lg border border-line bg-surface p-4 sm:flex-row sm:items-center sm:justify-between"
+          >
+            <div className="min-w-0">
+              <p className="truncate font-semibold">{post.title}</p>
+              <p className="mt-1 text-xs text-fg-muted">
+                <span className={post.status === "Published" ? "text-emerald-400" : ""}>
+                  {post.status === "Published" ? "● Published" : "○ Draft"}
+                </span>
+                {post.tags.length > 0 && ` · ${post.tags.join(", ")}`}
               </p>
             </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => handleTogglePublish(post)}
-                className="text-sm border px-3 py-1 rounded"
-              >
+            <div className="flex flex-wrap gap-2">
+              <button onClick={() => handleTogglePublish(post)} className="btn btn-sm">
                 {post.status === "Published" ? "Unpublish" : "Publish"}
               </button>
-              <Link
-                to={`/admin/edit/${post.id}`}
-                className="text-sm border px-3 py-1 rounded"
-              >
+              <Link to={`/admin/edit/${post.id}`} className="btn btn-sm">
                 Edit
               </Link>
-              <button
-                onClick={() => handleDelete(post.id, post.title)}
-                className="text-sm border border-red-600 text-red-600 px-3 py-1 rounded"
-              >
+              <button onClick={() => handleDelete(post.id, post.title)} className="btn btn-sm btn-danger">
                 Delete
               </button>
             </div>

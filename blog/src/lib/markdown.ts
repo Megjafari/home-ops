@@ -63,11 +63,41 @@ const marked = new Marked(
   { gfm: true }
 );
 
+/** Wraps code blocks in a frame with the language and a copy button (see lib/codeCopy.ts). */
+function addCodeBlockChrome(html: string): string {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+
+  doc.querySelectorAll("pre > code").forEach((code) => {
+    const pre = code.parentElement!;
+    const language = /language-([^\s]+)/.exec(code.className)?.[1] ?? "text";
+
+    const label = doc.createElement("span");
+    label.textContent = language;
+
+    const button = doc.createElement("button");
+    button.type = "button";
+    button.setAttribute("data-copy", "");
+    button.setAttribute("aria-label", "Copy code");
+    button.textContent = "copy";
+
+    const head = doc.createElement("div");
+    head.className = "code-head";
+    head.append(label, button);
+
+    const wrapper = doc.createElement("div");
+    wrapper.className = "code-block";
+    pre.replaceWith(wrapper);
+    wrapper.append(head, pre);
+  });
+
+  return doc.body.innerHTML;
+}
+
 /**
  * Renders GitHub-flavoured Markdown to sanitized HTML. Older posts that were
  * saved as HTML still render, because Markdown passes HTML blocks through.
  */
 export function renderMarkdown(source: string): string {
   const html = marked.parse(source, { async: false });
-  return DOMPurify.sanitize(html);
+  return addCodeBlockChrome(DOMPurify.sanitize(html));
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { publicFetch } from "../lib/api";
+import PostRow from "../components/PostRow";
 import type { PostListItem, Tag } from "../lib/types";
 
 const PAGE_SIZE = 10;
@@ -95,76 +96,74 @@ export default function Blog() {
   const loading = result?.key !== key;
   const posts = result?.posts ?? [];
 
-  const chipClass = (active: boolean) =>
-    `text-sm font-mono px-3 py-1 rounded border transition-colors ${
-      active
-        ? "border-cyan-400 text-cyan-400"
-        : "border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-600"
-    }`;
+  const chipClass = (active: boolean) => `chip ${active ? "chip-active" : ""}`;
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-16">
-      <h1 className="text-3xl font-semibold mb-2">Homelab Journal</h1>
-      <p className="text-zinc-400 mb-8">Notes on running Kubernetes, networking, and self-hosting at home.</p>
+    <div className="mx-auto max-w-3xl px-6 pt-16">
+      <p className="eyebrow mb-4">Journal</p>
+      <h1 className="mb-3 text-4xl font-semibold tracking-tight">All posts</h1>
+      <p className="mb-10 text-fg-muted">
+        Notes on running Kubernetes, networking, and self-hosting at home.
+      </p>
 
-      <input
-        type="search"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        placeholder="Search posts..."
-        aria-label="Search posts"
-        className="w-full bg-zinc-900 border border-zinc-800 rounded px-3 py-2 mb-4 text-sm focus:outline-none focus:border-zinc-600"
-      />
+      <div className="relative mb-4">
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 20 20"
+          className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-fg-muted"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+        >
+          <circle cx="9" cy="9" r="5.5" />
+          <path d="M13.5 13.5L17 17" />
+        </svg>
+        <input
+          type="search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search posts"
+          aria-label="Search posts"
+          className="input pl-9"
+        />
+      </div>
 
       {tags.length > 0 && (
-        <div className="flex flex-wrap gap-2 mb-12">
+        <div className="mb-8 flex flex-wrap gap-2">
           <button onClick={() => selectTag("")} className={chipClass(tag === "")}>
             all
           </button>
           {tags.map((t) => (
             <button key={t.id} onClick={() => selectTag(t.slug)} className={chipClass(tag === t.slug)}>
-              {t.name} <span className="text-zinc-500">{t.postCount}</span>
+              {t.name} <span className="opacity-60">{t.postCount}</span>
             </button>
           ))}
         </div>
       )}
 
-      {loading && <p className="text-zinc-400">Loading...</p>}
+      {loading && <p className="text-sm text-fg-muted">Loading...</p>}
 
       {!loading && result?.error && (
-        <p className="text-red-400 mb-6">Could not load posts. Try again later.</p>
+        <p className="mb-6 text-sm text-danger">Could not load posts. Try again later.</p>
       )}
 
-      <div className="flex flex-col gap-10">
-        {!loading &&
-          posts.map((post) => (
-            <Link key={post.id} to={`/blog/${post.slug}`} className="group">
-              <h2 className="text-xl font-semibold group-hover:text-cyan-400 transition-colors">
-                {post.title}
-              </h2>
-              <div className="flex items-center gap-3 text-sm text-zinc-500 font-mono mt-1 mb-2">
-                {post.publishedAt && (
-                  <span>{new Date(post.publishedAt).toLocaleDateString("sv-SE")}</span>
-                )}
-                {post.tags.length > 0 && <span>{post.tags.join(", ")}</span>}
-              </div>
-              {post.excerpt && <p className="text-zinc-400">{post.excerpt}</p>}
-            </Link>
+      {!loading && posts.length > 0 && (
+        <div>
+          {posts.map((post) => (
+            <PostRow key={post.id} post={post} />
           ))}
-      </div>
+        </div>
+      )}
 
       {!loading && !result?.error && posts.length === 0 && (
-        <p className="text-zinc-500">
+        <p className="text-sm text-fg-muted">
           {q || tag ? "No posts match your search." : "No posts published yet."}
         </p>
       )}
 
       {!loading && result?.hasMore && (
-        <button
-          onClick={loadMore}
-          disabled={loadingMore}
-          className="mt-10 text-sm font-mono border border-zinc-800 px-4 py-2 rounded hover:border-zinc-600 disabled:opacity-50"
-        >
+        <button onClick={loadMore} disabled={loadingMore} className="btn mt-10">
           {loadingMore ? "Loading..." : "Load more"}
         </button>
       )}
