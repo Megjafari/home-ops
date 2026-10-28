@@ -17,10 +17,12 @@ export default function Post() {
   useEffect(() => {
     if (!slug) return;
 
-    publicFetch(`/api/posts/${slug}`)
-      .then((data: PostDetail) => {
+    // The Markdown renderer (with syntax highlighting) is loaded alongside the post.
+    Promise.all([publicFetch(`/api/posts/${slug}`), import("../lib/markdown")])
+      .then(([data, markdown]: [PostDetail, typeof import("../lib/markdown")]) => {
+        const html = markdown.renderMarkdown(data.content);
+        const { toc, htmlWithIds } = extractToc(html);
         setPost(data);
-        const { toc, htmlWithIds } = extractToc(data.content);
         setToc(toc);
         setContentHtml(DOMPurify.sanitize(htmlWithIds));
       })
@@ -38,7 +40,7 @@ export default function Post() {
     );
   }
 
-  const { words, minutes } = estimateReadingStats(post.content);
+  const { words, minutes } = estimateReadingStats(contentHtml);
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-12">
