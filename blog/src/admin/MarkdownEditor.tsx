@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { apiFetch } from "../lib/api";
 import { handleCodeCopyClick } from "../lib/codeCopy";
+import { useMermaid } from "../lib/useMermaid";
 import { insertBlock, prefixLines, wrapSelection, type Edit } from "../lib/markdownEdit";
 
 interface MarkdownEditorProps {
@@ -40,6 +41,7 @@ export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps)
   const [error, setError] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
   // Uploads finish after the render that started them, so they read the latest text from here.
   const valueRef = useRef(value);
 
@@ -58,6 +60,8 @@ export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps)
       cancelled = true;
     };
   }, [tab, value]);
+
+  useMermaid(previewRef, previewHtml ?? "");
 
   // Grow with the content instead of scrolling inside the box.
   useLayoutEffect(() => {
@@ -249,6 +253,7 @@ export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps)
             <p className="text-sm text-fg-muted">Nothing to preview.</p>
           ) : (
             <div
+              ref={previewRef}
               className="prose-content"
               onClick={handleCodeCopyClick}
               dangerouslySetInnerHTML={{ __html: previewHtml }}

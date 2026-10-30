@@ -71,6 +71,16 @@ function addCodeBlockChrome(html: string): string {
     const pre = code.parentElement!;
     const language = /language-([^\s]+)/.exec(code.className)?.[1] ?? "text";
 
+    // Mermaid diagrams are drawn in the browser (see lib/mermaid.ts). Until then,
+    // and if drawing fails, the source stays visible as a code block.
+    if (language === "mermaid") {
+      const figure = doc.createElement("figure");
+      figure.className = "mermaid-diagram";
+      pre.replaceWith(figure);
+      figure.append(pre);
+      return;
+    }
+
     const label = doc.createElement("span");
     label.textContent = language;
 

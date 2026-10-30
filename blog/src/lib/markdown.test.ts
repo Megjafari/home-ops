@@ -44,6 +44,15 @@ describe("renderMarkdown", () => {
     expect(html.match(/data-copy/g)).toHaveLength(2);
   });
 
+  it("marks mermaid blocks for drawing and keeps the source as text", () => {
+    const html = renderMarkdown("```mermaid\nflowchart LR\n  A --> B\n```");
+
+    expect(html).toContain('class="mermaid-diagram"');
+    expect(html).toContain("flowchart LR");
+    expect(html).toContain("A --&gt; B");
+    expect(html).not.toContain("data-copy");
+  });
+
   it("escapes code in unknown languages instead of interpreting it", () => {
     const html = renderMarkdown('```madeup\n<script>alert(1)</script>\n```');
 

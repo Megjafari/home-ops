@@ -206,3 +206,21 @@
 .prose-content td {
   @apply border border-line px-3 py-2;
 }
+
+/* Mermaid diagrams (drawn in the browser, see lib/mermaid.ts) */
+.prose-content .mermaid-diagram {
+  @apply my-8 overflow-hidden rounded-lg border border-line bg-surface;
+}
+
+.prose-content .mermaid-diagram[data-rendered] {
+  @apply overflow-x-auto p-4;
+}
+
+.prose-content .mermaid-diagram svg {
+  @apply mx-auto block h-auto max-w-full;
+  min-width: 640px;
+}
+
+.prose-content .mermaid-error {
+  @apply border-t border-line px-4 py-2 text-sm text-danger;
+}

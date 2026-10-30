@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import DOMPurify from "dompurify";
 import { publicFetch } from "../lib/api";
@@ -6,6 +6,7 @@ import { handleCodeCopyClick } from "../lib/codeCopy";
 import { formatDate, wasUpdatedAfterPublish } from "../lib/dates";
 import { estimateReadingStats } from "../lib/readingTime";
 import { extractToc, type TocItem } from "../lib/toc";
+import { useMermaid } from "../lib/useMermaid";
 import type { PostDetail } from "../lib/types";
 
 export default function Post() {
@@ -16,6 +17,7 @@ export default function Post() {
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [activeId, setActiveId] = useState("");
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!slug) return;
@@ -32,6 +34,8 @@ export default function Post() {
       .catch(() => setNotFound(true))
       .finally(() => setLoading(false));
   }, [slug]);
+
+  useMermaid(contentRef, contentHtml);
 
   // Highlight the heading that is currently being read in the table of contents:
   // the last one that has scrolled past the top of the viewport (or the last one at the page end).
@@ -134,6 +138,7 @@ export default function Post() {
 
         {/* Click is delegated to the "copy" buttons inside the rendered code blocks */}
         <div
+          ref={contentRef}
           className="prose-content"
           onClick={handleCodeCopyClick}
           dangerouslySetInnerHTML={{ __html: contentHtml }}
