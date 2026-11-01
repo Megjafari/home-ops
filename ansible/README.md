@@ -30,8 +30,8 @@ ansible/
 ├── site.yml             # Main entrypoint; assigns roles to host groups
 └── roles/
     ├── common/            # Baseline packages on every node
-    ├── k8s-node-prereqs/  # Kubernetes host prerequisites
-    └── nvidia-gpu/        # NVIDIA driver and DKMS configuration
+    ├── k8s_node_prereqs/  # Kubernetes host prerequisites
+    └── nvidia_gpu/        # NVIDIA driver and DKMS configuration
 ```
 
 ## Inventory
@@ -60,7 +60,7 @@ Examples include:
 * `git`
 * `python3-pip`
 
-### `k8s-node-prereqs`
+### `k8s_node_prereqs`
 
 Runs on `control_plane` and `workers`.
 
@@ -73,7 +73,7 @@ It currently handles:
 
 These tasks address host-level configuration that can otherwise leave Kubernetes nodes in a `NotReady` state.
 
-### `nvidia-gpu`
+### `nvidia_gpu`
 
 Runs on `gpu_nodes` only.
 

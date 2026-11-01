@@ -1,36 +1,30 @@
 - name: Disable swap immediately
-  command: swapoff -a
+  ansible.builtin.command: swapoff -a
   changed_when: false
   tags: [k8s, swap]
 
 - name: Remove swap entries from fstab
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/fstab
     regexp: '^([^#].*\sswap\s.*)$'
     line: '# \1'
     backrefs: true
+    mode: '0644'
   tags: [k8s, swap]
 
 - name: Ensure /usr/lib/cni exists
-  file:
+  ansible.builtin.file:
     path: /usr/lib/cni
     state: directory
     mode: '0755'
   tags: [k8s, cni]
 
 - name: Copy CNI binaries to /usr/lib/cni
-  copy:
+  ansible.builtin.copy:
     src: /opt/cni/bin/
     dest: /usr/lib/cni/
     remote_src: true
     mode: preserve
-  register: cni_copy
-  ignore_errors: true
-  tags: [k8s, cni]
-
-- name: Restart containerd if CNI binaries were copied
-  systemd:
-    name: containerd
-    state: restarted
-  when: cni_copy is changed
+  failed_when: false
+  notify: Restart containerd
   tags: [k8s, cni]

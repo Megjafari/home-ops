@@ -177,7 +177,7 @@ The workload is scheduled to `tank`, where the physical GPU is available.
 
 The Kubernetes GPU integration depends on the NVIDIA device plugin being available in the cluster and the host correctly exposing the GPU.
 
-Host-level NVIDIA configuration is managed by the Ansible `nvidia-gpu` role.
+Host-level NVIDIA configuration is managed by the Ansible `nvidia_gpu` role.
 
 ```text
 Ansible

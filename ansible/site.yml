@@ -8,10 +8,10 @@
   hosts: control_plane:workers
   become: true
   roles:
-    - k8s-node-prereqs
+    - k8s_node_prereqs
 
 - name: GPU driver setup
   hosts: gpu_nodes
   become: true
   roles:
-    - nvidia-gpu
+    - nvidia_gpu

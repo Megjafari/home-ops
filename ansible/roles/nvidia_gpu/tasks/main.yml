@@ -1,0 +1,33 @@
+- name: Check if NVIDIA driver is already installed
+  ansible.builtin.command: which nvidia-smi
+  register: nvidia_gpu_check
+  changed_when: false
+  failed_when: false
+  tags: [gpu]
+
+- name: Add contrib and non-free components to apt sources
+  ansible.builtin.replace:
+    path: /etc/apt/sources.list
+    regexp: 'main non-free-firmware'
+    replace: 'main contrib non-free non-free-firmware'
+    mode: '0644'
+  when: nvidia_gpu_check.rc != 0
+  tags: [gpu]
+
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+  when: nvidia_gpu_check.rc != 0
+  tags: [gpu]
+
+- name: Install NVIDIA driver and firmware
+  ansible.builtin.apt:
+    name:
+      - nvidia-driver
+      - firmware-misc-nonfree
+    state: present
+  when: nvidia_gpu_check.rc != 0
+  notify:
+    - Rebuild NVIDIA kernel module
+    - Warn that a reboot may be required
+  tags: [gpu]
