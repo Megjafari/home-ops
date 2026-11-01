@@ -185,6 +185,7 @@ This does not replace data backups. Application data and infrastructure configur
 
 * [`ansible/`](./ansible/) — host configuration and node recovery
 * [`apps/`](./apps/) — Kubernetes workloads and GitOps configuration
+* [`docs/backup.md`](./docs/backup.md) — Sealed Secrets key backup and recovery
 * [`docs/diagrams/`](./docs/diagrams/) — architecture and infrastructure diagrams
 
 ## Status
