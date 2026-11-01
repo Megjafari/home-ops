@@ -17,13 +17,11 @@ The goal is to keep the environment **reproducible, declarative and version-cont
                             │
                      Managed Switch
                             │
-              ┌─────────────┼─────────────┐
-              │             │             │
-            nuke           tank           ryu
-        Control Plane      Worker         Worker
-                            │
-                           GPU
-              └─────────────┼─────────────┘
+                 ┌──────────┴──────────┐
+                 │                     │
+               nuke                  tank
+           Control Plane          Worker + GPU
+                 └──────────┬──────────┘
                             │
                     Kubernetes Cluster
                             │
@@ -50,13 +48,12 @@ The infrastructure is intentionally separated into distinct layers:
 
 ## Nodes
 
-The current cluster consists of three Kubernetes nodes:
+The current cluster consists of two Kubernetes nodes:
 
 | Node   | Role                                                    |
 | ------ | ------------------------------------------------------- |
 | `nuke` | Kubernetes control plane                                |
 | `tank` | Kubernetes worker with GPU and storage responsibilities |
-| `ryu`  | Kubernetes worker                                       |
 
 Node-specific host configuration is managed through Ansible.
 

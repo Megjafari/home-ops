@@ -24,6 +24,7 @@ ansible/
 ├── inventory.yml        # Node definitions and group membership
 ├── group_vars/
 │   └── all.yml          # Shared variables and package lists
+├── requirements.txt     # Python dependencies (Ansible version)
 ├── requirements.yml     # Ansible Galaxy collections
 ├── run.sh               # Creates a venv, installs Ansible, and runs the playbook
 ├── site.yml             # Main entrypoint; assigns roles to host groups
@@ -40,12 +41,10 @@ The inventory separates nodes by their role in the homelab:
 | Group           | Members       | Purpose                             |
 | --------------- | ------------- | ----------------------------------- |
 | `control_plane` | `nuke`        | Kubernetes control plane            |
-| `workers`       | `tank`, `ryu` | Kubernetes worker nodes             |
+| `workers`       | `tank`        | Kubernetes worker nodes             |
 | `gpu_nodes`     | `tank`        | Nodes with a GPU used by Kubernetes |
 
 `tank` belongs to both `workers` and `gpu_nodes`, so the NVIDIA role only targets the node that actually has a GPU.
-
-`ryu` remains a regular Kubernetes worker and is not modified by the GPU-specific configuration.
 
 ## Roles
 
@@ -121,10 +120,10 @@ Run only the NVIDIA configuration on `tank`:
 ./run.sh --tags gpu --limit tank
 ```
 
-Check the complete configuration for `ryu`:
+Check the complete configuration for `nuke`:
 
 ```bash
-./run.sh --limit ryu --check
+./run.sh --limit nuke --check
 ```
 
 Available tags:
@@ -220,7 +219,6 @@ Example:
 ```bash
 ssh-copy-id root@192.168.1.8
 ssh-copy-id root@192.168.1.9
-ssh-copy-id root@192.168.1.10
 ```
 
 After SSH access is configured, verify connectivity with:
@@ -234,7 +232,6 @@ Expected result:
 ```text
 nuke      SUCCESS
 tank      SUCCESS
-ryu       SUCCESS
 ```
 
 ## Recovery workflow
