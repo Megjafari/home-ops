@@ -1,15 +1,28 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    "docker:pinDigests"
   ],
   "kubernetes": {
-    "fileMatch": ["apps/.+\\.yaml$"]
+    "managerFilePatterns": ["/^apps/.+\\.yaml$/"]
   },
   "packageRules": [
     {
       "matchDatasources": ["docker"],
       "automerge": false
+    },
+    {
+      "description": "Major upgrades of databases need a manual migration, never open them automatically",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": [
+        "postgres",
+        "mongo",
+        "redis",
+        "ghcr.io/immich-app/postgres"
+      ],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
     }
   ]
 }

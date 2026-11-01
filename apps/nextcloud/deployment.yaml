@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: nextcloud
-        image: nextcloud:latest
+        image: nextcloud:latest@sha256:1969514cbcc9ae1e9a15ba2e388c7a0de5ee49ecd9c1da81e1e1a92d3dda46ca
         env:
         - name: POSTGRES_HOST
           value: "nextcloud-postgres.nextcloud.svc.cluster.local"
