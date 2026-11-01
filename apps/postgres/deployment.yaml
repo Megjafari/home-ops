@@ -16,6 +16,25 @@ spec:
       containers:
       - name: postgres
         image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvector0.8.0@sha256:da52bbead5d818adaa8077c8dcdaad0aaf93038c31ad8348b51f9f0ec1310a4d
+        resources:
+          requests:
+            cpu: 50m
+            memory: 256Mi
+        startupProbe:
+          tcpSocket:
+            port: 5432
+          periodSeconds: 10
+          failureThreshold: 30
+        readinessProbe:
+          tcpSocket:
+            port: 5432
+          periodSeconds: 10
+          failureThreshold: 3
+        livenessProbe:
+          tcpSocket:
+            port: 5432
+          periodSeconds: 20
+          failureThreshold: 6
         ports:
         - containerPort: 5432
         envFrom:

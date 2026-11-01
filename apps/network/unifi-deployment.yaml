@@ -18,6 +18,10 @@ spec:
       containers:
       - name: unifi
         image: lscr.io/linuxserver/unifi-network-application:latest@sha256:5f5e76c95b5bd4becb0cdb1b96ef53a468e75ca0f7a096ca5c24fc30998b382a
+        resources:
+          requests:
+            cpu: 200m
+            memory: 1Gi
         env:
         - name: PUID
           value: "1000"

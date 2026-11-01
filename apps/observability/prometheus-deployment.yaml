@@ -17,6 +17,25 @@ spec:
       containers:
       - name: prometheus
         image: prom/prometheus:latest@sha256:efd719c99d83b060d9daefdcf00360461adf279f45ef5391f8d111892118753e
+        resources:
+          requests:
+            cpu: 100m
+            memory: 512Mi
+        startupProbe:
+          tcpSocket:
+            port: 9090
+          periodSeconds: 10
+          failureThreshold: 30
+        readinessProbe:
+          tcpSocket:
+            port: 9090
+          periodSeconds: 10
+          failureThreshold: 3
+        livenessProbe:
+          tcpSocket:
+            port: 9090
+          periodSeconds: 20
+          failureThreshold: 6
         args:
           - '--config.file=/etc/prometheus/prometheus.yml'
           - '--storage.tsdb.path=/prometheus'

@@ -16,6 +16,25 @@ spec:
       containers:
       - name: nextcloud
         image: nextcloud:latest@sha256:1969514cbcc9ae1e9a15ba2e388c7a0de5ee49ecd9c1da81e1e1a92d3dda46ca
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+        startupProbe:
+          tcpSocket:
+            port: 80
+          periodSeconds: 10
+          failureThreshold: 30
+        readinessProbe:
+          tcpSocket:
+            port: 80
+          periodSeconds: 10
+          failureThreshold: 3
+        livenessProbe:
+          tcpSocket:
+            port: 80
+          periodSeconds: 20
+          failureThreshold: 6
         env:
         - name: POSTGRES_HOST
           value: "nextcloud-postgres.nextcloud.svc.cluster.local"

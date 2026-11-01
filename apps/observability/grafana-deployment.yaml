@@ -16,6 +16,27 @@ spec:
       containers:
       - name: grafana
         image: grafana/grafana:latest@sha256:488984b716c0862639f91a698adbe2862677a5a07bad42da5f03f3030883b205
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            memory: 512Mi
+        startupProbe:
+          tcpSocket:
+            port: 3000
+          periodSeconds: 10
+          failureThreshold: 30
+        readinessProbe:
+          tcpSocket:
+            port: 3000
+          periodSeconds: 10
+          failureThreshold: 3
+        livenessProbe:
+          tcpSocket:
+            port: 3000
+          periodSeconds: 20
+          failureThreshold: 6
         ports:
         - containerPort: 3000
         volumeMounts:
