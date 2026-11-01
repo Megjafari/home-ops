@@ -4,6 +4,10 @@
     "config:recommended",
     "docker:pinDigests"
   ],
+  "timezone": "Europe/Stockholm",
+  "schedule": ["before 6am on saturday"],
+  "prHourlyLimit": 0,
+  "prConcurrentLimit": 0,
   "kubernetes": {
     "managerFilePatterns": ["/^apps/.+\\.yaml$/"]
   },
@@ -11,6 +15,15 @@
     {
       "matchDatasources": ["docker"],
       "automerge": false
+    },
+    {
+      "description": "Immich server and machine-learning must always be the same version",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": [
+        "ghcr.io/immich-app/immich-server",
+        "ghcr.io/immich-app/immich-machine-learning"
+      ],
+      "groupName": "immich"
     },
     {
       "description": "Major upgrades of databases need a manual migration, never open them automatically",
@@ -23,6 +36,20 @@
       ],
       "matchUpdateTypes": ["major"],
       "enabled": false
+    },
+    {
+      "description": "Stateful and critical services: only update when ticked in the Dependency Dashboard",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": [
+        "postgres",
+        "mongo",
+        "redis",
+        "ghcr.io/immich-app/postgres",
+        "vaultwarden/server",
+        "nextcloud",
+        "cloudflare/cloudflared"
+      ],
+      "dependencyDashboardApproval": true
     }
   ]
 }
