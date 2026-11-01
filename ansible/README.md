@@ -156,23 +156,16 @@ The goal is not to run Ansible constantly, but to make important host configurat
 
 Ansible intentionally stops at the host boundary.
 
-```text
-┌─────────────────────────────────────────────┐
-│                 Bare-metal                  │
-│                                             │
-│  OS / packages / swap / CNI / NVIDIA / SSH │
-│                    ▲                        │
-│                    │                        │
-│                  Ansible                    │
-└────────────────────┼────────────────────────┘
-                     │
-                     ▼
-              Kubernetes cluster
-                     │
-                   ArgoCD
-                     │
-                     ▼
-              Kubernetes workloads
+```mermaid
+flowchart TD
+    subgraph BM["Bare-metal"]
+        direction LR
+        OS["OS / packages / swap / CNI / NVIDIA / SSH"]
+    end
+    Ansible --> BM
+    BM --> K8s["Kubernetes cluster"]
+    K8s --> ArgoCD
+    ArgoCD --> W["Kubernetes workloads"]
 ```
 
 The responsibilities are therefore separated:
@@ -240,30 +233,19 @@ The main benefit of this setup is reproducibility.
 
 If a node needs to be rebuilt, the intended workflow is:
 
-```text
-Fresh OS
-   │
-   ▼
-SSH access
-   │
-   ▼
-Ansible
-   │
-   ├── Common configuration
-   ├── Kubernetes prerequisites
-   └── GPU configuration (tank)
-   │
-   ▼
-kubeadm init / join
-   │
-   ▼
-ArgoCD
-   │
-   ▼
-Kubernetes workloads
-   │
-   ▼
-Restore persistent data if required
+```mermaid
+flowchart TD
+    OS["Fresh OS"] --> SSH["SSH access"]
+    SSH --> Ansible
+    Ansible --> C["Common configuration"]
+    Ansible --> P["Kubernetes prerequisites"]
+    Ansible --> G["GPU configuration (tank)"]
+    C --> KA["kubeadm init / join"]
+    P --> KA
+    G --> KA
+    KA --> ArgoCD
+    ArgoCD --> W["Kubernetes workloads"]
+    W --> R["Restore persistent data if required"]
 ```
 
 This keeps the host configuration in version control instead of relying on undocumented manual fixes.
