@@ -8,30 +8,19 @@ The goal is to keep the environment **reproducible, declarative and version-cont
 
 ## Architecture
 
-```text
-                         Internet
-                            │
-                         OPNsense
-                            │
-                       Network / VLANs
-                            │
-                     Managed Switch
-                            │
-                 ┌──────────┴──────────┐
-                 │                     │
-               nuke                  tank
-           Control Plane          Worker + GPU
-                 └──────────┬──────────┘
-                            │
-                    Kubernetes Cluster
-                            │
-                          ArgoCD
-                            │
-                    GitOps reconciliation
-                            │
-                         apps/
-                            │
-                    Kubernetes workloads
+```mermaid
+flowchart TD
+    Internet --> OPNsense
+    OPNsense --> VLANs["Network / VLANs"]
+    VLANs --> Switch["Managed Switch"]
+    Switch --> nuke["nuke<br/>Control Plane"]
+    Switch --> tank["tank<br/>Worker + GPU"]
+    nuke --> K8s["Kubernetes Cluster"]
+    tank --> K8s
+    K8s --> ArgoCD
+    ArgoCD --> GitOps["GitOps reconciliation"]
+    GitOps --> apps["apps/"]
+    apps --> Workloads["Kubernetes workloads"]
 ```
 
 The infrastructure is intentionally separated into distinct layers:
@@ -97,9 +86,31 @@ The homelab network is managed separately from the Kubernetes workloads.
 
 OPNsense provides routing, firewalling and network segmentation, with VLANs being used to establish boundaries between different classes of devices and services.
 
-The network architecture is documented in:
+The network is laid out as follows. VLAN 30 carries the homelab, and the access point trunks the Main, IoT and Guest VLANs.
 
-[`docs/diagrams/`](./docs/diagrams/)
+```mermaid
+flowchart TD
+    Internet["Internet<br/>Tele2 modem"] --> OPN["OPNsense<br/>192.168.1.1"]
+    OPN -->|"Tagged trunk: all VLANs"| SW["Managed switch"]
+    SW -->|"VLAN 30"| Lab
+    SW -->|"Tagged trunk: Main, IoT, Guest"| AP["Unifi Long Range AP"]
+    subgraph Lab["Homelab"]
+        tank["tank<br/>worker"]
+        nuke["nuke<br/>control plane"]
+    end
+    AP -.->|"VLAN 20"| IoT
+    AP -.->|"VLAN 10"| Main
+    AP -.->|"VLAN 40"| Guest["SSID Guest"]
+    subgraph IoT["SSID IoT"]
+        plug["Smart plug"]
+        cam["Cameras"]
+        tv["TV"]
+    end
+    subgraph Main["SSID Main"]
+        thinkpad["Thinkpad"]
+        iphone["iPhone"]
+    end
+```
 
 Network segmentation is an ongoing part of the homelab and is being developed alongside the Kubernetes infrastructure.
 
@@ -129,8 +140,7 @@ The intention is to reduce manual configuration and make infrastructure changes 
 │
 ├── argocd/              # ArgoCD Application definitions (app-of-apps)
 │
-├── docs/
-│   └── diagrams/        # Architecture and infrastructure diagrams
+├── docs/                # Documentation (backup and recovery)
 │
 ├── renovate.json        # Automated dependency updates
 │
@@ -151,30 +161,12 @@ Configuration changes are made through Git and can be reviewed, reverted and aud
 
 Each layer has a defined responsibility:
 
-```text
-Network
-   │
-   ├── Routing
-   ├── Firewall
-   └── VLANs
-        │
-        ▼
-Ansible
-   │
-   └── Host configuration
-        │
-        ▼
-Kubernetes
-   │
-   └── Cluster orchestration
-        │
-        ▼
-ArgoCD
-   │
-   └── GitOps reconciliation
-        │
-        ▼
-Applications
+```mermaid
+flowchart TD
+    N["<b>Network</b><br/>Routing, Firewall, VLANs"] --> A["<b>Ansible</b><br/>Host configuration"]
+    A --> K["<b>Kubernetes</b><br/>Cluster orchestration"]
+    K --> G["<b>ArgoCD</b><br/>GitOps reconciliation"]
+    G --> P["<b>Applications</b>"]
 ```
 
 ### Reproducibility
@@ -189,7 +181,6 @@ This does not replace data backups. Application data and infrastructure configur
 * [`apps/`](./apps/) — Kubernetes workloads and GitOps configuration
 * [`argocd/`](./argocd/) — ArgoCD Application definitions and rebuild steps
 * [`docs/backup.md`](./docs/backup.md) — Sealed Secrets key backup and recovery
-* [`docs/diagrams/`](./docs/diagrams/) — architecture and infrastructure diagrams
 
 ## Status
 

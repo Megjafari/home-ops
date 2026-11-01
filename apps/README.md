@@ -8,45 +8,29 @@ Workloads should be changed through Git rather than by manually applying manifes
 
 ## Architecture
 
-```text
-                         Git Repository
-                               │
-                               ▼
-                            apps/
-                               │
-                               ▼
-                            ArgoCD
-                               │
-                    reconciliation / sync
-                               │
-                               ▼
-                     Kubernetes Cluster
-                               │
-              ┌────────────────┼────────────────┐
-              │                │                │
-          Deployments      Services           PVCs
-              │                │                │
-              └────────────────┼────────────────┘
-                               │
-                         Running workloads
+```mermaid
+flowchart TD
+    Git["Git Repository"] --> apps["apps/"]
+    apps --> ArgoCD
+    ArgoCD -->|"reconciliation / sync"| K8s["Kubernetes Cluster"]
+    K8s --> Deployments
+    K8s --> Services
+    K8s --> PVCs
+    Deployments --> Running["Running workloads"]
+    Services --> Running
+    PVCs --> Running
 ```
 
 ArgoCD is responsible for reconciling the Kubernetes layer. Host-level configuration is deliberately managed separately through Ansible.
 
-```text
-Network
-   │
-   ▼
-Ansible ───────────► Bare-metal host configuration
-   │
-   ▼
-Kubernetes
-   │
-   ▼
-ArgoCD ────────────► apps/
-   │
-   ▼
-Workloads
+```mermaid
+flowchart TD
+    Network --> Ansible
+    Ansible -.-> Host["Bare-metal host configuration"]
+    Ansible --> Kubernetes
+    Kubernetes --> ArgoCD
+    ArgoCD -.-> apps["apps/"]
+    ArgoCD --> Workloads
 ```
 
 ## Design Principles
@@ -136,23 +120,13 @@ The node exports storage over NFS, which is consumed by Kubernetes through the `
 
 The resulting `StorageClass` is used by workloads through standard `PersistentVolumeClaim` resources.
 
-```text
-                    Kubernetes
-                         │
-                         ▼
-                 PersistentVolumeClaim
-                         │
-                         ▼
-                   nfs-storage
-                         │
-                         ▼
-              NFS provisioner
-                         │
-                         ▼
-                      tank
-                         │
-                         ▼
-                     RAID1
+```mermaid
+flowchart TD
+    K["Kubernetes"] --> PVC["PersistentVolumeClaim"]
+    PVC --> SC["nfs-storage"]
+    SC --> NFS["NFS provisioner"]
+    NFS --> tank
+    tank --> RAID1
 ```
 
 Applications request storage through PVCs rather than directly referencing a node-local `hostPath`.
@@ -179,20 +153,16 @@ The Kubernetes GPU integration depends on the NVIDIA device plugin being availab
 
 Host-level NVIDIA configuration is managed by the Ansible `nvidia_gpu` role.
 
-```text
-Ansible
-   │
-   ├── NVIDIA driver
-   ├── DKMS
-   └── Host GPU configuration
-            │
-            ▼
-        Kubernetes
-            │
-      NVIDIA device plugin
-            │
-            ▼
-         Jellyfin
+```mermaid
+flowchart TD
+    Ansible --> NV["NVIDIA driver"]
+    Ansible --> DKMS
+    Ansible --> HG["Host GPU configuration"]
+    NV --> K["Kubernetes"]
+    DKMS --> K
+    HG --> K
+    K --> DP["NVIDIA device plugin"]
+    DP --> Jellyfin
 ```
 
 A rebuilt GPU node therefore requires both the host-level Ansible configuration and the Kubernetes-level GPU integration before GPU workloads can be scheduled successfully.
@@ -285,23 +255,16 @@ Scans repository changes for patterns that may indicate accidentally committed s
 
 The purpose of CI is to catch configuration and security issues before ArgoCD attempts to reconcile them.
 
-```text
-Pull Request / Push
-        │
-        ▼
-GitHub Actions
-        │
-   ┌────┼─────────┐
-   │    │         │
-YAML  Kubernetes  Secrets
-lint  validation  scanning
-   │    │         │
-   └────┼─────────┘
-        ▼
-   Git repository
-        │
-        ▼
-      ArgoCD
+```mermaid
+flowchart TD
+    PR["Pull Request / Push"] --> GA["GitHub Actions"]
+    GA --> Lint["YAML lint"]
+    GA --> Val["Kubernetes validation"]
+    GA --> Sec["Secrets scanning"]
+    Lint --> Repo["Git repository"]
+    Val --> Repo
+    Sec --> Repo
+    Repo --> ArgoCD
 ```
 
 ## Adding a New Workload
@@ -354,32 +317,16 @@ After the change reaches Git, ArgoCD should reconcile the new desired state auto
 
 The intended operational workflow is:
 
-```text
-Change required
-      │
-      ▼
-Modify Git configuration
-      │
-      ▼
-Validate
-      │
-      ▼
-Commit / Pull Request
-      │
-      ▼
-GitHub Actions
-      │
-      ▼
-Merge
-      │
-      ▼
-ArgoCD
-      │
-      ▼
-Kubernetes reconciliation
-      │
-      ▼
-Running workload
+```mermaid
+flowchart TD
+    A["Change required"] --> B["Modify Git configuration"]
+    B --> C["Validate"]
+    C --> D["Commit / Pull Request"]
+    D --> E["GitHub Actions"]
+    E --> F["Merge"]
+    F --> G["ArgoCD"]
+    G --> H["Kubernetes reconciliation"]
+    H --> I["Running workload"]
 ```
 
 Direct changes with `kubectl` should be treated as operational intervention rather than the normal deployment workflow.
@@ -390,34 +337,11 @@ If a live change is required for troubleshooting or incident response, the resul
 
 Troubleshooting follows the same layered model as the architecture.
 
-```text
-Git
- │
- ├── Is the desired configuration correct?
- │
- ▼
-ArgoCD
- │
- ├── Synced?
- ├── Healthy?
- └── Sync errors?
- │
- ▼
-Kubernetes
- │
- ├── Pods
- ├── Events
- ├── Services
- ├── PVCs
- └── Network configuration
- │
- ▼
-Node
- │
- ├── CPU / memory
- ├── storage
- ├── GPU
- └── host configuration
+```mermaid
+flowchart TD
+    Git["<b>Git</b><br/>Is the desired configuration correct?"] --> Argo["<b>ArgoCD</b><br/>Synced? Healthy? Sync errors?"]
+    Argo --> K8s["<b>Kubernetes</b><br/>Pods, Events, Services, PVCs, Network configuration"]
+    K8s --> Node["<b>Node</b><br/>CPU / memory, storage, GPU, host configuration"]
 ```
 
 Useful starting points:
@@ -434,31 +358,12 @@ Host-level issues should be investigated through the node configuration and Ansi
 
 The Kubernetes workloads are one layer of the larger HomeOps infrastructure:
 
-```text
-┌───────────────────────────────────────────┐
-│                 Network                   │
-│        OPNsense / VLANs / Firewall        │
-└─────────────────────┬─────────────────────┘
-                      │
-┌─────────────────────▼─────────────────────┐
-│                  Hosts                    │
-│             Ansible / Linux               │
-└─────────────────────┬─────────────────────┘
-                      │
-┌─────────────────────▼─────────────────────┐
-│                Kubernetes                 │
-│          kubeadm / container runtime      │
-└─────────────────────┬─────────────────────┘
-                      │
-┌─────────────────────▼─────────────────────┐
-│                  ArgoCD                   │
-│              GitOps reconciliation        │
-└─────────────────────┬─────────────────────┘
-                      │
-┌─────────────────────▼─────────────────────┐
-│                  apps/                    │
-│          Kubernetes workloads             │
-└───────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    N["<b>Network</b><br/>OPNsense / VLANs / Firewall"] --> H["<b>Hosts</b><br/>Ansible / Linux"]
+    H --> K["<b>Kubernetes</b><br/>kubeadm / container runtime"]
+    K --> A["<b>ArgoCD</b><br/>GitOps reconciliation"]
+    A --> W["<b>apps/</b><br/>Kubernetes workloads"]
 ```
 
 The separation is intentional:
