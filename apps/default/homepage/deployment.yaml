@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: homepage
-        image: ghcr.io/gethomepage/homepage:latest
+        image: ghcr.io/gethomepage/homepage:latest@sha256:643bd0be730d40f69d58028a55d1a896739333e8815786df42bc97f109ecbe61
         env:
         - name: HOMEPAGE_ALLOWED_HOSTS
           value: "192.168.1.8:31941,localhost:3000,10.244.0.0/16:3000,100.103.203.92:31941"

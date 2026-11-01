@@ -19,7 +19,7 @@ spec:
         kubernetes.io/hostname: tank
       containers:
       - name: homeassistant
-        image: ghcr.io/home-assistant/home-assistant:stable
+        image: ghcr.io/home-assistant/home-assistant:stable@sha256:612d76760b544cb40b7ba01387fdac964c59a6a550a50a4d30b4773c822d2918
         volumeMounts:
         - name: config
           mountPath: /config
