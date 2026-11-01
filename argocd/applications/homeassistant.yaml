@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: homeassistant
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/Megjafari/home-ops.git
+    targetRevision: HEAD
+    path: apps/homeassistant
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: homeassistant
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
