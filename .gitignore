@@ -1,3 +1,5 @@
 .ansible-venv/
 *.retry
 .DS_Store
+sealed-secrets-key*
+*.yaml.enc
