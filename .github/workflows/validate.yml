@@ -33,9 +33,43 @@ jobs:
 
       - name: Validate Kubernetes manifests
         run: |
-          docker run --rm -v "$PWD:/workspace" -w /workspace ghcr.io/yannh/kubeconform:latest \
+          docker run --rm -v "$PWD:/workspace" -w /workspace ghcr.io/yannh/kubeconform:v0.6.7 \
             -summary -ignore-missing-schemas -kubernetes-version 1.31.0 \
+            -schema-location default \
+            -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' \
             $(find apps -name "*.yaml")
+
+  kube-linter:
+    # Advisory for now: existing manifests still lack resources, probes and
+    # securityContexts. Remove continue-on-error once those are fixed.
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install kube-linter
+        run: |
+          curl -sSL -o kube-linter.tar.gz \
+            https://github.com/stackrox/kube-linter/releases/download/v0.7.2/kube-linter-linux.tar.gz
+          tar -xzf kube-linter.tar.gz
+          sudo mv kube-linter /usr/local/bin/
+
+      - name: Lint Kubernetes manifests
+        run: kube-linter lint apps/
+
+  ansible-lint:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Lint Ansible
+        run: |
+          pip install ansible-lint
+          cd ansible
+          ansible-lint .
 
   secret-scan:
     runs-on: ubuntu-latest
