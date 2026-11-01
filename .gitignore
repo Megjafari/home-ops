@@ -1,0 +1,3 @@
+.ansible-venv/
+*.retry
+.DS_Store

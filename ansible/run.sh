@@ -17,7 +17,7 @@ fi
 source "$VENV_DIR/bin/activate"
 
 pip install --quiet --upgrade pip
-pip install --quiet ansible
+pip install --quiet -r requirements.txt
 
 if [ -f requirements.yml ]; then
     ansible-galaxy collection install -r requirements.yml
