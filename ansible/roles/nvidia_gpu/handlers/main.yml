@@ -1,0 +1,7 @@
+- name: Rebuild NVIDIA kernel module
+  ansible.builtin.command: dkms autoinstall
+  changed_when: true
+
+- name: Warn that a reboot may be required
+  ansible.builtin.debug:
+    msg: "NVIDIA driver installed/updated. If nvidia-smi still fails, run 'dkms autoinstall' again or reboot."
