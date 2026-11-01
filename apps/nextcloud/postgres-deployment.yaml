@@ -16,6 +16,25 @@ spec:
       containers:
       - name: postgres
         image: postgres:16@sha256:f1c3376c26f2609ab9f29f71f824103fe2fcd8ee0346485cb6122a4f93df6f94
+        resources:
+          requests:
+            cpu: 50m
+            memory: 256Mi
+        startupProbe:
+          tcpSocket:
+            port: 5432
+          periodSeconds: 10
+          failureThreshold: 30
+        readinessProbe:
+          tcpSocket:
+            port: 5432
+          periodSeconds: 10
+          failureThreshold: 3
+        livenessProbe:
+          tcpSocket:
+            port: 5432
+          periodSeconds: 20
+          failureThreshold: 6
         envFrom:
         - secretRef:
             name: nextcloud-credentials

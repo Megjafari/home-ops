@@ -20,6 +20,25 @@ spec:
       containers:
       - name: homeassistant
         image: ghcr.io/home-assistant/home-assistant:stable@sha256:23f4dfbb69ce76315dbc4de7915504f1c2dcecd7ca2648113a493a385972e133
+        resources:
+          requests:
+            cpu: 100m
+            memory: 512Mi
+        startupProbe:
+          tcpSocket:
+            port: 8123
+          periodSeconds: 10
+          failureThreshold: 30
+        readinessProbe:
+          tcpSocket:
+            port: 8123
+          periodSeconds: 10
+          failureThreshold: 3
+        livenessProbe:
+          tcpSocket:
+            port: 8123
+          periodSeconds: 20
+          failureThreshold: 6
         volumeMounts:
         - name: config
           mountPath: /config

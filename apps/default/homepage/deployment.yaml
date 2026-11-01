@@ -18,6 +18,27 @@ spec:
       containers:
       - name: homepage
         image: ghcr.io/gethomepage/homepage:latest@sha256:19c5c09184458a41b7b5915e71463a39f36cd33540f41bdbed008791b8182d5f
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            memory: 256Mi
+        startupProbe:
+          tcpSocket:
+            port: 3000
+          periodSeconds: 10
+          failureThreshold: 30
+        readinessProbe:
+          tcpSocket:
+            port: 3000
+          periodSeconds: 10
+          failureThreshold: 3
+        livenessProbe:
+          tcpSocket:
+            port: 3000
+          periodSeconds: 20
+          failureThreshold: 6
         env:
         - name: HOMEPAGE_ALLOWED_HOSTS
           value: "192.168.1.8:31941,localhost:3000,10.244.0.0/16:3000,100.103.203.92:31941"

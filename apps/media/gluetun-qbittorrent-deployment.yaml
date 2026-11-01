@@ -20,6 +20,10 @@ spec:
       containers:
       - name: gluetun
         image: qmcgaw/gluetun:latest@sha256:4af0c804003481e100180e1f8d4d5e9c48163fedc0f88d061881b615aef9d183
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
         securityContext:
           capabilities:
             add: ["NET_ADMIN"]
@@ -54,6 +58,10 @@ spec:
         - containerPort: 8080
       - name: qbittorrent
         image: lscr.io/linuxserver/qbittorrent:latest@sha256:75ecbb1c89ab7b0a21c4bde40b4820e4f1649d2d56d83b91913422155e8d2a5f
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
         env:
         - name: PUID
           value: "1000"

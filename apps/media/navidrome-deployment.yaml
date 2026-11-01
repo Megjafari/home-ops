@@ -16,6 +16,27 @@ spec:
       containers:
       - name: navidrome
         image: deluan/navidrome:latest@sha256:38dc2727bfcfd5ede290f8ada114fc90368146f265ae4701ddddbcbe2a44ee52
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            memory: 512Mi
+        startupProbe:
+          tcpSocket:
+            port: 4533
+          periodSeconds: 10
+          failureThreshold: 30
+        readinessProbe:
+          tcpSocket:
+            port: 4533
+          periodSeconds: 10
+          failureThreshold: 3
+        livenessProbe:
+          tcpSocket:
+            port: 4533
+          periodSeconds: 20
+          failureThreshold: 6
         env:
         - name: ND_MUSICFOLDER
           value: "/music"

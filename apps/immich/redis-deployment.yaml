@@ -16,6 +16,27 @@ spec:
       containers:
       - name: redis
         image: redis:7-alpine@sha256:ff02b58f971e7d7d156a1267e283fcbbeee91773b6aa36c49dac28ecfe28eadf
+        resources:
+          requests:
+            cpu: 25m
+            memory: 64Mi
+          limits:
+            memory: 256Mi
+        startupProbe:
+          tcpSocket:
+            port: 6379
+          periodSeconds: 10
+          failureThreshold: 30
+        readinessProbe:
+          tcpSocket:
+            port: 6379
+          periodSeconds: 10
+          failureThreshold: 3
+        livenessProbe:
+          tcpSocket:
+            port: 6379
+          periodSeconds: 20
+          failureThreshold: 6
         ports:
         - containerPort: 6379
 ---

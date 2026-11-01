@@ -16,6 +16,27 @@ spec:
       containers:
       - name: radarr
         image: lscr.io/linuxserver/radarr:latest@sha256:adb6c09d6b729ea5e642c99cea35af72702ef476bf4763f153299ac5db9f0b4f
+        resources:
+          requests:
+            cpu: 50m
+            memory: 256Mi
+          limits:
+            memory: 1Gi
+        startupProbe:
+          tcpSocket:
+            port: 7878
+          periodSeconds: 10
+          failureThreshold: 30
+        readinessProbe:
+          tcpSocket:
+            port: 7878
+          periodSeconds: 10
+          failureThreshold: 3
+        livenessProbe:
+          tcpSocket:
+            port: 7878
+          periodSeconds: 20
+          failureThreshold: 6
         env:
         - name: PUID
           value: "1000"
