@@ -127,6 +127,8 @@ The intention is to reduce manual configuration and make infrastructure changes 
 │
 ├── apps/                # Kubernetes workloads and GitOps configuration
 │
+├── argocd/              # ArgoCD Application definitions (app-of-apps)
+│
 ├── docs/
 │   └── diagrams/        # Architecture and infrastructure diagrams
 │
@@ -185,6 +187,7 @@ This does not replace data backups. Application data and infrastructure configur
 
 * [`ansible/`](./ansible/) — host configuration and node recovery
 * [`apps/`](./apps/) — Kubernetes workloads and GitOps configuration
+* [`argocd/`](./argocd/) — ArgoCD Application definitions and rebuild steps
 * [`docs/backup.md`](./docs/backup.md) — Sealed Secrets key backup and recovery
 * [`docs/diagrams/`](./docs/diagrams/) — architecture and infrastructure diagrams
 
