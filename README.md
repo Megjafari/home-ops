@@ -1,92 +1,83 @@
-# HomeOps
+# homelab
 
-Infrastructure-as-Code and GitOps configuration for my self-hosted Kubernetes homelab.
+[![Validate](https://github.com/Megjafari/homelab/actions/workflows/validate.yml/badge.svg)](https://github.com/Megjafari/homelab/actions/workflows/validate.yml)
+[![Blog](https://github.com/Megjafari/homelab/actions/workflows/blog-ci.yml/badge.svg)](https://github.com/Megjafari/homelab/actions/workflows/blog-ci.yml)
 
-This repository is the source of truth for the infrastructure and workloads running in the cluster. It combines host configuration with Ansible and Kubernetes configuration with GitOps through ArgoCD.
+A self-hosted Kubernetes homelab, described as code and operated through Git. This repository is the source of truth for the hosts, the cluster workloads, the CI around them and the blog that documents it: [blog.meghdadjafari.dev](https://blog.meghdadjafari.dev).
 
-The goal is to keep the environment **reproducible, declarative and version-controlled**, while using the homelab as a practical environment for learning and applying DevOps, Kubernetes, Linux, networking and infrastructure automation.
+I built it to learn what happens to an application after the code is written: where it runs, how it is reached, how the machines under it are managed, and what breaks. Everything here is what is actually running.
 
-## Architecture
+## What runs where
 
 ```mermaid
 flowchart TD
-    Internet --> OPNsense
-    OPNsense --> VLANs["Network / VLANs"]
-    VLANs --> Switch["Managed Switch"]
-    Switch --> nuke["nuke<br/>Control Plane"]
-    Switch --> tank["tank<br/>Worker + GPU"]
-    nuke --> K8s["Kubernetes Cluster"]
-    tank --> K8s
-    K8s --> ArgoCD
-    ArgoCD --> GitOps["GitOps reconciliation"]
-    GitOps --> apps["apps/"]
-    apps --> Workloads["Kubernetes workloads"]
+    Internet["Internet"] --> CF["Cloudflare<br/>DNS, TLS, Tunnel"]
+    Internet --> OPN["OPNsense<br/>router and firewall"]
+
+    subgraph PVE["Proxmox on a ThinkPad T430s"]
+        OPN
+        Coolify["Coolify VM<br/>blog and other apps"]
+        PG[("PostgreSQL<br/>LXC")]
+    end
+
+    OPN -->|"VLAN trunk"| SW["Managed switch"]
+    CF -->|"tunnel"| Coolify
+    SW --> nuke["nuke<br/>Intel NUC<br/>control plane"]
+    SW --> tank["tank<br/>worker, RTX 3060<br/>NFS storage, RAID 1"]
+
+    GH["GitHub<br/>this repository"] -.->|"Argo CD"| nuke
+    nuke --- K8s["Kubernetes<br/>Jellyfin, Immich, Nextcloud,<br/>Vaultwarden, Home Assistant, ..."]
+    tank --- K8s
+    GH -.->|"build and deploy"| Coolify
 ```
 
-The infrastructure is intentionally separated into distinct layers:
+| Machine | Role |
+| --- | --- |
+| ThinkPad T430s | Proxmox host: OPNsense, Coolify and a PostgreSQL container |
+| Intel NUC `nuke` | Kubernetes control plane |
+| Self-built server `tank` | Kubernetes worker with a GPU, and the NFS storage (two disks in RAID 1) |
 
-| Layer                  | Responsibility                                   |
-| ---------------------- | ------------------------------------------------ |
-| **OPNsense / Network** | Routing, firewalling and network segmentation    |
-| **Ansible**            | Bare-metal host configuration                    |
-| **kubeadm**            | Kubernetes cluster bootstrap and node membership |
-| **Kubernetes**         | Container orchestration                          |
-| **ArgoCD**             | GitOps reconciliation                            |
-| **apps/**              | Declarative Kubernetes workloads                 |
-| **GitHub**             | Version control and source of truth              |
+## What this demonstrates
 
-## Nodes
+| Skill | Where to look |
+| --- | --- |
+| **GitOps** with Argo CD, app-of-apps, one Application per namespace | [`argocd/`](./argocd/), [`apps/`](./apps/) |
+| **Kubernetes** on bare metal with `kubeadm`, NFS-backed storage, GPU scheduling | [`apps/`](./apps/), [`docs/cluster-components.md`](./docs/cluster-components.md) |
+| **Configuration management** with Ansible, linted in CI | [`ansible/`](./ansible/) |
+| **Secrets handling**: Sealed Secrets in Git, key backup and recovery, secret scanning in CI | [`docs/backup.md`](./docs/backup.md), [`.gitleaks.toml`](./.gitleaks.toml) |
+| **CI**: YAML lint, schema validation, kube-linter, Ansible lint, gitleaks | [`.github/workflows/validate.yml`](./.github/workflows/validate.yml) |
+| **Dependency hygiene**: images pinned by digest, Renovate on a weekly schedule | [`renovate.json`](./renovate.json) |
+| **Networking**: VLAN segmentation with OPNsense, Tailscale for private access, Cloudflare Tunnel for public services | [Networking](#networking) |
+| **Posts as code**: Markdown in Git, built into a static site and deployed | [`content/`](./content/), [`blog/`](./blog/) |
 
-The current cluster consists of two Kubernetes nodes:
+## How a change reaches the cluster
 
-| Node   | Role                                                    |
-| ------ | ------------------------------------------------------- |
-| `nuke` | Kubernetes control plane                                |
-| `tank` | Kubernetes worker with GPU and storage responsibilities |
-
-Node-specific host configuration is managed through Ansible.
-
-See [`ansible/`](./ansible/) for the configuration and recovery workflow.
-
-## GitOps
-
-ArgoCD continuously reconciles the Kubernetes configuration stored in this repository.
-
-Changes to Kubernetes workloads are therefore made through Git rather than manually modifying resources inside the cluster.
-
-The desired state lives in:
-
-```text
-apps/
+```mermaid
+flowchart LR
+    A["Edit manifests<br/>in a branch"] --> B["Pull request"]
+    B --> C["CI: lint, validate,<br/>scan for secrets"]
+    C --> D["Merge to main"]
+    D --> E["Argo CD syncs<br/>apps/ to the cluster"]
+    R["Renovate"] -.->|"opens PRs for<br/>new image digests"| B
 ```
 
-ArgoCD is responsible for bringing the running cluster back toward that desired state.
+Workloads are changed through Git, not with `kubectl`. Argo CD applies `apps/<namespace>/` into the namespace of the same name. Automated sync is on, with `prune` and `selfHeal` off for now, so the cluster is never changed by something that is not in Git, and nothing is deleted without a conscious step.
 
-See [`apps/`](./apps/) for the Kubernetes configuration.
+## Layers
 
-## Host Configuration
+| Layer | Responsibility | Lives in |
+| --- | --- | --- |
+| Network | Routing, firewall, VLANs | OPNsense, Unifi |
+| Hosts | Packages, swap, CNI, NVIDIA driver | [`ansible/`](./ansible/) |
+| Cluster | Bootstrap and membership | `kubeadm`, [`docs/cluster-components.md`](./docs/cluster-components.md) |
+| Workloads | Everything that runs in Kubernetes | [`apps/`](./apps/), [`argocd/`](./argocd/) |
+| Content | The blog and its posts | [`blog/`](./blog/), [`content/`](./content/) |
 
-Ansible manages configuration below the Kubernetes layer.
-
-It is responsible for making the underlying hosts ready to participate in the cluster, including:
-
-* Common host packages
-* Kubernetes node prerequisites
-* Swap configuration
-* CNI configuration
-* NVIDIA GPU configuration
-
-Ansible intentionally stops at the host boundary. Kubernetes workloads remain under GitOps control through ArgoCD.
-
-See [`ansible/`](./ansible/) for details.
+Ansible stops at the host boundary; Argo CD owns everything inside the cluster.
 
 ## Networking
 
-The homelab network is managed separately from the Kubernetes workloads.
-
-OPNsense provides routing, firewalling and network segmentation, with VLANs being used to establish boundaries between different classes of devices and services.
-
-The network is laid out as follows. VLAN 30 carries the homelab, and the access point trunks the Main, IoT and Guest VLANs.
+OPNsense provides routing, firewalling and segmentation. VLAN 30 carries the homelab, and the access point trunks the Main, IoT and Guest VLANs.
 
 ```mermaid
 flowchart TD
@@ -112,94 +103,63 @@ flowchart TD
     end
 ```
 
-Network segmentation is an ongoing part of the homelab and is being developed alongside the Kubernetes infrastructure.
+The blog is published through a Cloudflare Tunnel, so no router ports are forwarded for it. Everything else is reached over Tailscale.
 
-## Automation
+## What it runs
 
-The repository also uses GitHub-based automation for maintaining and validating the configuration.
+Jellyfin (with GPU transcoding), Immich, Nextcloud, Vaultwarden, Home Assistant, Navidrome, the Sonarr/Radarr/Prowlarr stack with qBittorrent behind a VPN sidecar, Unifi, Prometheus, Grafana, Uptime Kuma and a Homepage dashboard.
 
-Current automation includes:
+## Lessons from running it
 
-* GitHub Actions
-* Renovate
-* Ansible automation
-* ArgoCD GitOps reconciliation
+These are real problems, now fixed in the manifests:
 
-The intention is to reduce manual configuration and make infrastructure changes auditable through Git history.
+- **A rolling update can deadlock on a single GPU.** Jellyfin requests the node's only GPU, so the new pod stayed `Pending` for hours while the old pod held it. Fix: `strategy: Recreate`.
+- **Databases lock their data directory.** During a rolling update the new Mongo and Prometheus pods crash-looped on the lock held by the old pod, so the rollout never finished. Fix: `Recreate` on every single-replica app with a PVC.
+- **`:latest` makes Git history meaningless.** Every image is now pinned by digest, which makes rollbacks real and gives Renovate something to update.
+- **A secret scanner must understand sealed secrets.** Gitleaks flagged the encrypted values in `sealed-secret.yaml`; they are ciphertext, so those files are allow-listed explicitly rather than turning the check off.
 
-## Repository Structure
+More detail goes into the [blog](https://blog.meghdadjafari.dev).
+
+## Known gaps
+
+Stated plainly, because a portfolio should not pretend:
+
+- Only the Sealed Secrets key has a backup procedure. Application data on NFS has no off-host backup yet.
+- No NetworkPolicies (the CNI is Flannel), so pods can reach each other freely.
+- Most workloads still run with their image's default user (often root); only Grafana and Prometheus have a hardened `securityContext`.
+- Services are exposed as `NodePort`; there is no ingress controller yet.
+- `kube-linter` runs as an advisory check, because the findings above are not fixed yet.
+- Argo CD `prune` and `selfHeal` are off.
+- Terraform for Proxmox, Cloudflare and GitHub is planned, not done.
+
+## Repository layout
 
 ```text
 .
-├── .github/
-│   └── workflows/       # CI and repository automation
-│
-├── ansible/             # Bare-metal host configuration
-│
-├── apps/                # Kubernetes workloads and GitOps configuration
-│
-├── argocd/              # ArgoCD Application definitions (app-of-apps)
-│
-├── docs/                # Documentation (backup and recovery)
-│
-├── renovate.json        # Automated dependency updates
-│
-└── README.md            # Project overview
+├── .github/workflows/   # CI: validate.yml (manifests, Ansible, secrets), blog-ci.yml
+├── ansible/             # Host configuration
+├── apps/                # Kubernetes workloads, one directory per namespace
+├── argocd/              # Argo CD Applications (app-of-apps)
+├── blog/                # The blog frontend (React, Vite)
+├── content/             # Blog posts as Markdown, built into the site
+├── docs/                # Backup and cluster component documentation
+├── scripts/             # Helper scripts
+├── .gitleaks.toml       # Secret scanning rules
+└── renovate.json        # Automated dependency updates
 ```
-
-## Design Principles
-
-### Declarative configuration
-
-Infrastructure and workloads should be described as desired state rather than relying on undocumented manual changes.
-
-### Git as the source of truth
-
-Configuration changes are made through Git and can be reviewed, reverted and audited through the repository history.
-
-### Separation of responsibilities
-
-Each layer has a defined responsibility:
-
-```mermaid
-flowchart TD
-    N["<b>Network</b><br/>Routing, Firewall, VLANs"] --> A["<b>Ansible</b><br/>Host configuration"]
-    A --> K["<b>Kubernetes</b><br/>Cluster orchestration"]
-    K --> G["<b>ArgoCD</b><br/>GitOps reconciliation"]
-    G --> P["<b>Applications</b>"]
-```
-
-### Reproducibility
-
-The configuration should contain enough information to rebuild the environment without depending on undocumented manual steps.
-
-This does not replace data backups. Application data and infrastructure configuration are separate concerns.
 
 ## Documentation
 
-* [`ansible/`](./ansible/) — host configuration and node recovery
-* [`apps/`](./apps/) — Kubernetes workloads and GitOps configuration
-* [`argocd/`](./argocd/) — ArgoCD Application definitions and rebuild steps
-* [`docs/backup.md`](./docs/backup.md) — Sealed Secrets key backup and recovery
-* [`docs/cluster-components.md`](./docs/cluster-components.md) — hand-installed cluster components and rebuild order
+- [`ansible/`](./ansible/) – host configuration and node recovery
+- [`apps/`](./apps/) – workloads, storage and operations
+- [`argocd/`](./argocd/) – Applications and the rebuild order
+- [`docs/backup.md`](./docs/backup.md) – Sealed Secrets key backup and restore
+- [`docs/cluster-components.md`](./docs/cluster-components.md) – hand-installed components and versions
+- [`blog/README.md`](./blog/README.md) – how a post is published
 
-## Status
+## Design principles
 
-**Active development**
-
-This is a continuously evolving homelab. Infrastructure, networking, automation and workloads are added and refined as the environment grows.
-
-## Purpose
-
-This project is primarily a learning and experimentation environment for:
-
-* Kubernetes
-* GitOps
-* Infrastructure as Code
-* Ansible
-* Linux administration
-* Networking and network segmentation
-* Containerization
-* Cloud-native technologies
-* Infrastructure automation
-* Self-hosted services
+- **Declarative.** Describe the desired state; avoid undocumented manual changes.
+- **Git as the source of truth.** Changes are reviewed, reverted and audited through history.
+- **Separated responsibilities.** Each layer owns one thing.
+- **Reproducible.** The repository should contain enough to rebuild the environment. Data backups are a separate concern.
