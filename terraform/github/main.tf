@@ -39,9 +39,28 @@ resource "github_repository" "homelab" {
   allow_rebase_merge = true
   allow_auto_merge   = false
 
-  # Matches the current setting. Turning this on deletes a branch once its pull
-  # request is merged, which avoids pushing to a branch that is already merged.
-  delete_branch_on_merge = false
+  # Deletes a branch once its pull request is merged, which avoids pushing to a
+  # branch that is already merged.
+  delete_branch_on_merge = true
+
+  # Free for public repositories. Secret scanning reports a leaked token or key
+  # after the fact; push protection refuses the push before it reaches the repo.
+  security_and_analysis {
+    secret_scanning {
+      status = "enabled"
+    }
+    secret_scanning_push_protection {
+      status = "enabled"
+    }
+  }
+}
+
+# Dependabot alerts: GitHub warns about known vulnerabilities in dependencies,
+# for example the npm packages of the blog. This is its own resource because the
+# argument on github_repository is deprecated.
+resource "github_repository_vulnerability_alerts" "homelab" {
+  repository = github_repository.homelab.name
+  enabled    = true
 }
 
 resource "github_branch_protection" "main" {

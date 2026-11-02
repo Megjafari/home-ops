@@ -14,7 +14,9 @@ terraform/github/
 
 ## What it manages
 
-- Repository settings: description, topics, merge options, issues and wiki.
+- Repository settings: description, topics, merge options, issues and wiki,
+  deleting merged branches, and the security features (Dependabot alerts,
+  secret scanning and push protection).
 - Branch protection on `main`: the CI jobs that must pass, no force pushes, no
   deletion, and the rules apply to administrators too.
 
@@ -60,6 +62,5 @@ losing it is not a disaster. Move it to a remote backend when more roots exist.
 
 ## Things to try
 
-- Set `delete_branch_on_merge = true`, run `plan`, read the diff, then apply.
 - Add `terraform` to `required_checks` after the workflow in
   `.github/workflows/terraform.yml` has run once on a pull request.
