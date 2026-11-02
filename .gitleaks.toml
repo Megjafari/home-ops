@@ -1,0 +1,8 @@
+title = "homelab gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "SealedSecrets hold values encrypted with the cluster's public key; they are safe to commit"
+paths = ['''(^|/)[^/]*sealed-secret\.yaml$''']

@@ -79,7 +79,10 @@ jobs:
         with:
           fetch-depth: 0
 
+      # The CLI scans the whole history. gitleaks-action builds a `<first commit>^..<head>`
+      # range for pull requests and fails when that commit has no parent, which is the
+      # case for the imported blog history.
       - name: Scan for leaked secrets
-        uses: gitleaks/gitleaks-action@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          docker run --rm -u "$(id -u):$(id -g)" -v "$PWD:/repo" \
+            ghcr.io/gitleaks/gitleaks:v8.24.3 git /repo --redact -v
