@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import DOMPurify from "dompurify";
-import { publicFetch } from "../lib/api";
+import { getPost } from "../lib/content";
 import { handleCodeCopyClick } from "../lib/codeCopy";
 import { formatDate, wasUpdatedAfterPublish } from "../lib/dates";
 import { estimateReadingStats } from "../lib/readingTime";
@@ -23,8 +23,9 @@ export default function Post() {
     if (!slug) return;
 
     // The Markdown renderer (with syntax highlighting) is loaded alongside the post.
-    Promise.all([publicFetch(`/api/posts/${slug}`), import("../lib/markdown")])
-      .then(([data, markdown]: [PostDetail, typeof import("../lib/markdown")]) => {
+    Promise.all([getPost(slug), import("../lib/markdown")])
+      .then(([data, markdown]) => {
+        if (!data) throw new Error("not found");
         const html = markdown.renderMarkdown(data.content);
         const { toc, htmlWithIds } = extractToc(html);
         setPost(data);

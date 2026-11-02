@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { publicFetch } from "../lib/api";
+import { listPosts } from "../lib/content";
 import PostRow from "../components/PostRow";
-import type { PostListItem } from "../lib/types";
 
 const running = [
   {
@@ -24,13 +22,7 @@ const running = [
 ];
 
 export default function Home() {
-  const [posts, setPosts] = useState<PostListItem[]>([]);
-
-  useEffect(() => {
-    publicFetch("/api/posts?pageSize=3")
-      .then(setPosts)
-      .catch(() => setPosts([]));
-  }, []);
+  const posts = listPosts().slice(0, 3);
 
   return (
     <div className="relative">

@@ -1,3 +1,12 @@
+---
+title: "My Homelab: Building My Own Infrastructure"
+slug: my-homelab-building-my-own-infrastructure
+excerpt: "An introduction to my homelab: how it started on one old laptop, how it grew into a Kubernetes cluster, and what runs on it today"
+date: 2026-10-28T09:19:12Z
+updated: 2026-10-30T19:14:42Z
+tags: [homelab, proxmox, kubernetes, self-hosting, devops, gitops]
+hero: hero-1400.jpg
+---
 ## Introduction
 
 I started this homelab to learn what happens to an application after the code is written: where it runs, how it is reached, and how the machines under it are managed.
