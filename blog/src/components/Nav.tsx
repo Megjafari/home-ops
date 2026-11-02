@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { API_BASE } from "../lib/api";
-
-export const RSS_URL = `${API_BASE}/api/rss`;
+export const RSS_URL = "/rss.xml";
 
 export default function Nav() {
   const location = useLocation();

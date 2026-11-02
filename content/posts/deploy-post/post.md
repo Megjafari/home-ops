@@ -1,3 +1,11 @@
+---
+title: "How I Deploy This Blog on My Homelab, and What Broke"
+slug: how-i-deploy-this-blog-on-my-homelab-and-what-broke
+excerpt: "How this blog runs on my homelab with Coolify, Proxmox and a Cloudflare Tunnel, and the four things that broke on the way."
+date: 2026-10-28T19:40:10Z
+updated: 2026-10-30T19:18:09Z
+tags: [homelab, proxmox, troubleshooting, self-hosting, devops]
+---
 ## Introduction
 
 This blog is a small ASP.NET Core API, a React frontend and a PostgreSQL database. I run it in my homelab instead of on a hosting service, so I can see every part of the setup and write it down.
