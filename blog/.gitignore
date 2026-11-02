@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Generated from ../content by scripts/build-content.mjs
+src/generated
+public/posts
+public/rss.xml
