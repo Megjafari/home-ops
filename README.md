@@ -181,6 +181,7 @@ This does not replace data backups. Application data and infrastructure configur
 * [`apps/`](./apps/) — Kubernetes workloads and GitOps configuration
 * [`argocd/`](./argocd/) — ArgoCD Application definitions and rebuild steps
 * [`docs/backup.md`](./docs/backup.md) — Sealed Secrets key backup and recovery
+* [`docs/cluster-components.md`](./docs/cluster-components.md) — hand-installed cluster components and rebuild order
 
 ## Status
 
