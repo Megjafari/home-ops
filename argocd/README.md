@@ -36,6 +36,6 @@ Application, and editing one updates it.
 
 ## Not in Git yet
 
-These cluster components were installed by hand and are not described here:
-ArgoCD itself, Sealed Secrets, the NFS provisioner, reloader, metrics-server,
-Flannel and the NVIDIA device plugin.
+The NFS provisioner is an Application here. ArgoCD itself, Sealed Secrets,
+reloader, metrics-server, Flannel and the NVIDIA device plugin were installed
+by hand; see [`docs/cluster-components.md`](../docs/cluster-components.md).
