@@ -187,7 +187,7 @@ Stated plainly, because a portfolio should not pretend:
 - Services are exposed as `NodePort`; there is no ingress controller yet.
 - `kube-linter` runs as an advisory check, because the findings above are not fixed yet.
 - Argo CD `prune` and `selfHeal` are off.
-- Terraform for Proxmox, Cloudflare and GitHub is planned, not done.
+- Terraform: the GitHub repository is described in [`terraform/github/`](./terraform/github/) but not applied yet; Proxmox and Cloudflare are planned.
 
 ## Repository layout
 
@@ -201,6 +201,7 @@ Stated plainly, because a portfolio should not pretend:
 ├── content/             # Blog posts as Markdown, built into the site
 ├── docs/                # Backup and cluster component documentation
 ├── scripts/             # Helper scripts
+├── terraform/           # Infrastructure as code (GitHub; Proxmox and Cloudflare planned)
 ├── .gitleaks.toml       # Secret scanning rules
 └── renovate.json        # Automated dependency updates
 ```
@@ -212,6 +213,7 @@ Stated plainly, because a portfolio should not pretend:
 - [`argocd/`](./argocd/) – Applications and the rebuild order
 - [`docs/backup.md`](./docs/backup.md) – Sealed Secrets key backup and restore
 - [`docs/cluster-components.md`](./docs/cluster-components.md) – hand-installed components and versions
+- [`terraform/github/`](./terraform/github/) – repository settings as code
 - [`blog/README.md`](./blog/README.md) – how a post is published
 
 ## Design principles
