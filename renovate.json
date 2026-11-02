@@ -30,7 +30,6 @@
       "matchDatasources": ["docker"],
       "matchPackageNames": [
         "postgres",
-        "mongo",
         "redis",
         "ghcr.io/immich-app/postgres"
       ],
@@ -42,7 +41,6 @@
       "matchDatasources": ["docker"],
       "matchPackageNames": [
         "postgres",
-        "mongo",
         "redis",
         "ghcr.io/immich-app/postgres",
         "vaultwarden/server",

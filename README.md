@@ -107,7 +107,7 @@ The blog is published through a Cloudflare Tunnel, so no router ports are forwar
 
 ## What it runs
 
-Jellyfin (with GPU transcoding), Immich, Nextcloud, Vaultwarden, Home Assistant, Navidrome, the Sonarr/Radarr/Prowlarr stack with qBittorrent behind a VPN sidecar, Unifi, Prometheus, Grafana, Uptime Kuma and a Homepage dashboard.
+Jellyfin (with GPU transcoding), Immich, Nextcloud, Vaultwarden, Home Assistant, Navidrome, the Sonarr/Radarr/Prowlarr stack with qBittorrent behind a VPN sidecar, Prometheus, Grafana, Uptime Kuma and a Homepage dashboard.
 
 ## Lessons from running it
 

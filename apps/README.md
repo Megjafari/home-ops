@@ -106,7 +106,7 @@ The observability namespace contains monitoring and availability-related workloa
 
 ### Network Infrastructure
 
-The network namespace contains infrastructure required for managing and connecting the homelab, including the UniFi Network Application, its database dependency and Cloudflare Tunnel.
+The network namespace contains infrastructure required for managing and connecting the homelab, including the Cloudflare Tunnel.
 
 ### Home Automation
 
@@ -172,12 +172,6 @@ A rebuilt GPU node therefore requires both the host-level Ansible configuration 
 Most workloads use normal Kubernetes networking through Services.
 
 A small number of workloads use `hostNetwork: true` where host-level network access is required for functionality that does not work reliably through the normal pod network.
-
-### UniFi Network Application
-
-The UniFi controller requires host-level network reachability for device adoption and management.
-
-The workload therefore uses `hostNetwork` and is scheduled to `tank` to provide a predictable network endpoint for the infrastructure it manages.
 
 ### Home Assistant
 
