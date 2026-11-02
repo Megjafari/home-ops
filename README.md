@@ -1,13 +1,74 @@
-# homelab
+<h1 align="center">homelab</h1>
 
-[![Validate](https://github.com/Megjafari/homelab/actions/workflows/validate.yml/badge.svg)](https://github.com/Megjafari/homelab/actions/workflows/validate.yml)
-[![Blog](https://github.com/Megjafari/homelab/actions/workflows/blog-ci.yml/badge.svg)](https://github.com/Megjafari/homelab/actions/workflows/blog-ci.yml)
+<p align="center">
+  A self-hosted Kubernetes homelab described as code and operated through Git —
+  GitOps with Argo CD, host configuration with Ansible, CI that lints, validates
+  and scans every change, and the blog that documents it, built from Markdown in
+  the same repository.
+</p>
 
-A self-hosted Kubernetes homelab, described as code and operated through Git. This repository is the source of truth for the hosts, the cluster workloads, the CI around them and the blog that documents it: [blog.meghdadjafari.dev](https://blog.meghdadjafari.dev).
+<p align="center">
+  <a href="https://github.com/Megjafari/homelab/actions/workflows/validate.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/Megjafari/homelab/validate.yml?style=for-the-badge&logo=githubactions&logoColor=white&label=Validate" alt="Validate" />
+  </a>
+  <a href="https://github.com/Megjafari/homelab/actions/workflows/blog-ci.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/Megjafari/homelab/blog-ci.yml?style=for-the-badge&logo=githubactions&logoColor=white&label=Blog%20CI" alt="Blog CI" />
+  </a>
+  <a href="https://blog.meghdadjafari.dev">
+    <img src="https://img.shields.io/website?url=https%3A%2F%2Fblog.meghdadjafari.dev&style=for-the-badge&label=Blog&up_message=online&down_message=offline" alt="Blog status" />
+  </a>
+  <img src="https://img.shields.io/github/last-commit/Megjafari/homelab?style=for-the-badge" alt="Last commit" />
+</p>
 
-I built it to learn what happens to an application after the code is written: where it runs, how it is reached, how the machines under it are managed, and what breaks. Everything here is what is actually running.
+<p align="center">
+  <img src="https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" alt="Kubernetes" />
+  <img src="https://img.shields.io/badge/Argo_CD-GitOps-EF7B4D?style=for-the-badge&logo=argo&logoColor=white" alt="Argo CD" />
+  <img src="https://img.shields.io/badge/Ansible-EE0000?style=for-the-badge&logo=ansible&logoColor=white" alt="Ansible" />
+  <img src="https://img.shields.io/badge/Helm-0F1689?style=for-the-badge&logo=helm&logoColor=white" alt="Helm" />
+  <img src="https://img.shields.io/badge/Proxmox-E57000?style=for-the-badge&logo=proxmox&logoColor=white" alt="Proxmox" />
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" />
+  <img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white" alt="GitHub Actions" />
+  <img src="https://img.shields.io/badge/Renovate-1A1F6C?style=for-the-badge&logo=renovate&logoColor=white" alt="Renovate" />
+  <img src="https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white" alt="Prometheus" />
+  <img src="https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white" alt="Grafana" />
+  <img src="https://img.shields.io/badge/NVIDIA-76B900?style=for-the-badge&logo=nvidia&logoColor=white" alt="NVIDIA" />
+  <img src="https://img.shields.io/badge/Cloudflare-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare" />
+  <img src="https://img.shields.io/badge/Tailscale-242424?style=for-the-badge&logo=tailscale&logoColor=white" alt="Tailscale" />
+  <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React" />
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
+</p>
 
-## What runs where
+---
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [What this demonstrates](#what-this-demonstrates)
+- [How a change reaches the cluster](#how-a-change-reaches-the-cluster)
+- [Networking](#networking)
+- [What it runs](#what-it-runs)
+- [Rebuilding the cluster](#rebuilding-the-cluster)
+- [Lessons from running it](#lessons-from-running-it)
+- [Known gaps](#known-gaps)
+- [Repository layout](#repository-layout)
+- [Documentation](#documentation)
+- [Design principles](#design-principles)
+
+---
+
+## Overview
+
+I built this to learn what happens to an application after the code is written: where it runs, how it is reached, how the machines under it are managed, and what breaks. This repository is the source of truth for the hosts, the cluster workloads, the CI around them and the blog at [blog.meghdadjafari.dev](https://blog.meghdadjafari.dev). Everything here is what is actually running.
+
+| Machine | Role |
+| --- | --- |
+| ThinkPad T430s | Proxmox host: OPNsense, Coolify and a PostgreSQL container |
+| Intel NUC `nuke` | Kubernetes control plane |
+| Self-built server `tank` | Kubernetes worker with an RTX 3060, and the NFS storage (two disks in RAID 1) |
+
+## Architecture
 
 ```mermaid
 flowchart TD
@@ -31,11 +92,17 @@ flowchart TD
     GH -.->|"build and deploy"| Coolify
 ```
 
-| Machine | Role |
-| --- | --- |
-| ThinkPad T430s | Proxmox host: OPNsense, Coolify and a PostgreSQL container |
-| Intel NUC `nuke` | Kubernetes control plane |
-| Self-built server `tank` | Kubernetes worker with a GPU, and the NFS storage (two disks in RAID 1) |
+Each layer has one owner:
+
+| Layer | Responsibility | Lives in |
+| --- | --- | --- |
+| Network | Routing, firewall, VLANs | OPNsense, D-Link AP |
+| Hosts | Packages, swap, CNI, NVIDIA driver | [`ansible/`](./ansible/) |
+| Cluster | Bootstrap and membership | `kubeadm`, [`docs/cluster-components.md`](./docs/cluster-components.md) |
+| Workloads | Everything that runs in Kubernetes | [`apps/`](./apps/), [`argocd/`](./argocd/) |
+| Content | The blog and its posts | [`blog/`](./blog/), [`content/`](./content/) |
+
+Ansible stops at the host boundary; Argo CD owns everything inside the cluster.
 
 ## What this demonstrates
 
@@ -61,19 +128,7 @@ flowchart LR
     R["Renovate"] -.->|"opens PRs for<br/>new image digests"| B
 ```
 
-Workloads are changed through Git, not with `kubectl`. Argo CD applies `apps/<namespace>/` into the namespace of the same name. Automated sync is on, with `prune` and `selfHeal` off for now, so the cluster is never changed by something that is not in Git, and nothing is deleted without a conscious step.
-
-## Layers
-
-| Layer | Responsibility | Lives in |
-| --- | --- | --- |
-| Network | Routing, firewall, VLANs | OPNsense, D-Link AP |
-| Hosts | Packages, swap, CNI, NVIDIA driver | [`ansible/`](./ansible/) |
-| Cluster | Bootstrap and membership | `kubeadm`, [`docs/cluster-components.md`](./docs/cluster-components.md) |
-| Workloads | Everything that runs in Kubernetes | [`apps/`](./apps/), [`argocd/`](./argocd/) |
-| Content | The blog and its posts | [`blog/`](./blog/), [`content/`](./content/) |
-
-Ansible stops at the host boundary; Argo CD owns everything inside the cluster.
+Workloads are changed through Git, not with `kubectl`. Argo CD applies `apps/<namespace>/` into the namespace of the same name. Automated sync is on, with `prune` and `selfHeal` off for now, so nothing is deleted without a conscious step.
 
 ## Networking
 
@@ -107,16 +162,28 @@ The blog is published through a Cloudflare Tunnel, so no router ports are forwar
 
 ## What it runs
 
-Jellyfin (with GPU transcoding), Immich, Nextcloud, Vaultwarden, Home Assistant, Navidrome, the Sonarr/Radarr/Prowlarr stack with qBittorrent behind a VPN sidecar, Unifi, Prometheus, Grafana, Uptime Kuma and a Homepage dashboard.
+Jellyfin (with GPU transcoding), Immich, Nextcloud, Vaultwarden, Home Assistant, Navidrome, the Sonarr/Radarr/Prowlarr stack with qBittorrent behind a VPN sidecar, Prometheus, Grafana, Uptime Kuma and a Homepage dashboard.
+
+## Rebuilding the cluster
+
+The repository is meant to be enough to rebuild from. In short:
+
+1. Hosts: Ansible, then `kubeadm init` and `join` ([`ansible/`](./ansible/)).
+2. Flannel, Argo CD and the Sealed Secrets controller ([`docs/cluster-components.md`](./docs/cluster-components.md)).
+3. Restore the Sealed Secrets key ([`docs/backup.md`](./docs/backup.md)).
+4. `kubectl apply -f argocd/root.yaml`, and Argo CD recreates every Application.
+
+Application data is a separate concern and is not covered yet (see [Known gaps](#known-gaps)).
 
 ## Lessons from running it
 
 These are real problems, now fixed in the manifests:
 
 - **A rolling update can deadlock on a single GPU.** Jellyfin requests the node's only GPU, so the new pod stayed `Pending` for hours while the old pod held it. Fix: `strategy: Recreate`.
-- **Databases lock their data directory.** During a rolling update the new Mongo and Prometheus pods crash-looped on the lock held by the old pod, so the rollout never finished. Fix: `Recreate` on every single-replica app with a PVC.
+- **Databases lock their data directory.** During a rolling update the new database and Prometheus pods crash-looped on the lock held by the old pod, so the rollout never finished. Fix: `Recreate` on every single-replica app with a PVC.
 - **`:latest` makes Git history meaningless.** Every image is now pinned by digest, which makes rollbacks real and gives Renovate something to update.
 - **A secret scanner must understand sealed secrets.** Gitleaks flagged the encrypted values in `sealed-secret.yaml`; they are ciphertext, so those files are allow-listed explicitly rather than turning the check off.
+- **Wi-Fi interference was real.** Moving from a 2.4 GHz-only access point to a dual-band one fixed it.
 
 More detail goes into the [blog](https://blog.meghdadjafari.dev).
 
