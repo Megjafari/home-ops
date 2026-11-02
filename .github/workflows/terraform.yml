@@ -1,0 +1,42 @@
+name: Terraform
+
+# Format and validate every Terraform root. Deliberately credential-free:
+# init runs with -backend=false and no provider token, so there is nothing for
+# a pull request to steal. Plans and applies run locally.
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "terraform/**"
+      - ".github/workflows/terraform.yml"
+  push:
+    branches: [main]
+    paths:
+      - "terraform/**"
+      - ".github/workflows/terraform.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: hashicorp/setup-terraform@v3
+
+      - name: Format check
+        run: terraform fmt -check -recursive -diff terraform/
+
+      # Roots are discovered rather than listed, so a new root is covered the
+      # commit it lands.
+      - name: Validate all roots
+        run: |
+          set -euo pipefail
+          for root in $(find terraform -name '*.tf' -exec dirname {} \; | sort -u); do
+            echo "::group::$root"
+            terraform -chdir="$root" init -backend=false -input=false > /dev/null
+            terraform -chdir="$root" validate
+            echo "::endgroup::"
+          done
