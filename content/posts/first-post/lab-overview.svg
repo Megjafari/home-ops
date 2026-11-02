@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8e8e98"/></marker>
+    <marker id="arrow-dim" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#5c5c66"/></marker>
+  </defs>
+  <rect width="1600" height="900" fill="#09090b"/>
+  <text x="40" y="72" fill="#ededef" font-size="32" font-weight="700">My homelab at a glance</text>
+
+  <!-- Home network frame -->
+  <rect x="360" y="110" width="1200" height="730" rx="18" fill="#0c0c0f" stroke="#26262c" stroke-width="2"/>
+  <text x="386" y="150" fill="#8e8e98" font-size="16" letter-spacing="1.5">HOME NETWORK</text>
+
+  <!-- T430s container -->
+  <rect x="400" y="190" width="420" height="440" rx="14" fill="#101014" stroke="#2b2b33" stroke-width="2"/>
+  <text x="426" y="228" fill="#ededef" font-size="22" font-weight="600">ThinkPad T430s, Proxmox</text>
+
+  <!-- Kubernetes container -->
+  <rect x="1260" y="190" width="290" height="620" rx="14" fill="#101014" stroke="#2b2b33" stroke-width="2"/>
+  <text x="1284" y="228" fill="#ededef" font-size="22" font-weight="600">Kubernetes cluster</text>
+
+  <!-- Boxes -->
+  <g fill="#18181d" stroke="#34343c" stroke-width="2">
+    <rect x="30" y="250" width="180" height="216" rx="10"/>
+    <rect x="30" y="700" width="180" height="96" rx="10"/>
+    <rect x="430" y="250" width="360" height="96" rx="10"/>
+    <rect x="430" y="370" width="360" height="96" rx="10"/>
+    <rect x="430" y="490" width="360" height="96" rx="10"/>
+    <rect x="900" y="370" width="260" height="96" rx="10"/>
+    <rect x="860" y="700" width="300" height="96" rx="10"/>
+    <rect x="1280" y="250" width="250" height="96" rx="10"/>
+    <rect x="1280" y="370" width="250" height="96" rx="10"/>
+    <rect x="1280" y="510" width="250" height="260" rx="10"/>
+  </g>
+
+  <g fill="#ededef" font-size="24" font-weight="600" text-anchor="middle">
+    <text x="120" y="364">Internet</text>
+    <text x="120" y="746">Me</text>
+    <text x="610" y="292">Coolify</text>
+    <text x="610" y="412">OPNsense</text>
+    <text x="610" y="532">PostgreSQL</text>
+    <text x="1030" y="412">Managed switch</text>
+    <text x="1010" y="742">GitHub</text>
+    <text x="1405" y="292">nuke</text>
+    <text x="1405" y="412">tank</text>
+    <text x="1405" y="554">Running on it</text>
+  </g>
+  <g fill="#8e8e98" font-size="19" text-anchor="middle">
+    <text x="120" y="776">laptop and phone</text>
+    <text x="610" y="320">my apps, this blog (VM)</text>
+    <text x="610" y="440">router and firewall (VM)</text>
+    <text x="610" y="560">database (LXC)</text>
+    <text x="1030" y="440">separate VLANs</text>
+    <text x="1010" y="772">homelab repository</text>
+    <text x="1405" y="320">control plane, Argo CD</text>
+    <text x="1405" y="440">GPU worker, NAS (NFS)</text>
+  </g>
+  <g fill="#ededef" font-size="21" text-anchor="middle">
+    <text x="1405" y="606">Jellyfin</text>
+    <text x="1405" y="646">Immich</text>
+    <text x="1405" y="686">Homepage</text>
+    <text x="1405" y="726">Uptime Kuma</text>
+  </g>
+
+  <!-- Solid arrows -->
+  <g stroke="#8e8e98" stroke-width="2.5" fill="none" marker-end="url(#arrow)">
+    <path d="M210 298 H426"/>
+    <path d="M210 418 H426"/>
+    <path d="M790 418 H896"/>
+    <path d="M1160 418 H1256"/>
+  </g>
+  <!-- Dashed arrows -->
+  <g stroke="#5c5c66" stroke-width="2.5" fill="none" stroke-dasharray="8 7" marker-end="url(#arrow-dim)">
+    <path d="M210 748 H356"/>
+    <path d="M1160 748 H1256"/>
+  </g>
+
+  <g fill="#8e8e98" font-size="18" text-anchor="middle">
+    <text x="283" y="284" font-size="17">Cloudflare Tunnel</text>
+    <text x="283" y="404">ISP modem</text>
+    <text x="843" y="404">trunk</text>
+  </g>
+  <g fill="#6f6f79" font-size="18" text-anchor="middle">
+    <text x="283" y="734">Tailscale</text>
+    <text x="1208" y="734">Argo CD</text>
+  </g>
+
+  <text x="40" y="876" fill="#8e8e98" font-size="18">Solid: network. Dashed: private access and deploys. No ports are forwarded on the router.</text>
+</svg>

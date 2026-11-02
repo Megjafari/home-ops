@@ -1,7 +1,7 @@
 const links = [
   { label: "Portfolio", href: "https://meghdadjafari.dev" },
   { label: "GitHub", href: "https://github.com/Megjafari" },
-  { label: "home-ops (my cluster config)", href: "https://github.com/Megjafari/home-ops" },
+  { label: "homelab (my cluster config and this blog)", href: "https://github.com/Megjafari/homelab" },
   { label: "LinkedIn", href: "https://linkedin.com/in/meghdad-jafari" },
 ];
 

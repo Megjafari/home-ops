@@ -1,0 +1,47 @@
+name: Blog build, lint and test
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "blog/**"
+      - "content/**"
+      - ".github/workflows/blog-ci.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "blog/**"
+      - "content/**"
+      - ".github/workflows/blog-ci.yml"
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: blog
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: blog/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
