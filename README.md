@@ -67,7 +67,7 @@ Workloads are changed through Git, not with `kubectl`. Argo CD applies `apps/<na
 
 | Layer | Responsibility | Lives in |
 | --- | --- | --- |
-| Network | Routing, firewall, VLANs | OPNsense, Unifi |
+| Network | Routing, firewall, VLANs | OPNsense, D-Link AP |
 | Hosts | Packages, swap, CNI, NVIDIA driver | [`ansible/`](./ansible/) |
 | Cluster | Bootstrap and membership | `kubeadm`, [`docs/cluster-components.md`](./docs/cluster-components.md) |
 | Workloads | Everything that runs in Kubernetes | [`apps/`](./apps/), [`argocd/`](./argocd/) |
@@ -84,7 +84,7 @@ flowchart TD
     Internet["Internet<br/>Tele2 modem"] --> OPN["OPNsense<br/>192.168.1.1"]
     OPN -->|"Tagged trunk: all VLANs"| SW["Managed switch"]
     SW -->|"VLAN 30"| Lab
-    SW -->|"Tagged trunk: Main, IoT, Guest"| AP["Unifi Long Range AP"]
+    SW -->|"Tagged trunk: Main, IoT, Guest"| AP["D-Link DAP-2680<br/>access point"]
     subgraph Lab["Homelab"]
         tank["tank<br/>worker"]
         nuke["nuke<br/>control plane"]
