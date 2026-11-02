@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: flannel
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/flannel-io/flannel.git
+    targetRevision: v0.28.9
+    path: Documentation
+    directory:
+      include: kube-flannel.yml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-flannel
+  # No automated sync: this adopts an existing install. Review the diff in
+  # ArgoCD before syncing. The pod network is 10.244.0.0/16 (vxlan), which is
+  # the default in the upstream manifest.
