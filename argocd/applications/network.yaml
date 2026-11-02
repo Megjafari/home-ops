@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/Megjafari/home-ops.git
+    repoURL: https://github.com/Megjafari/homelab.git
     targetRevision: HEAD
     path: apps/network
   destination:
