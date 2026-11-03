@@ -193,11 +193,12 @@ Stated plainly, because a portfolio should not pretend:
 
 ```text
 .
-├── .github/workflows/   # CI: validate.yml (manifests, Ansible, secrets), blog-ci.yml
+├── .github/workflows/   # CI: validate.yml (manifests, Ansible, secrets), blog and portfolio builds
 ├── ansible/             # Host configuration
 ├── apps/                # Kubernetes workloads, one directory per namespace
 ├── argocd/              # Argo CD Applications (app-of-apps)
 ├── blog/                # The blog frontend (React, Vite)
+├── portfolio/           # The portfolio site (React, deployed on Vercel)
 ├── content/             # Blog posts as Markdown, built into the site
 ├── docs/                # Backup and cluster component documentation
 ├── scripts/             # Helper scripts
@@ -216,6 +217,7 @@ Stated plainly, because a portfolio should not pretend:
 - [`terraform/github/`](./terraform/github/) – repository settings as code
 - [`terraform/cloudflare/meghdadjafari-dev/`](./terraform/cloudflare/meghdadjafari-dev/) – DNS records as code
 - [`blog/README.md`](./blog/README.md) – how a post is published
+- [`portfolio/README.md`](./portfolio/README.md) – the portfolio site
 
 ## Design principles
 

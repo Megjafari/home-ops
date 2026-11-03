@@ -4,6 +4,8 @@ Personal portfolio built with React. Inspired by the Nitro Framer template.
 
 **Live:** [meghdadjafari.dev](https://meghdadjafari.dev)
 
+This directory lives in the [homelab](https://github.com/Megjafari/homelab) repository, next to the blog. It is deployed to Vercel with the project's Root Directory set to `portfolio`.
+
 ---
 
 ## Stack
@@ -16,6 +18,8 @@ Personal portfolio built with React. Inspired by the Nitro Framer template.
 ---
 
 ## Run locally
+
+From this directory:
 
 ```bash
 npm install
