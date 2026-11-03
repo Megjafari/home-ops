@@ -1,0 +1,39 @@
+name: Portfolio build
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "portfolio/**"
+      - ".github/workflows/portfolio-ci.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "portfolio/**"
+      - ".github/workflows/portfolio-ci.yml"
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: portfolio
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: portfolio/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Build
+        run: npm run build
