@@ -59,6 +59,4 @@ changes. A record added by hand in the dashboard now shows up as drift in
 
 ## Things to try
 
-- `www` still points at the registrar's parking page. Point it at the apex or
-  redirect it, run `plan`, and read the diff before applying.
 - Add an SPF record: the zone has DMARC but no SPF.

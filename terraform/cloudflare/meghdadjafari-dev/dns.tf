@@ -38,12 +38,14 @@ resource "cloudflare_dns_record" "apex" {
   ttl     = 1
 }
 
-# Still points at the registrar's parking page.
+# Follows the apex, so www.<zone> shows the same site as <zone>. It used to point
+# at the registrar's parking page. The hosting provider must also know the www
+# name, otherwise it answers 404 for it.
 resource "cloudflare_dns_record" "www" {
   zone_id = data.cloudflare_zone.this.zone_id
   name    = "www.${var.zone_name}"
   type    = "CNAME"
-  content = "parkingpage.namecheap.com"
+  content = var.zone_name
   proxied = true
   ttl     = 1
 }
