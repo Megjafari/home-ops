@@ -187,7 +187,7 @@ Stated plainly, because a portfolio should not pretend:
 - Services are exposed as `NodePort`; there is no ingress controller yet.
 - `kube-linter` runs as an advisory check, because the findings above are not fixed yet.
 - Argo CD `prune` and `selfHeal` are off.
-- Terraform: the GitHub repository is described in [`terraform/github/`](./terraform/github/) but not applied yet; Proxmox and Cloudflare are planned.
+- Terraform manages the GitHub repository ([`terraform/github/`](./terraform/github/)); Proxmox and Cloudflare are planned.
 
 ## Repository layout
 
