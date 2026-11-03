@@ -15,14 +15,16 @@ terraform/cloudflare/meghdadjafari-dev/
 
 ## What it manages, and what it does not
 
-Managed: the apex A record, `www`, the three apps behind the tunnel, the four
-apps on Vercel, the Namecheap email-forwarding MX records and the DMARC record.
+Managed: the apex A record, `www`, the four apps on Vercel, the Namecheap
+email-forwarding MX records and the DMARC record.
 
 Not managed:
 
 - `blog.meghdadjafari.dev`. It is created by the tunnel's Public Hostname
   setting (the dashboard shows its type as "Tunnel"), so Terraform would fight
   the tunnel.
+- The records that point at a tunnel, other than `blog`. They are left out on
+  purpose.
 - The zone's NS and SOA records, which Cloudflare owns.
 
 ## The existing records have to be imported first
