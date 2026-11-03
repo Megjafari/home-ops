@@ -62,5 +62,5 @@ losing it is not a disaster. Move it to a remote backend when more roots exist.
 
 ## Things to try
 
-- Add `terraform` to `required_checks` after the workflow in
-  `.github/workflows/terraform.yml` has run once on a pull request.
+- Set `required_linear_history = true` on the branch protection, run `plan`, read
+  the diff, and decide whether you want it before applying.

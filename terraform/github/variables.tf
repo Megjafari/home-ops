@@ -11,13 +11,14 @@ variable "repository_name" {
 }
 
 variable "required_checks" {
-  description = "CI jobs that must pass before anything is merged to main. These are job names from .github/workflows/validate.yml."
+  description = "CI jobs that must pass before anything is merged to main. These are job names from .github/workflows/validate.yml and terraform.yml."
   type        = list(string)
   default = [
     "ansible-lint",
     "kube-linter",
     "kubeconform",
     "secret-scan",
+    "terraform",
     "yaml-lint",
   ]
 }
