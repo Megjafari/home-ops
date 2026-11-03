@@ -9,9 +9,6 @@
 # and a bare value would plan as a change on every run.
 
 locals {
-  # A tunnel connected to this account. The records below were created by hand.
-  tunnel_target = "761f09d6-c881-4394-aca9-ad27714b38c2.cfargotunnel.com"
-
   # Apps hosted on Vercel; Vercel needs the records unproxied.
   vercel_apps = {
     kaizen    = "113eb0af958da384.vercel-dns-017.com"
@@ -47,19 +44,6 @@ resource "cloudflare_dns_record" "www" {
   name    = "www.${var.zone_name}"
   type    = "CNAME"
   content = "parkingpage.namecheap.com"
-  proxied = true
-  ttl     = 1
-}
-
-# --- Apps behind the tunnel -----------------------------------------------
-
-resource "cloudflare_dns_record" "tunnel" {
-  for_each = toset(["biblestudy", "dash", "selah"])
-
-  zone_id = data.cloudflare_zone.this.zone_id
-  name    = "${each.key}.${var.zone_name}"
-  type    = "CNAME"
-  content = local.tunnel_target
   proxied = true
   ttl     = 1
 }
