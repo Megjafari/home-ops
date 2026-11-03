@@ -38,15 +38,15 @@ resource "cloudflare_dns_record" "apex" {
   ttl     = 1
 }
 
-# Follows the apex, so www.<zone> shows the same site as <zone>. It used to point
-# at the registrar's parking page. The hosting provider must also know the www
-# name, otherwise it answers 404 for it.
+# The portfolio's primary domain on Vercel. Vercel redirects the apex to www
+# (HTTP 308), so www must be the one that serves the site. Pointing it at the
+# apex would loop. Vercel asks for an unproxied CNAME to its own target.
 resource "cloudflare_dns_record" "www" {
   zone_id = data.cloudflare_zone.this.zone_id
   name    = "www.${var.zone_name}"
   type    = "CNAME"
-  content = var.zone_name
-  proxied = true
+  content = "43d7f6beab1c7e48.vercel-dns-017.com"
+  proxied = false
   ttl     = 1
 }
 
