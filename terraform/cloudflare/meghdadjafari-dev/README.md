@@ -27,11 +27,12 @@ Not managed:
   purpose.
 - The zone's NS and SOA records, which Cloudflare owns.
 
-## The existing records have to be imported first
+## How the records got here
 
-The records already exist. Applying before they are imported would try to
-create them again and fail, or worse, create duplicates. Each record is adopted
-with an `import` block (see `imports.tf`), which needs the record's ID.
+The records existed before the code did. They were adopted with `import` blocks,
+using the record IDs from the Cloudflare API, and the first plan showed no
+changes. A record added by hand in the dashboard now shows up as drift in
+`terraform plan`.
 
 ## Run it
 
@@ -50,11 +51,11 @@ with an `import` block (see `imports.tf`), which needs the record's ID.
    terraform plan
    ```
 
-   The plan should show every record as **imported** and nothing to add,
-   change or destroy. If it shows a change, read it: either the code differs
-   from the live record, or the record was edited in the dashboard.
+   With nothing changed, the plan says `No changes`. If it shows a change, read
+   it: either the code differs from the live record, or the record was edited
+   in the dashboard.
 
-4. `terraform apply`, then commit `.terraform.lock.hcl`.
+4. `terraform apply` to make the live zone match the code.
 
 ## Things to try
 

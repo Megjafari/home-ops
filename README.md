@@ -187,7 +187,7 @@ Stated plainly, because a portfolio should not pretend:
 - Services are exposed as `NodePort`; there is no ingress controller yet.
 - `kube-linter` runs as an advisory check, because the findings above are not fixed yet.
 - Argo CD `prune` and `selfHeal` are off.
-- Terraform manages the GitHub repository ([`terraform/github/`](./terraform/github/)); Proxmox and Cloudflare are planned.
+- Terraform manages the GitHub repository and the Cloudflare DNS zone ([`terraform/`](./terraform/)); Proxmox is planned.
 
 ## Repository layout
 
@@ -201,7 +201,7 @@ Stated plainly, because a portfolio should not pretend:
 ├── content/             # Blog posts as Markdown, built into the site
 ├── docs/                # Backup and cluster component documentation
 ├── scripts/             # Helper scripts
-├── terraform/           # Infrastructure as code (GitHub; Proxmox and Cloudflare planned)
+├── terraform/           # Infrastructure as code (GitHub, Cloudflare DNS; Proxmox planned)
 ├── .gitleaks.toml       # Secret scanning rules
 └── renovate.json        # Automated dependency updates
 ```
@@ -214,6 +214,7 @@ Stated plainly, because a portfolio should not pretend:
 - [`docs/backup.md`](./docs/backup.md) – Sealed Secrets key backup and restore
 - [`docs/cluster-components.md`](./docs/cluster-components.md) – hand-installed components and versions
 - [`terraform/github/`](./terraform/github/) – repository settings as code
+- [`terraform/cloudflare/meghdadjafari-dev/`](./terraform/cloudflare/meghdadjafari-dev/) – DNS records as code
 - [`blog/README.md`](./blog/README.md) – how a post is published
 
 ## Design principles
