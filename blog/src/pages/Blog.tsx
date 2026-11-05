@@ -44,11 +44,10 @@ export default function Blog() {
   const chipClass = (active: boolean) => `chip ${active ? "chip-active" : ""}`;
 
   return (
-    <div className="mx-auto max-w-3xl px-6 pt-16">
-      <p className="eyebrow mb-4">Journal</p>
-      <h1 className="mb-3 text-4xl font-semibold tracking-tight">All posts</h1>
-      <p className="mb-10 text-fg-muted">
-        Notes on running Kubernetes, networking, and self-hosting at home.
+    <div className="mx-auto max-w-3xl px-6 pt-28 sm:pt-36">
+      <h1 className="text-[clamp(52px,12vw,120px)] leading-[0.94] font-light tracking-[-0.055em]">All posts</h1>
+      <p className="mt-8 mb-12 max-w-xl text-lg text-fg-muted">
+        Notes on running Kubernetes, networking and self-hosting at home.
       </p>
 
       <div className="relative mb-4">
@@ -88,7 +87,7 @@ export default function Blog() {
       )}
 
       {visible.length > 0 && (
-        <div>
+        <div className="post-list">
           {visible.map((post) => (
             <PostRow key={post.id} post={post} />
           ))}

@@ -1,7 +1,9 @@
+import { PORTFOLIO_URL } from "../components/Nav";
+
 const links = [
-  { label: "Portfolio", href: "https://meghdadjafari.dev" },
+  { label: "Portfolio", href: PORTFOLIO_URL },
   { label: "GitHub", href: "https://github.com/Megjafari" },
-  { label: "homelab (my cluster config and this blog)", href: "https://github.com/Megjafari/homelab" },
+  { label: "The homelab repository", href: "https://github.com/Megjafari/homelab" },
   { label: "LinkedIn", href: "https://linkedin.com/in/meghdad-jafari" },
 ];
 
@@ -15,29 +17,27 @@ const homelab = [
 
 export default function About() {
   return (
-    <div className="mx-auto max-w-3xl px-6 pt-16">
-      <p className="eyebrow mb-4">About</p>
-      <h1 className="mb-8 text-4xl font-semibold tracking-tight">About the lab</h1>
+    <div className="mx-auto max-w-3xl px-6 pt-28 sm:pt-36">
+      <h1 className="text-[clamp(52px,12vw,120px)] leading-[0.94] font-light tracking-[-0.055em]">The lab</h1>
 
-      <div className="flex flex-col gap-5 text-[1.0625rem] leading-[1.75] text-fg/90">
+      <div className="mt-10 flex flex-col gap-5 text-[1.0625rem] leading-[1.75] text-fg/90">
         <p>
-          I'm Meghdad, a fullstack developer with a backend focus in C# and .NET, currently studying
-          Backend Development with a specialization in Cloud. I build with ASP.NET Core, React and
-          PostgreSQL, and I like working across the whole path from code and databases to deployment.
+          I'm Meghdad, a fullstack developer with a backend focus in C# and .NET. This is where I document my
+          homelab: a self-hosted Kubernetes cluster, the networking around it, and the services I run day to
+          day.
         </p>
         <p>
-          This is where I document my homelab: a self-hosted Kubernetes cluster, networking setup, and
-          the services I run day to day. The configurations shown here are the actual ones running in my
-          lab, not simplified examples. When something breaks, that's in here too.
+          The configurations shown here are the actual ones running in my lab, not simplified examples. When
+          something breaks, that is in here too.
         </p>
         <p>
-          The blog itself is part of the lab: an ASP.NET Core API and a React frontend, deployed with
-          Coolify on my Proxmox host, with PostgreSQL in its own LXC container and published through a
+          The blog is part of the lab. It is a static site built from Markdown files in the homelab
+          repository, served by nginx, deployed with Coolify on my Proxmox host and published through a
           Cloudflare Tunnel.
         </p>
       </div>
 
-      <h2 className="eyebrow mt-14 mb-4">The lab</h2>
+      <h2 className="eyebrow mt-14 mb-4">What runs here</h2>
       <ul className="flex flex-col gap-2.5 text-fg/90">
         {homelab.map((item) => (
           <li key={item} className="flex gap-3">
