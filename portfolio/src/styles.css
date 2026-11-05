@@ -69,12 +69,13 @@ a:hover .arrow { transform: translateX(3px); }
 .btn:active { transform: scale(0.97); }
 .btn.ghost { background: var(--chip); color: var(--ink); }
 
-/* Scroll reveal. Only transform and opacity; never hides content without JS. */
+/* Scroll reveal. Only transform and opacity; never hides content without JS. The revealed state
+   is a data attribute, because React rewrites `class` whenever a component re-renders. */
 .js .rv { opacity: 0; transform: translate3d(0, 18px, 0) scale(0.97); transition: opacity 520ms var(--ease-out), transform 640ms var(--ease-out); transition-delay: calc(var(--i, 0) * 70ms); }
-.js .rv.in { opacity: 1; transform: none; }
+.js .rv[data-in] { opacity: 1; transform: none; }
 .js .rv.from-left { transform: translate3d(-44px, 0, 0); }
 .js .rv.from-right { transform: translate3d(44px, 0, 0); }
-.js .rv.from-left.in, .js .rv.from-right.in { transform: none; }
+.js .rv.from-left[data-in], .js .rv.from-right[data-in] { transform: none; }
 
 /* ------------------------------------------------------------------- nav */
 /* A thin bar, items spread across the width, no shape. Over the colored scene the text takes
@@ -245,7 +246,7 @@ a:hover .arrow { transform: translateX(3px); }
 
 @media (max-width: 720px) {
   .js .rv.from-left, .js .rv.from-right { transform: translate3d(0, 18px, 0); }
-  .js .rv.from-left.in, .js .rv.from-right.in { transform: none; }
+  .js .rv.from-left[data-in], .js .rv.from-right[data-in] { transform: none; }
 
   /* The name is already the hero, so the nav brand waits until the hero is over. */
   .nav { gap: 8px; padding: 0 16px; font-size: 12.5px; }
