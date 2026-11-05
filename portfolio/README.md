@@ -1,6 +1,6 @@
 # Meghdad Jafari — Portfolio
 
-Personal portfolio built with React. Inspired by the Nitro Framer template.
+A single-page portfolio built with React and Vite: a name that zooms into one of its own letters as you scroll, a WebGL light behind it, and the rest of the page in a quiet warm-graphite style.
 
 **Live:** [meghdadjafari.dev](https://meghdadjafari.dev)
 
@@ -10,10 +10,11 @@ This directory lives in the [homelab](https://github.com/Megjafari/homelab) repo
 
 ## Stack
 
-- React 18
-- React Router v6
-- CSS (custom, no framework)
-- Deployed on Vercel
+- React 18 and Vite
+- Plain CSS, no UI framework
+- Inter (variable) from `@fontsource-variable/inter`, SF Pro on Apple devices
+- Canvas 2D for the zoom, a small WebGL fragment shader for the hero light
+- Deployed on Vercel. The build goes to `build/`, so the Vercel output directory does not need to change.
 
 ---
 
@@ -23,89 +24,60 @@ From this directory:
 
 ```bash
 npm install
-npm start
+npm run dev
+```
+
+Production build:
+
+```bash
+npm run build
+npm run preview
 ```
 
 ---
 
 ## Content
 
-All content lives in one file: `src/data/index.js`
+All text lives in `src/data.js`: projects, blog posts, the homelab section, the About text and facts, skills, links and email. Edit that file and the sections follow.
 
-Edit that file to update name, bio, projects, skills, social links and email.
-
----
-
-## Pages
-
-- `/` — Home
-- `/projects` — Projects with backend architecture visuals
-- `/about` — About + languages
-- `/skills` — Skills grouped by category + logo loop
-- `/contact` — Contact
+The blog posts are listed by hand for now. The blog itself builds from `content/posts` in the repository root.
 
 ---
 
-## Project visuals
+## How the hero works
 
-Each project uses a visual type instead of a screenshot — set in `src/data/index.js`:
+`src/lib/zoom.js` draws the name on a canvas inside a sticky stage and redraws it larger on every scroll step. It rasterizes the name once, finds the thickest point of a letter with a distance transform, and zooms toward that point until the letter's inscribed circle covers the screen. The screen is then filled with the letter's color, which is also the background of the next scene.
 
-```js
-visual: "architecture"  // layered architecture diagram
-visual: "flow"          // system flow (e.g. auth register/login)
-visual: "code"          // code snippet preview
-```
+The last frames are drawn from the same raster size the point was measured on. A small layout difference between two font sizes would otherwise be magnified by the zoom and miss the letter.
 
----
-
-## CV files
-
-Place your CV PDFs in `public/`:
-
-```
-public/cv-english.pdf
-public/cv-swedish.pdf
-```
-
-They are linked in the navbar CV dropdown.
-
----
-
-## Profile photo
-
-Place your photo in `public/images/profile.jpg` and update `src/data/index.js`:
-
-```js
-about: {
-  image: "/images/profile.jpg",
-}
-```
+`src/lib/shader.js` renders the light behind the name at half resolution and pauses it when the hero is off screen. Reduced motion shows a still frame and a plain list of roles instead.
 
 ---
 
 ## Structure
 
 ```
-src/
-  data/index.js             ← all content lives here
-  components/
-    Nav.jsx                 ← navbar, icons, CV dropdown
-    Footer.jsx
-    ProjectItem.jsx
-    ProjectVisuals.jsx      ← architecture / flow / code visuals
-  pages/
-    Home.jsx
-    Projects.jsx
-    About.jsx
-    Skills.jsx
-    Contact.jsx
-    NotFound.jsx
-  styles.css
-  App.jsx
-  index.js
+index.html
+vite.config.js
 public/
-  cv-english.pdf
-  cv-swedish.pdf
-  images/
-    profile.jpg
+  images/                   profile photo, logo
+src/
+  main.jsx
+  App.jsx                   page, nav state, scroll reveal
+  data.js                   all content
+  styles.css
+  lib/
+    index.js                shared constants and helpers
+    zoom.js                 the zoom effect
+    shader.js               hero light
+  components/
+    Nav.jsx                 top bar and the mobile menu sheet
+    Hero.jsx
+    Roles.jsx               the flipping word
+    Rows.jsx                project and blog rows that open in place
+    TextReveal.jsx          words light up as you scroll
+    Sections.jsx            projects, homelab, blog, about, skills, footer
+    Icons.jsx
 ```
+
+The two CV files in `public/` are not linked from the page yet.
