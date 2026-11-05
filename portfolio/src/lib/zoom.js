@@ -78,7 +78,9 @@ export function createZoom({ track, sticky, canvas, glow, extras }) {
     ctx.font = nameFont(F);
     const m = ctx.measureText(NAME);
     const x0 = (vw - m.width) / 2;
-    const y0 = vh * 0.46 + (m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2;
+    // The name sits at 46% of the area that is always visible (the stage itself can be taller on iOS).
+    const vis = extras.clientHeight || vh;
+    const y0 = vis * 0.46 + (m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2;
 
     // 2. Rasterize the name once, larger, and find the thickest part of a letter.
     const P = 280;
@@ -124,13 +126,13 @@ export function createZoom({ track, sticky, canvas, glow, extras }) {
     const radius = Math.max((best / 3) * k, F * 0.02);
     const fx = (bx - pad) * k;
     const fy = (by - base) * k;
-    const sEnd = (Math.hypot(vw, vh) / 2 / radius) * 1.08;
+    const sEnd = (Math.hypot(vw, vh) / 2 / radius) * 1.15;
     G = {
       vw, vh, dpr, k, P, sEnd,
       px: bx - pad,
       py: by - base,
       N: { x: x0 + fx, y: y0 + fy },
-      C: { x: vw / 2, y: vh / 2 },
+      C: { x: vw / 2, y: vis / 2 },
     };
   }
 
@@ -198,6 +200,7 @@ export function createZoom({ track, sticky, canvas, glow, extras }) {
   let alive = true;
   const start = () => {
     if (!alive) return;
+    lastSize = `${sticky.clientWidth}x${sticky.clientHeight}x${extras.clientHeight}`;
     measure();
     readColors();
     current = target = progress();
@@ -213,7 +216,12 @@ export function createZoom({ track, sticky, canvas, glow, extras }) {
   fontsReady().then(start);
   window.addEventListener("scroll", onScroll, { passive: true });
   let resizeTimer = 0;
+  let lastSize = "";
   const onResize = () => {
+    // Mobile browsers fire resize when the toolbars move; only redo the work if the stage changed.
+    const size = `${sticky.clientWidth}x${sticky.clientHeight}x${extras.clientHeight}`;
+    if (size === lastSize) return;
+    lastSize = size;
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(start, 120);
   };
