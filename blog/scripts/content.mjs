@@ -2,8 +2,8 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 
 export const SITE_URL = "https://blog.meghdadjafari.dev";
-export const SITE_TITLE = "Homelab Journal";
-export const SITE_DESCRIPTION = "Notes on running Kubernetes, networking, and self-hosting at home.";
+export const SITE_TITLE = "Blog, Meghdad Jafari";
+export const SITE_DESCRIPTION = "Notes on backend, infrastructure and self-hosting.";
 
 /** Parses a leading `---` block of `key: value` lines (strings, "quoted strings", [lists]). */
 export function parseFrontmatter(text) {

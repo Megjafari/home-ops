@@ -68,16 +68,16 @@ export default function Post() {
   }, [toc, contentHtml]);
 
   if (loading) {
-    return <div className="mx-auto max-w-3xl px-6 py-16 text-sm text-fg-muted">Loading...</div>;
+    return <div className="mx-auto max-w-3xl px-6 pt-32 pb-16 text-sm text-fg-muted">Loading...</div>;
   }
 
   if (notFound || !post) {
     return (
-      <div className="mx-auto max-w-3xl px-6 py-16">
-        <h1 className="mb-3 text-2xl font-semibold tracking-tight">Post not found</h1>
+      <div className="mx-auto max-w-3xl px-6 pt-32 pb-16">
+        <h1 className="mb-3 text-2xl font-medium tracking-tight">Post not found</h1>
         <p className="mb-6 text-fg-muted">The post may have been moved or unpublished.</p>
-        <Link to="/blog" className="btn">
-          ← All posts
+        <Link to="/" className="btn">
+          ← Blog
         </Link>
       </div>
     );
@@ -86,13 +86,13 @@ export default function Post() {
   const { words, minutes } = estimateReadingStats(contentHtml);
 
   return (
-    <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 px-6 py-14 lg:grid-cols-[minmax(0,1fr)_240px]">
-      <article className="min-w-0 max-w-3xl">
-        <Link to="/blog" className="text-sm text-fg-muted transition-colors hover:text-fg">
-          ← All posts
+    <div className="mx-auto grid max-w-5xl grid-cols-1 gap-12 px-6 pt-28 pb-14 lg:grid-cols-[minmax(0,1fr)_240px]">
+      <article className="min-w-0 max-w-[42rem]">
+        <Link to="/" className="text-sm text-fg-muted transition-colors hover:text-fg">
+          ← Blog
         </Link>
 
-        <h1 className="mt-8 mb-4 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
+        <h1 className="mt-8 mb-5 text-[clamp(32px,5vw,48px)] leading-[1.05] font-medium tracking-[-0.04em]">
           {post.title}
         </h1>
         {post.excerpt && <p className="mb-5 text-lg text-fg-muted">{post.excerpt}</p>}
@@ -121,7 +121,7 @@ export default function Post() {
           {post.tags.map((t) => (
             <Link
               key={t}
-              to={`/blog?tag=${encodeURIComponent(t)}`}
+              to={`/?tag=${encodeURIComponent(t)}`}
               className="pill transition-colors hover:border-fg-muted hover:text-fg"
             >
               {t}
@@ -145,8 +145,25 @@ export default function Post() {
           dangerouslySetInnerHTML={{ __html: contentHtml }}
         />
 
-        <Link to="/blog" className="btn mt-16">
-          ← All posts
+        <aside className="mt-16 border-t border-line/70 pt-8">
+          <p className="eyebrow mb-3">Written by</p>
+          <p className="text-lg font-medium tracking-tight">Meghdad Jafari</p>
+          <p className="mt-1 max-w-[52ch] text-fg-muted">
+            Fullstack developer in Gothenburg. I write down what I build, learn and break, mostly backend
+            and infrastructure.
+          </p>
+          <p className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-sm">
+            <a href="https://meghdadjafari.dev" className="text-fg-muted underline decoration-line underline-offset-4 transition-colors hover:text-fg hover:decoration-accent">
+              Portfolio ↗
+            </a>
+            <Link to="/contact" className="text-fg-muted underline decoration-line underline-offset-4 transition-colors hover:text-fg hover:decoration-accent">
+              Get in touch
+            </Link>
+          </p>
+        </aside>
+
+        <Link to="/" className="btn mt-10">
+          ← Blog
         </Link>
       </article>
 

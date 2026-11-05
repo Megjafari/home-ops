@@ -4,29 +4,71 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  --color-bg: #09090b;
-  --color-surface: #111114;
-  --color-surface-2: #1a1a1f;
-  --color-line: #26262c;
-  --color-fg: #ededef;
-  --color-fg-muted: #8e8e98;
-  --color-accent: #8aa4ff;
-  --color-accent-fg: #09090b;
-  --color-danger: #f87171;
+  /* Paper: a warm light look for reading. */
+  --color-bg: #f4efe6;
+  --color-surface: #fbf8f2;
+  --color-surface-2: #ece5d8;
+  --color-line: #d9d0c1;
+  --color-fg: #1c1815;
+  --color-fg-muted: #6f665c;
+  --color-accent: #9a4a2a;
+  --color-accent-fg: #ffffff;
+  --color-danger: #b42318;
+}
+
+:root {
+  color-scheme: light;
+  --font-ui: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-head: "Newsreader", Georgia, "Times New Roman", serif;
+  --read-size: 1.1875rem;
+  --page-top: #f6f1e8;
+  --page-bottom: #ebe4d8;
+  --blob-1: rgb(205 165 120 / 0.26);
+  --blob-2: rgb(150 170 200 / 0.18);
+  --nav-scrim: rgb(244 239 230 / 0.78);
+  --menu-bg: rgb(244 239 230 / 0.98);
+  --hl-kw: #9a4a2a;
+  --hl-str: #3c6e47;
+  --hl-num: #8a5a14;
+  --hl-com: #8a8174;
+  --hl-fn: #2a4d8f;
+  --hl-attr: #7a4a8a;
+  --hl-var: #1c1815;
 }
 
 @layer base {
   html {
-    color-scheme: dark;
+    scroll-behavior: smooth;
+    overflow-x: clip;
   }
 
   body {
-    @apply bg-bg text-fg font-sans antialiased;
-    font-feature-settings: "cv11", "ss01";
+    @apply text-fg antialiased;
+    font-family: var(--font-body);
+    overflow-x: clip;
+    background-color: var(--color-bg);
+    background-image:
+      radial-gradient(60vmax 60vmax at -10% -15%, var(--blob-1), transparent 66%),
+      radial-gradient(55vmax 55vmax at 110% 40%, var(--blob-2), transparent 66%),
+      linear-gradient(180deg, var(--page-top) 0%, var(--page-bottom) 100%);
+    background-attachment: fixed;
+  }
+
+  /* Interface text stays sans-serif; headings and reading text are serif. */
+  button, input, .btn, .chip, .pill, .eyebrow, .site-nav, .menu-sheet, footer, .post-row time, .post-row li {
+    font-family: var(--font-ui);
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    font-family: var(--font-head);
   }
 
   ::selection {
-    background: rgb(138 164 255 / 0.3);
+    background: color-mix(in srgb, var(--color-accent) 30%, transparent);
   }
 
   :focus-visible {
@@ -57,7 +99,7 @@
 
 @layer components {
   .btn {
-    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-line px-4 py-2 text-sm font-medium text-fg transition-colors hover:bg-surface-2 disabled:opacity-50 md:min-h-0;
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-line px-5 py-2 text-sm font-medium text-fg transition-colors hover:bg-surface-2 disabled:opacity-50 md:min-h-10;
   }
 
   .btn-primary {
@@ -73,7 +115,7 @@
   }
 
   .input {
-    @apply w-full rounded-md border border-line bg-surface px-3 py-2 text-sm text-fg placeholder:text-fg-muted/70 focus:border-fg-muted focus:outline-none;
+    @apply w-full rounded-full border border-line bg-surface/70 px-4 py-2 text-sm text-fg placeholder:text-fg-muted/70 focus:border-fg-muted focus:outline-none;
   }
 
   .chip {
@@ -95,24 +137,25 @@
 
 /* Markdown content (GitHub-flavoured) */
 .prose-content {
-  @apply text-[1.0625rem] leading-[1.75] text-fg/90;
+  @apply leading-[1.75] text-fg/90;
+  font-size: var(--read-size);
   overflow-wrap: anywhere;
 }
 
 .prose-content h1 {
-  @apply mt-12 mb-4 scroll-mt-24 text-3xl font-semibold tracking-tight text-fg;
+  @apply mt-12 mb-4 scroll-mt-24 text-3xl font-medium tracking-[-0.03em] text-fg;
 }
 
 .prose-content h2 {
-  @apply mt-14 mb-4 scroll-mt-24 text-2xl font-semibold tracking-tight text-fg;
+  @apply mt-14 mb-4 scroll-mt-24 text-2xl font-medium tracking-[-0.03em] text-fg;
 }
 
 .prose-content h3 {
-  @apply mt-9 mb-3 scroll-mt-24 text-xl font-semibold tracking-tight text-fg;
+  @apply mt-9 mb-3 scroll-mt-24 text-xl font-medium tracking-[-0.02em] text-fg;
 }
 
 .prose-content h4 {
-  @apply mt-6 mb-2 text-lg font-semibold text-fg;
+  @apply mt-6 mb-2 text-lg font-medium text-fg;
 }
 
 .prose-content p {
@@ -224,3 +267,162 @@
 .prose-content .mermaid-error {
   @apply border-t border-line px-4 py-2 text-sm text-danger;
 }
+
+/* ------------------------------------------------------------------ nav */
+/* A thin bar with the items spread across the width and no shape. A strip of blur behind it
+   fades out downward, so text scrolling up never collides with the labels. */
+.site-nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 40;
+  display: flex;
+  height: 60px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 28px;
+  font-size: 13px;
+  letter-spacing: 0.005em;
+  color: var(--color-fg);
+}
+
+.site-nav::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 -30px 0;
+  z-index: -1;
+  pointer-events: none;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  background: linear-gradient(to bottom, var(--nav-scrim), transparent);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 40%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 40%, transparent 100%);
+}
+
+.site-nav a,
+.site-nav button {
+  white-space: nowrap;
+}
+
+.site-nav a:not(.brand) {
+  opacity: 0.78;
+  transition: opacity 160ms ease;
+}
+
+.site-nav a:not(.brand):hover,
+.site-nav a[aria-current="page"] {
+  opacity: 1;
+}
+
+.site-nav .brand {
+  font-weight: 500;
+}
+
+.menu-btn {
+  display: none;
+  background: none;
+  border: 0;
+  padding: 10px 0 10px 12px;
+  color: inherit;
+  font: inherit;
+}
+
+.menu-sheet {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .site-nav {
+    padding: 0 16px;
+    font-size: 12.5px;
+  }
+  .site-nav .nav-link {
+    display: none;
+  }
+  .menu-btn {
+    display: inline-block;
+  }
+  .menu-sheet {
+    position: fixed;
+    inset: 0;
+    z-index: 39;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 96px 24px 36px;
+    background: var(--menu-bg);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 260ms ease, visibility 0s linear 260ms;
+  }
+  .menu-sheet.open {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+  .menu-sheet nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .menu-sheet nav a {
+    font-size: clamp(38px, 12vw, 56px);
+    letter-spacing: -0.045em;
+    line-height: 1.12;
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+    transition: opacity 360ms ease, transform 520ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .menu-sheet.open nav a {
+    opacity: 1;
+    transform: none;
+    transition-delay: calc(var(--i) * 55ms + 90ms);
+  }
+  .menu-foot {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--color-fg-muted);
+  }
+  .menu-foot a {
+    color: var(--color-fg);
+    font-size: 17px;
+  }
+  html.menu-open {
+    overflow: hidden;
+  }
+}
+
+/* ----------------------------------------------------------------- rows */
+/* The post list: same rows as the portfolio's project list. The row under the pointer
+   stays bright, the others dim. */
+@media (hover: hover) and (pointer: fine) {
+  .post-list:hover .post-row:not(:hover) h2 {
+    color: var(--color-fg-muted);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-sheet nav a {
+    transition: opacity 200ms ease;
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------- code colors */
+/* Syntax colors for code blocks. */
+.hljs { color: var(--color-fg); }
+.hljs-keyword, .hljs-selector-tag, .hljs-literal, .hljs-doctag, .hljs-name { color: var(--hl-kw); }
+.hljs-string, .hljs-regexp, .hljs-addition { color: var(--hl-str); }
+.hljs-number, .hljs-symbol, .hljs-bullet, .hljs-link { color: var(--hl-num); }
+.hljs-comment, .hljs-quote, .hljs-meta { color: var(--hl-com); font-style: italic; }
+.hljs-title, .hljs-section, .hljs-title.function_, .hljs-title.class_ { color: var(--hl-fn); }
+.hljs-attr, .hljs-attribute, .hljs-property, .hljs-built_in, .hljs-type, .hljs-selector-class, .hljs-selector-id { color: var(--hl-attr); }
+.hljs-variable, .hljs-template-variable, .hljs-params { color: var(--hl-var); }
+.hljs-deletion { color: var(--color-danger); }
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: 600; }
+

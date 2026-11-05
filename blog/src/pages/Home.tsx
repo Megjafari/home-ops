@@ -1,107 +1,118 @@
-import { Link } from "react-router-dom";
-import { listPosts } from "../lib/content";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { listPosts, listTags } from "../lib/content";
 import PostRow from "../components/PostRow";
 
-const running = [
-  {
-    title: "Kubernetes",
-    text: "A self-hosted cluster managed with GitOps and Argo CD.",
-  },
-  {
-    title: "Proxmox",
-    text: "Virtual machines and containers for everything else, including this blog.",
-  },
-  {
-    title: "Networking",
-    text: "VLANs, Tailscale for private access and Cloudflare Tunnel for what is public.",
-  },
-  {
-    title: "Storage",
-    text: "Persistent volumes over NFS.",
-  },
-];
+const PAGE_SIZE = 10;
+// Search and tag filters only appear once the list is long enough to need them.
+const FILTERS_FROM = 8;
 
 export default function Home() {
-  const posts = listPosts().slice(0, 3);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tag = searchParams.get("tag") ?? "";
+  const q = searchParams.get("q") ?? "";
+
+  const [search, setSearch] = useState(q);
+  const [shown, setShown] = useState({ key: "", count: PAGE_SIZE });
+
+  const total = useMemo(() => listPosts().length, []);
+  const tags = useMemo(() => listTags().filter((t) => t.postCount > 0), []);
+  const posts = useMemo(() => listPosts({ tag, q }), [tag, q]);
+  const showFilters = total >= FILTERS_FROM || tag !== "" || q !== "";
+
+  // Showing more only applies to the filter it was clicked under.
+  const key = `${tag}|${q}`;
+  const count = shown.key === key ? shown.count : PAGE_SIZE;
+  const visible = posts.slice(0, count);
+
+  // Debounce typing into the URL so the search is shareable and survives reloads.
+  useEffect(() => {
+    const trimmed = search.trim();
+    if (trimmed === q) return;
+    const id = setTimeout(() => {
+      const next = new URLSearchParams(searchParams);
+      if (trimmed) next.set("q", trimmed);
+      else next.delete("q");
+      setSearchParams(next, { replace: true });
+    }, 300);
+    return () => clearTimeout(id);
+  }, [search, q, searchParams, setSearchParams]);
+
+  const selectTag = (slug: string) => {
+    const next = new URLSearchParams(searchParams);
+    if (slug) next.set("tag", slug);
+    else next.delete("tag");
+    setSearchParams(next);
+  };
+
+  const chipClass = (active: boolean) => `chip ${active ? "chip-active" : ""}`;
 
   return (
-    <div className="relative">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-[460px] bg-[radial-gradient(55%_70%_at_50%_0%,rgba(138,164,255,0.10),transparent)]"
-      />
+    <div className="mx-auto max-w-3xl px-6 pt-28 sm:pt-36">
+      <h1 className="text-[clamp(64px,15vw,150px)] leading-[0.92] font-light tracking-[-0.055em]">Blog</h1>
+      <p className="mt-9 mb-14 max-w-xl text-lg leading-relaxed text-fg-muted">
+        What I build, learn and break. Mostly backend and infrastructure, including the homelab I run at
+        home.
+      </p>
 
-      <div className="relative mx-auto max-w-3xl px-6 pt-20 sm:pt-28">
-        <p className="eyebrow mb-6">Homelab journal</p>
-        <h1 className="text-4xl font-semibold leading-[1.08] tracking-tight sm:text-6xl">
-          Real infrastructure.
-          <br />
-          Real configs.
-          <br />
-          <span className="text-fg-muted">Real failures.</span>
-        </h1>
-        <p className="mt-7 max-w-xl text-lg leading-relaxed text-fg-muted">
-          Notes from the Kubernetes cluster and self-hosted services I run at home. Every configuration
-          shown here is the one actually running, including what broke along the way.
-        </p>
-        <div className="mt-9 flex flex-wrap gap-3">
-          <Link to="/blog" className="btn btn-primary">
-            Read the journal →
-          </Link>
-          <Link to="/about" className="btn">
-            About the lab
-          </Link>
-        </div>
-
-        <div className="mt-20 rounded-xl border border-line bg-surface/60 p-6 sm:p-7">
-          <p className="eyebrow mb-3">Who's writing</p>
-          <p className="leading-relaxed text-fg/90">
-            I'm Meghdad, a backend developer in Gothenburg. I build with C# and .NET, and I run a homelab
-            to learn how production infrastructure really behaves. This journal is where I write it down.
-          </p>
-          <p className="mt-4 text-sm">
-            <Link to="/about" className="text-accent underline decoration-accent/30 underline-offset-4 hover:decoration-accent">
-              More about me
-            </Link>
-            <span className="mx-2 text-fg-muted">·</span>
-            <a
-              href="https://meghdadjafari.dev"
-              className="text-accent underline decoration-accent/30 underline-offset-4 hover:decoration-accent"
+      {showFilters && (
+        <>
+          <div className="relative mb-4">
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 20 20"
+              className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-fg-muted"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
             >
-              Portfolio ↗
-            </a>
-          </p>
-        </div>
-      </div>
+              <circle cx="9" cy="9" r="5.5" />
+              <path d="M13.5 13.5L17 17" />
+            </svg>
+            <input
+              type="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search posts"
+              aria-label="Search posts"
+              className="input pl-9"
+            />
+          </div>
 
-      <div className="relative mx-auto mt-24 max-w-3xl px-6">
-        <h2 className="eyebrow mb-5">What's running</h2>
-        <ul className="grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2">
-          {running.map((item) => (
-            <li key={item.title} className="bg-bg p-5">
-              <p className="font-semibold tracking-tight">{item.title}</p>
-              <p className="mt-1.5 text-sm leading-relaxed text-fg-muted">{item.text}</p>
-            </li>
+          {tags.length > 0 && (
+            <div className="mb-8 flex flex-wrap gap-2">
+              <button onClick={() => selectTag("")} className={chipClass(tag === "")}>
+                all
+              </button>
+              {tags.map((t) => (
+                <button key={t.id} onClick={() => selectTag(t.slug)} className={chipClass(tag === t.slug)}>
+                  {t.name} <span className="opacity-60">{t.postCount}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </>
+      )}
+
+      {visible.length > 0 && (
+        <div className="post-list">
+          {visible.map((post) => (
+            <PostRow key={post.id} post={post} />
           ))}
-        </ul>
-      </div>
+        </div>
+      )}
 
-      {posts.length > 0 && (
-        <section aria-labelledby="latest" className="relative mx-auto mt-24 max-w-3xl px-6">
-          <div className="mb-5 flex items-baseline justify-between">
-            <h2 id="latest" className="eyebrow">
-              Latest posts
-            </h2>
-            <Link to="/blog" className="text-sm text-fg-muted transition-colors hover:text-fg">
-              All posts →
-            </Link>
-          </div>
-          <div>
-            {posts.map((post) => (
-              <PostRow key={post.id} post={post} />
-            ))}
-          </div>
-        </section>
+      {posts.length === 0 && (
+        <p className="text-sm text-fg-muted">
+          {q || tag ? "No posts match your search." : "No posts published yet."}
+        </p>
+      )}
+
+      {posts.length > visible.length && (
+        <button onClick={() => setShown({ key, count: count + PAGE_SIZE })} className="btn mt-10">
+          Load more
+        </button>
       )}
     </div>
   );

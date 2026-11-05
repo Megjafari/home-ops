@@ -15,7 +15,6 @@ import xml from "highlight.js/lib/languages/xml";
 import yaml from "highlight.js/lib/languages/yaml";
 import { Marked } from "marked";
 import { markedHighlight } from "marked-highlight";
-import "highlight.js/styles/github-dark.css";
 
 hljs.registerLanguage("bash", bash);
 hljs.registerLanguage("csharp", csharp);

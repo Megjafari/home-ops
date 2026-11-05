@@ -1,53 +1,91 @@
-import { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+
 export const RSS_URL = "/rss.xml";
+export const PORTFOLIO_URL = "https://meghdadjafari.dev";
+export const EMAIL = "meghdad.jafari@outlook.com";
+
+interface NavItem {
+  label: string;
+  to?: string;
+  href?: string;
+}
+
+const items: NavItem[] = [
+  { label: "Portfolio ↗", href: PORTFOLIO_URL },
+  { label: "About", to: "/about" },
+  { label: "Contact", to: "/contact" },
+];
 
 export default function Nav() {
-  const location = useLocation();
+  const [open, setOpen] = useState(false);
 
   // Lets feed readers auto-discover the RSS feed.
   useEffect(() => {
     const link = document.createElement("link");
     link.rel = "alternate";
     link.type = "application/rss+xml";
-    link.title = "Homelab Journal";
+    link.title = "Blog, Meghdad Jafari";
     link.href = RSS_URL;
     document.head.appendChild(link);
     return () => link.remove();
   }, []);
 
-  const linkClass = (path: string) =>
-    `text-sm font-medium transition-colors ${
-      location.pathname.startsWith(path) ? "text-fg" : "text-fg-muted hover:text-fg"
-    }`;
+  // The mobile menu locks the page while it is open.
+  useEffect(() => {
+    document.documentElement.classList.toggle("menu-open", open);
+    return () => document.documentElement.classList.remove("menu-open");
+  }, [open]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const mq = matchMedia("(min-width: 721px)");
+    const onChange = (e: MediaQueryListEvent) => e.matches && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    mq.addEventListener("change", onChange);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      mq.removeEventListener("change", onChange);
+    };
+  }, []);
+
+  const render = (item: NavItem, className?: string, style?: React.CSSProperties) =>
+    item.to ? (
+      <NavLink key={item.label} to={item.to} className={className} style={style} onClick={() => setOpen(false)}>
+        {item.label}
+      </NavLink>
+    ) : (
+      <a key={item.label} href={item.href} className={className} style={style}>
+        {item.label}
+      </a>
+    );
 
   return (
-    <header className="sticky top-0 z-20 border-b border-line/70 bg-bg/80 backdrop-blur">
-      <div className="mx-auto flex h-14 max-w-6xl items-center gap-6 px-6">
-        <Link to="/" className="flex items-center gap-2.5 text-sm font-semibold tracking-tight text-fg">
-          <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true">
-            <rect width="32" height="32" rx="7" fill="#1a1a1f" />
-            <rect x="8" y="9" width="16" height="2.4" rx="1.2" fill="#ededef" />
-            <rect x="8" y="14.8" width="11" height="2.4" rx="1.2" fill="#8e8e98" />
-            <rect x="8" y="20.6" width="14" height="2.4" rx="1.2" fill="#8e8e98" />
-          </svg>
-          Homelab Journal
+    <>
+      <header className="site-nav">
+        <Link to="/" className="brand" onClick={() => setOpen(false)}>
+          Blog
         </Link>
-        <nav aria-label="Main" className="ml-auto flex items-center gap-6">
-          <Link to="/blog" className={linkClass("/blog")}>
-            Journal
-          </Link>
-          <Link to="/about" className={linkClass("/about")}>
-            About
-          </Link>
-          <a
-            href="https://meghdadjafari.dev"
-            className="hidden text-sm font-medium text-fg-muted transition-colors hover:text-fg sm:inline"
-          >
-            Portfolio ↗
-          </a>
+        {items.map((item) => render(item, "nav-link"))}
+        <button
+          type="button"
+          className="menu-btn"
+          aria-expanded={open}
+          aria-controls="menu"
+          onClick={() => setOpen((o) => !o)}
+        >
+          {open ? "Close" : "Menu"}
+        </button>
+      </header>
+
+      <div className={`menu-sheet${open ? " open" : ""}`} id="menu" inert={!open}>
+        <nav aria-label="Menu">
+          {items.map((item, i) => render(item, undefined, { "--i": i } as React.CSSProperties))}
         </nav>
+        <div className="menu-foot">
+          <span>© {new Date().getFullYear()} Meghdad Jafari</span>
+        </div>
       </div>
-    </header>
+    </>
   );
 }
