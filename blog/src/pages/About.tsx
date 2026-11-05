@@ -52,7 +52,7 @@ export default function About() {
         {links.map((link) => (
           <li key={link.href}>
             <a href={link.href} target="_blank" rel="noreferrer" className="btn">
-              {link.label} ↗
+              {link.label} ↗︎
             </a>
           </li>
         ))}
