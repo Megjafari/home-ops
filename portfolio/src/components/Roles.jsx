@@ -28,16 +28,18 @@ export default function Roles() {
       later(() => {
         setSubIdx(n);
         setSubOn(true);
-      }, 260);
+      }, 220);
       later(() => {
         setSnap(true);
         setOut(null);
         requestAnimationFrame(() => requestAnimationFrame(() => setSnap(false)));
-      }, 600);
+      }, 500);
     };
 
     const io = new IntersectionObserver(
-      ([e]) => {
+      (entries) => {
+        // Several entries can arrive together; the last one is the current state.
+        const e = entries[entries.length - 1];
         clearInterval(interval);
         if (e.isIntersecting) interval = setInterval(next, 3400);
       },
