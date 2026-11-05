@@ -34,14 +34,14 @@ function useNavState() {
   return state;
 }
 
-// Elements with .rv slide and fade in the first time they scroll into view.
+// Elements with .rv slide and fade in the first time they scroll into view (marked with data-in).
 function useRevealOnScroll() {
   useEffect(() => {
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
           if (e.isIntersecting) {
-            e.target.classList.add("in");
+            e.target.dataset.in = "";
             io.unobserve(e.target);
           }
         });
