@@ -12,7 +12,7 @@ interface NavItem {
 }
 
 const items: NavItem[] = [
-  { label: "Portfolio ↗", href: PORTFOLIO_URL },
+  { label: "Portfolio ↗︎", href: PORTFOLIO_URL },
   { label: "About", to: "/about" },
   { label: "Contact", to: "/contact" },
 ];

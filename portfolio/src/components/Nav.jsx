@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { EMAIL } from "../data.js";
+import { BLOG, EMAIL } from "../data.js";
 
 const LINKS = [
   { href: "#work", label: "Projects" },
-  { href: "#journal", label: "Blog", hideSmall: true },
+  { href: BLOG, label: "Blog ↗︎" },
   { href: "#about", label: "About" },
   { href: "#contact", label: "Contact" },
 ];

@@ -26,7 +26,7 @@
 
 /* -------------------------------------------------------------------- base */
 * { box-sizing: border-box; }
-html { color-scheme: dark; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; overflow-x: clip; }
+html { font-variant-emoji: text; color-scheme: dark; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; overflow-x: clip; }
 body {
   margin: 0;
   background: var(--bg);
@@ -268,13 +268,17 @@ a:hover .arrow { transform: translateX(3px); }
 
   /* Hero: status under the name, links in one row. */
   .hero-note { display: none; }
-  .hero-sub { display: flex; position: absolute; left: 0; right: 0; top: calc(46% + 12vw); justify-content: center; align-items: center; gap: 8px; margin: 0; font-size: 12.5px; color: var(--muted); }
+  .hero-sub { display: flex; position: absolute; left: 0; right: 0; top: calc(46% + 12vw); justify-content: center; align-items: center; gap: 8px; margin: 0; font-size: 12px; color: var(--faint); }
   .hero-sub .dot { width: 6px; height: 6px; box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.18); }
-  .hero-links { flex-direction: row; gap: 18px; left: 20px; right: 20px; bottom: 28px; }
-  .hero-links a { font-size: 12.5px; gap: 8px; }
-  .hero-links svg { width: 13px; height: 13px; }
-  .cue { bottom: 72px; color: var(--muted); }
-  .cue i { background: linear-gradient(var(--muted), transparent); }
+  .hero-links { flex-direction: row; gap: 0; left: 8px; right: 20px; bottom: 16px; }
+  .hero-links a { width: 44px; height: 44px; justify-content: center; opacity: 0.55; }
+  .hero-links a:active { opacity: 1; }
+  .hero-links svg { width: 17px; height: 17px; }
+  .hero-links .lbl { display: none; }
+  .cue { bottom: 76px; font-size: 10px; letter-spacing: 0.14em; color: color-mix(in srgb, var(--ink) 52%, transparent); }
+  .cue i { height: 22px; background: linear-gradient(color-mix(in srgb, var(--ink) 52%, transparent), transparent); }
+  /* A darker patch behind the name, so the light does not compete with it. */
+  .zoom-glow::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 85% 22% at 50% 46%, rgba(0, 0, 0, 0.62), transparent 100%); }
 
   .flip-w { white-space: normal; }
   .roles-text { font-size: clamp(40px, 12vw, 64px); }

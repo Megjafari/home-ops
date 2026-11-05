@@ -55,7 +55,7 @@ export const Blog = () => (
   <Chapter id="journal" n="03" title="Blog">
     <div>
       <Rows items={POSTS} alwaysOpen id="posts" />
-      <a className="all-posts rv" href={BLOG} target="_blank" rel="noopener noreferrer">All posts <span className="arrow">→</span></a>
+      <a className="all-posts rv" href={BLOG} target="_blank" rel="noopener noreferrer">Open the blog <span className="arrow">→</span></a>
     </div>
   </Chapter>
 );
@@ -121,8 +121,8 @@ export function Footer() {
       </div>
       <p className="foot-status rv" style={{ "--i": 2 }}>Internship from 1 Feb 2027 · Gothenburg &amp; remote</p>
       <ul className="foot-links rv" style={{ "--i": 3 }}>
-        <li><a href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub <span className="arrow">↗</span></a></li>
-        <li><a href={LINKEDIN} target="_blank" rel="noopener noreferrer">LinkedIn <span className="arrow">↗</span></a></li>
+        <li><a href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub <span className="arrow">↗︎</span></a></li>
+        <li><a href={LINKEDIN} target="_blank" rel="noopener noreferrer">LinkedIn <span className="arrow">↗︎</span></a></li>
       </ul>
       <div className="foot-end">
         <span>© 2026 Meghdad Jafari</span>

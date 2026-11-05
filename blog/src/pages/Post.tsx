@@ -154,7 +154,7 @@ export default function Post() {
           </p>
           <p className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-sm">
             <a href="https://meghdadjafari.dev" className="text-fg-muted underline decoration-line underline-offset-4 transition-colors hover:text-fg hover:decoration-accent">
-              Portfolio ↗
+              Portfolio ↗︎
             </a>
             <Link to="/contact" className="text-fg-muted underline decoration-line underline-offset-4 transition-colors hover:text-fg hover:decoration-accent">
               Get in touch

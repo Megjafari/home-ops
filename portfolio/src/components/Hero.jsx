@@ -38,9 +38,9 @@ export default function Hero() {
         <canvas ref={canvas} className="zoom-canvas" aria-hidden="true" />
         <div ref={extras} className="zoom-extras">
           <div className="hero-links">
-            <a href={GITHUB}><GithubIcon />GitHub</a>
-            <a href={LINKEDIN}><LinkedinIcon />LinkedIn</a>
-            <a href={`mailto:${EMAIL}`}><MailIcon />Email</a>
+            <a href={GITHUB} aria-label="GitHub"><GithubIcon /><span className="lbl">GitHub</span></a>
+            <a href={LINKEDIN} aria-label="LinkedIn"><LinkedinIcon /><span className="lbl">LinkedIn</span></a>
+            <a href={`mailto:${EMAIL}`} aria-label="Email"><MailIcon /><span className="lbl">Email</span></a>
           </div>
           <p className="hero-sub"><span className="dot" /><span>{STATUS}</span></p>
           <p className="hero-note"><span className="dot" /><span>{STATUS}</span></p>

@@ -49,7 +49,7 @@ export default function Contact() {
               rel="noreferrer"
               className="border-b border-transparent transition-colors hover:border-fg-muted"
             >
-              {link.label} <span className="text-fg-muted">↗</span>
+              {link.label} <span className="text-fg-muted">↗︎</span>
             </a>
           </li>
         ))}

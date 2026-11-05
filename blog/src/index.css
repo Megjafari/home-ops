@@ -39,6 +39,7 @@
 
 @layer base {
   html {
+    font-variant-emoji: text;
     scroll-behavior: smooth;
     overflow-x: clip;
   }
@@ -139,7 +140,7 @@
 .prose-content {
   @apply leading-[1.75] text-fg/90;
   font-size: var(--read-size);
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 
 .prose-content h1 {
@@ -250,18 +251,41 @@
   @apply border border-line px-3 py-2;
 }
 
+/* Table text breaks between words only; short code and headings stay in one piece. */
+.prose-content th,
+.prose-content td {
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: manual;
+}
+
+.prose-content th {
+  white-space: nowrap;
+}
+
+.prose-content td code {
+  white-space: nowrap;
+  padding-inline: 0.25rem;
+}
+
 /* Mermaid diagrams (drawn in the browser, see lib/mermaid.ts) */
 .prose-content .mermaid-diagram {
   @apply my-8 overflow-hidden rounded-lg border border-line bg-surface;
 }
 
 .prose-content .mermaid-diagram[data-rendered] {
-  @apply overflow-x-auto p-4;
+  @apply overflow-x-auto p-2 sm:p-4;
 }
 
 .prose-content .mermaid-diagram svg {
   @apply mx-auto block h-auto max-w-full;
-  min-width: 640px;
+  min-width: 0;
+}
+
+@media (min-width: 640px) {
+  .prose-content .mermaid-diagram svg {
+    min-width: 640px;
+  }
 }
 
 .prose-content .mermaid-error {
