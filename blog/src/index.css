@@ -4,47 +4,71 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  /* Warm graphite, the same palette as the portfolio. */
-  --color-bg: #080706;
-  --color-surface: #100d0b;
-  --color-surface-2: #1a1613;
-  --color-line: #2f2822;
-  --color-fg: #f3ede6;
-  --color-fg-muted: #a39f9a;
-  --color-accent: #e8c8a4;
-  --color-accent-fg: #14100d;
-  --color-danger: #f87171;
+  /* Paper: a warm light look for reading. */
+  --color-bg: #f4efe6;
+  --color-surface: #fbf8f2;
+  --color-surface-2: #ece5d8;
+  --color-line: #d9d0c1;
+  --color-fg: #1c1815;
+  --color-fg-muted: #6f665c;
+  --color-accent: #9a4a2a;
+  --color-accent-fg: #ffffff;
+  --color-danger: #b42318;
+}
+
+:root {
+  color-scheme: light;
+  --font-ui: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-head: "Newsreader", Georgia, "Times New Roman", serif;
+  --read-size: 1.1875rem;
+  --page-top: #f6f1e8;
+  --page-bottom: #ebe4d8;
+  --blob-1: rgb(205 165 120 / 0.26);
+  --blob-2: rgb(150 170 200 / 0.18);
+  --nav-scrim: rgb(244 239 230 / 0.78);
+  --menu-bg: rgb(244 239 230 / 0.98);
+  --hl-kw: #9a4a2a;
+  --hl-str: #3c6e47;
+  --hl-num: #8a5a14;
+  --hl-com: #8a8174;
+  --hl-fn: #2a4d8f;
+  --hl-attr: #7a4a8a;
+  --hl-var: #1c1815;
 }
 
 @layer base {
-  html {
-    color-scheme: dark;
-  }
-
   html {
     scroll-behavior: smooth;
     overflow-x: clip;
   }
 
   body {
-    @apply text-fg font-sans antialiased;
+    @apply text-fg antialiased;
+    font-family: var(--font-body);
     overflow-x: clip;
     background-color: var(--color-bg);
     background-image:
-      radial-gradient(60vmax 60vmax at -10% -15%, rgb(140 90 55 / 0.28), transparent 66%),
-      radial-gradient(55vmax 55vmax at 110% 40%, rgb(45 65 115 / 0.2), transparent 66%),
-      linear-gradient(180deg, #080706 0%, #15110e 100%);
+      radial-gradient(60vmax 60vmax at -10% -15%, var(--blob-1), transparent 66%),
+      radial-gradient(55vmax 55vmax at 110% 40%, var(--blob-2), transparent 66%),
+      linear-gradient(180deg, var(--page-top) 0%, var(--page-bottom) 100%);
     background-attachment: fixed;
+  }
+
+  /* Interface text stays sans-serif; headings and reading text are serif. */
+  button, input, .btn, .chip, .pill, .eyebrow, .site-nav, .menu-sheet, footer, .post-row time, .post-row li {
+    font-family: var(--font-ui);
   }
 
   h1,
   h2,
   h3 {
     text-wrap: balance;
+    font-family: var(--font-head);
   }
 
   ::selection {
-    background: rgb(232 200 164 / 0.3);
+    background: color-mix(in srgb, var(--color-accent) 30%, transparent);
   }
 
   :focus-visible {
@@ -113,7 +137,8 @@
 
 /* Markdown content (GitHub-flavoured) */
 .prose-content {
-  @apply text-[1.0625rem] leading-[1.75] text-fg/90;
+  @apply leading-[1.75] text-fg/90;
+  font-size: var(--read-size);
   overflow-wrap: anywhere;
 }
 
@@ -269,7 +294,7 @@
   pointer-events: none;
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
-  background: linear-gradient(to bottom, rgb(8 7 6 / 0.7), transparent);
+  background: linear-gradient(to bottom, var(--nav-scrim), transparent);
   -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 40%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 0%, #000 40%, transparent 100%);
 }
@@ -325,7 +350,7 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 96px 24px 36px;
-    background: rgb(8 7 6 / 0.97);
+    background: var(--menu-bg);
     -webkit-backdrop-filter: blur(18px);
     backdrop-filter: blur(18px);
     opacity: 0;
@@ -386,3 +411,18 @@
     transform: none;
   }
 }
+
+/* ---------------------------------------------------------- code colors */
+/* Syntax colors for code blocks. */
+.hljs { color: var(--color-fg); }
+.hljs-keyword, .hljs-selector-tag, .hljs-literal, .hljs-doctag, .hljs-name { color: var(--hl-kw); }
+.hljs-string, .hljs-regexp, .hljs-addition { color: var(--hl-str); }
+.hljs-number, .hljs-symbol, .hljs-bullet, .hljs-link { color: var(--hl-num); }
+.hljs-comment, .hljs-quote, .hljs-meta { color: var(--hl-com); font-style: italic; }
+.hljs-title, .hljs-section, .hljs-title.function_, .hljs-title.class_ { color: var(--hl-fn); }
+.hljs-attr, .hljs-attribute, .hljs-property, .hljs-built_in, .hljs-type, .hljs-selector-class, .hljs-selector-id { color: var(--hl-attr); }
+.hljs-variable, .hljs-template-variable, .hljs-params { color: var(--hl-var); }
+.hljs-deletion { color: var(--color-danger); }
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: 600; }
+

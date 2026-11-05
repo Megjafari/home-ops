@@ -12,10 +12,9 @@ interface NavItem {
 }
 
 const items: NavItem[] = [
-  { label: "Portfolio", href: PORTFOLIO_URL },
-  { label: "Blog", to: "/blog" },
+  { label: "Portfolio ↗", href: PORTFOLIO_URL },
   { label: "About", to: "/about" },
-  { label: "Contact", href: `${PORTFOLIO_URL}/#contact` },
+  { label: "Contact", to: "/contact" },
 ];
 
 export default function Nav() {
@@ -65,7 +64,7 @@ export default function Nav() {
     <>
       <header className="site-nav">
         <Link to="/" className="brand" onClick={() => setOpen(false)}>
-          © Meghdad Jafari
+          Blog
         </Link>
         {items.map((item) => render(item, "nav-link"))}
         <button
@@ -84,8 +83,7 @@ export default function Nav() {
           {items.map((item, i) => render(item, undefined, { "--i": i } as React.CSSProperties))}
         </nav>
         <div className="menu-foot">
-          <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
-          <span>Notes from my homelab</span>
+          <span>© {new Date().getFullYear()} Meghdad Jafari</span>
         </div>
       </div>
     </>

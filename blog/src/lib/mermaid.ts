@@ -5,27 +5,28 @@ let counter = 0;
 
 function init() {
   if (initialized) return;
+  const css = (name: string) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
   mermaid.initialize({
     startOnLoad: false,
     // Labels come from post text, so never allow HTML or scripts in them.
     securityLevel: "strict",
     theme: "base",
     themeVariables: {
-      darkMode: true,
-      background: "#080706",
+      darkMode: getComputedStyle(document.documentElement).colorScheme.includes("dark"),
+      background: css("--color-bg"),
       fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif",
       fontSize: "16px",
-      primaryColor: "#1a1613",
-      primaryTextColor: "#f3ede6",
-      primaryBorderColor: "#4a3f36",
-      secondaryColor: "#100d0b",
-      tertiaryColor: "#100d0b",
-      lineColor: "#a39f9a",
-      textColor: "#f3ede6",
-      clusterBkg: "#100d0b",
-      clusterBorder: "#2f2822",
-      edgeLabelBackground: "#080706",
-      titleColor: "#f3ede6",
+      primaryColor: css("--color-surface-2"),
+      primaryTextColor: css("--color-fg"),
+      primaryBorderColor: css("--color-line"),
+      secondaryColor: css("--color-surface"),
+      tertiaryColor: css("--color-surface"),
+      lineColor: css("--color-fg-muted"),
+      textColor: css("--color-fg"),
+      clusterBkg: css("--color-surface"),
+      clusterBorder: css("--color-line"),
+      edgeLabelBackground: css("--color-bg"),
+      titleColor: css("--color-fg"),
     },
   });
   initialized = true;

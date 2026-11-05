@@ -18,16 +18,16 @@ const homelab = [
 export default function About() {
   return (
     <div className="mx-auto max-w-3xl px-6 pt-28 sm:pt-36">
-      <h1 className="text-[clamp(52px,12vw,120px)] leading-[0.94] font-light tracking-[-0.055em]">The lab</h1>
+      <h1 className="text-[clamp(52px,12vw,120px)] leading-[0.94] font-light tracking-[-0.055em]">About</h1>
 
       <div className="mt-10 flex flex-col gap-5 text-[1.0625rem] leading-[1.75] text-fg/90">
         <p>
-          I'm Meghdad, a fullstack developer with a backend focus in C# and .NET. This is where I document my
-          homelab: a self-hosted Kubernetes cluster, the networking around it, and the services I run day to
-          day.
+          I'm Meghdad, a fullstack developer in Gothenburg with a backend focus in C# and .NET. This is where I
+          write down what I build, learn and break.
         </p>
         <p>
-          The configurations shown here are the actual ones running in my lab, not simplified examples. When
+          Much of it comes from my homelab: a self-hosted Kubernetes cluster, the networking around it and the
+          services I run day to day. The configurations I show are the ones actually running, and when
           something breaks, that is in here too.
         </p>
         <p>
@@ -37,7 +37,7 @@ export default function About() {
         </p>
       </div>
 
-      <h2 className="eyebrow mt-14 mb-4">What runs here</h2>
+      <h2 className="eyebrow mt-14 mb-4">The homelab</h2>
       <ul className="flex flex-col gap-2.5 text-fg/90">
         {homelab.map((item) => (
           <li key={item} className="flex gap-3">
