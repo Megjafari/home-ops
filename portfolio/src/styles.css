@@ -273,7 +273,8 @@ a:hover .arrow { transform: translateX(3px); }
   .hero-links { flex-direction: row; gap: 18px; left: 20px; right: 20px; bottom: 28px; }
   .hero-links a { font-size: 12.5px; gap: 8px; }
   .hero-links svg { width: 13px; height: 13px; }
-  .cue { display: none; }
+  .cue { bottom: 72px; color: var(--muted); }
+  .cue i { background: linear-gradient(var(--muted), transparent); }
 
   .flip-w { white-space: normal; }
   .roles-text { font-size: clamp(40px, 12vw, 64px); }
