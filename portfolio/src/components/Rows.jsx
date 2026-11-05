@@ -38,8 +38,8 @@ export default function Rows({ items, alwaysOpen = false, id }) {
                 </ul>
                 {(x.demo && x.source) && (
                   <div className="row-links">
-                    <a href={x.demo} target="_blank" rel="noopener noreferrer">Live demo ↗</a>
-                    <a href={x.source} target="_blank" rel="noopener noreferrer">Source ↗</a>
+                    <a href={x.demo} target="_blank" rel="noopener noreferrer">Live demo ↗︎</a>
+                    <a href={x.source} target="_blank" rel="noopener noreferrer">Source ↗︎</a>
                   </div>
                 )}
               </div>
