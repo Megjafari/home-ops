@@ -225,3 +225,7 @@ Stated plainly, because a portfolio should not pretend:
 - **Git as the source of truth.** Changes are reviewed, reverted and audited through history.
 - **Separated responsibilities.** Each layer owns one thing.
 - **Reproducible.** The repository should contain enough to rebuild the environment. Data backups are a separate concern.
+
+## License
+
+[Apache License 2.0](./LICENSE)
