@@ -225,3 +225,9 @@ Stated plainly, because a portfolio should not pretend:
 - **Git as the source of truth.** Changes are reviewed, reverted and audited through history.
 - **Separated responsibilities.** Each layer owns one thing.
 - **Reproducible.** The repository should contain enough to rebuild the environment. Data backups are a separate concern.
+
+## License
+
+The code in this repository is licensed under the [Apache License 2.0](./LICENSE).
+
+Blog posts and their images in [`content/`](./content/) are © Meghdad Jafari, all rights reserved, and are not covered by that license.
