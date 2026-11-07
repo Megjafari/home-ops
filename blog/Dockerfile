@@ -1,6 +1,6 @@
 # Build context is the repository root, because the posts live in ../content:
 #   docker build -f blog/Dockerfile .
-FROM node:22-alpine AS build
+FROM node:26-alpine@sha256:8996bb5821d62a8fd9bb27c1cb07462f3fdce6e47d640c6a881ead0b064ce216 AS build
 WORKDIR /app
 COPY blog/package*.json blog/
 RUN cd blog && npm ci
